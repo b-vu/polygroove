@@ -1,5 +1,6 @@
 import React from "react";
 import "./Nav.css";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
     document.addEventListener('DOMContentLoaded', () => {
@@ -31,9 +32,11 @@ const Nav = () => {
         <div>
             <nav className="navbar is-info" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
-                    <a className="navbar-item" href="/">
-                        <p id="name"><strong>Project3</strong></p>
-                    </a>
+                    <Link to={"/"}>
+                        <div className="navbar-item" >
+                            <p id="name"><strong>Project3</strong></p>
+                        </div>
+                    </Link>
                 
                     <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                         <span aria-hidden="true"></span>
@@ -44,25 +47,40 @@ const Nav = () => {
                 
                 <div id="navbarBasicExample" className="navbar-menu">
                     <div className="navbar-start">
-                        <a className="navbar-item" href="/">
-                            Home
-                        </a>
+                        <Link to={"/"}>
+                            <p className="navbar-item">
+                                Home
+                            </p>
+                        </Link>
                     
-                        <a className="navbar-item" href="/charts">
-                            Charts
-                        </a>
+                        <Link to={"/charts"}>
+                            <p className="navbar-item">
+                                Charts
+                            </p>
+                        </Link>
 
-                        <a className="navbar-item" href="/feed">
-                            Feed
-                        </a>
+                        <Link to={"/feed"}>
+                            <p className="navbar-item">
+                                Feed
+                            </p>
+                        </Link>
 
-                        <a className="navbar-item" href="/forums">
-                            Forums
-                        </a>
+                        <Link to={"/forums"}>
+                            <p className="navbar-item">
+                                Forums
+                            </p>
+                        </Link>
 
-                        <a className="navbar-item" href="/login">
-                            Login/Sign Up
-                        </a>
+                        <Link to={"/register"}>
+                            <p className="navbar-item">
+                                Register
+                            </p>
+                        </Link>
+                        <Link to={"/login"}>
+                            <p className="navbar-item">
+                                Login
+                            </p>
+                        </Link>
                     </div>
                 </div>
             </nav>
