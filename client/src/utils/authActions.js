@@ -9,20 +9,19 @@ import setAuthToken from "./setAuthToken";
 // } from "./types";
 
 // Register User
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (userData, history) => {
+  console.log(userData, history)
   axios
     .post("/api/users/register", userData)
     .then(res => history.push("/login")) // re-direct to login on successful register
-    .catch(err =>
-      dispatch({
-        type: "GET_ERRORS",
-        payload: err.response.data
-      })
+    .catch(err => {
+      console.log(err.response.data)
+    }
     );
 };
 
 // Login - get user token
-export const loginUser = userData => dispatch => {
+export const loginUser = userData => {
   axios
     .post("/api/users/login", userData)
     .then(res => {
@@ -35,13 +34,10 @@ export const loginUser = userData => dispatch => {
       // Decode token to get user data
       const decoded = jwt_decode(token);
       // Set current user
-      dispatch(setCurrentUser(decoded));
+      // dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
-      dispatch({
-        type: "GET_ERRORS",
-        payload: err.response.data
-      })
+      console.log(err.response.data)
     );
 };
 
@@ -50,13 +46,6 @@ export const setCurrentUser = decoded => {
   return {
     type: "SET_CURRENT_USER",
     payload: decoded
-  };
-};
-
-// User loading
-export const setUserLoading = () => {
-  return {
-    type: "USER_LOADING"
   };
 };
 

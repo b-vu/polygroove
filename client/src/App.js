@@ -8,7 +8,11 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import { ProjectProvider } from "./utils/Store";
 
-function App() {
+
+import PrivateRoute from "./components/Private-Route/PrivateRoute";
+import Feed from "./pages/Feed/Feed";
+
+const App = () => {
   return (
     <ProjectProvider>
       <Router>
@@ -23,6 +27,9 @@ function App() {
           <Route exact path="/login">
             <Login/>
           </Route>
+        </Switch>
+        <Switch>
+          <PrivateRoute exact path="/feed" component={Feed} />
         </Switch>
         <Footer/>
       </Router>

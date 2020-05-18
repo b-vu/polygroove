@@ -1,11 +1,16 @@
 .navbar-item{
     font-size: 20px;
+    color: white
+}
+
+.navlink{
+    color: white;
 }
 
 /* #name{
     font-size: 28px;
 } */
 
-.navbar-item{
+/* a{
     color: white;
-}
+} */

@@ -11,16 +11,13 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 isAuthenticated: !isEmpty(action.payload),
-                user: action.payload
+                user: action.payload,
+                login: {
+                    email: "",
+                    password: ""
+                }
             }
-        case "USER_LOADING":
-            return {
-                ...state,
-                loading: true
-            }
-        case "GET_ERRORS":
-            return action.payload;
-        case "register update":
+        case "REGISTER_UPDATE":
             return {
                 ...state,
                 register: {
@@ -28,7 +25,7 @@ const reducer = (state, action) => {
                     [action.name]: action.value
             }
         }
-        case "login update":
+        case "LOGIN_UPDATE":
             return {
                 ...state,
                 login: {

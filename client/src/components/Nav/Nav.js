@@ -1,8 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
 
+import { useProjectContext } from "../../utils/Store";
+
+import jwt_decode from "jwt-decode";
+import setAuthToken from "../../utils/setAuthToken";
+
 const Nav = () => {
+    const [state, dispatch] = useProjectContext();
+
+    const logoutUser = () => {
+        // Remove token from local storage
+        localStorage.removeItem("jwtToken");
+        // Remove auth header for future requests
+        setAuthToken(false);
+        // Set current user to empty object {} which will set isAuthenticated to false
+        dispatch({
+        type: "SET_CURRENT_USER",
+        payload: {}
+        });
+    };
+
+    useEffect(() => {
+        // Check for token to keep user logged in
+        if (localStorage.jwtToken) {
+            console.log("authenticated")
+            // Set auth token header auth
+            const token = localStorage.jwtToken;
+            setAuthToken(token);
+            // Decode token and get user info and exp
+            const decoded = jwt_decode(token);
+            // Set user and isAuthenticated
+            dispatch({
+            type: "SET_CURRENT_USER",
+            payload: decoded
+            });
+            // Check for expired token
+            const currentTime = Date.now() / 1000; // to get in milliseconds
+            if (decoded.exp < currentTime) {
+                // Logout user
+                logoutUser();
+                // Redirect to login
+                window.location.href = "./login";
+            }
+        }
+    }, []);
+
     document.addEventListener('DOMContentLoaded', () => {
 
         // Get all "navbar-burger" elements
@@ -26,7 +70,7 @@ const Nav = () => {
             });
           });
         }
-      });
+    });
 
     return(
         <div>
@@ -47,40 +91,61 @@ const Nav = () => {
                 
                 <div id="navbarBasicExample" className="navbar-menu">
                     <div className="navbar-start">
-                        <Link to={"/"}>
-                            <p className="navbar-item">
+                        <p className="navbar-item">
+                            <Link to={"/"}
+                                className="navlink"
+                            >
                                 Home
-                            </p>
-                        </Link>
+                            </Link>
+                        </p>
                     
-                        <Link to={"/charts"}>
-                            <p className="navbar-item">
+                        <p className="navbar-item">
+                            <Link to={"/charts"}
+                                className="navlink"
+                            >
                                 Charts
-                            </p>
-                        </Link>
+                            </Link>
+                        </p>
 
-                        <Link to={"/feed"}>
-                            <p className="navbar-item">
+                        <p className="navbar-item">
+                            <Link to={"/feed"}
+                                className="navlink"
+                            >
                                 Feed
-                            </p>
-                        </Link>
+                            </Link>
+                        </p>
 
-                        <Link to={"/forums"}>
-                            <p className="navbar-item">
+                        <p className="navbar-item">
+                            <Link to={"/forums"}
+                                className="navlink"
+                            >
                                 Forums
-                            </p>
-                        </Link>
+                            </Link>
+                        </p>
+                    </div>
 
-                        <Link to={"/register"}>
+                    <div className="navbar-end">
+                        {
+                            state.isAuthenticated
+                            ?
                             <p className="navbar-item">
-                                Register
+                                Welcome, {state.user.name}! &nbsp; | &nbsp;
+                                <Link to={"/"}
+                                    onClick={logoutUser}
+                                    className="navlink"
+                                >
+                                    Logout
+                                </Link>
                             </p>
-                        </Link>
-                        <Link to={"/login"}>
+                            :
                             <p className="navbar-item">
-                                Login
-                            </p>
-                        </Link>
+                            <Link to={"/register"}
+                                className="navlink"
+                            >
+                                Register/Login
+                            </Link>
+                        </p>
+                        }
                     </div>
                 </div>
             </nav>
