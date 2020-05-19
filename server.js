@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -24,6 +25,9 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 // app.use(routes);
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+});
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/project3");
 

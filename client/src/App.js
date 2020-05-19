@@ -28,9 +28,6 @@ const App = () => {
           <PrivateRoute exact path="/feed" component={Feed} />
           <Route component={Home}/>
         </Switch>
-        {/* <Switch>
-          <PrivateRoute exact path="/feed" component={Feed} />
-        </Switch> */}
         <Footer/>
       </Router>
     </ProjectProvider>
