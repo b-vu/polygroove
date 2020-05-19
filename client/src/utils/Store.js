@@ -33,6 +33,16 @@ const reducer = (state, action) => {
                     [action.name]: action.value
             }
         }
+        case "UPDATE_TOKEN":
+            return {
+                ...state,
+                token: action.token
+            }
+        case "UPDATE_TOP50USA":
+            return {
+                ...state,
+                top50USA: action.top50USA
+            }
         default:
             return state;
     }
@@ -42,7 +52,6 @@ const ProjectProvider = ({ value = [], ...props}) => {
     const [state, dispatch] = useReducer(reducer, {
         isAuthenticated: false,
         user: {},
-        loading: false,
         register: {
             name: "",
             email:"",
@@ -52,7 +61,9 @@ const ProjectProvider = ({ value = [], ...props}) => {
         login: {
             email: "",
             password: ""
-        }
+        },
+        token: "",
+        top50USA: []
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

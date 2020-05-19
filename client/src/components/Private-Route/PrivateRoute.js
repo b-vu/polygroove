@@ -1,19 +1,20 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useProjectContext } from "../../utils/Store";
+import Feed from "../../pages/Feed/Feed";
 
-const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+const PrivateRoute = ({ component: Component, ...rest }) => {
   const [state, dispatch] = useProjectContext();
 
   return(
     <Route
         {...rest}
-        render={props =>
-        state.isAuthenticated === true ? (
-            <Component {...props} />
-        ) : (
-            <Redirect to="/register" />
-        )
+        render={() =>
+        state.isAuthenticated
+        ? 
+          <Feed></Feed>
+        : 
+          <Redirect to="/register" />
         }
     />
   );

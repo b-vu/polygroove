@@ -8,11 +8,9 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Charts from "./pages/Charts/Charts";
 import Forums from "./pages/Forums/Forums";
-import { ProjectProvider } from "./utils/Store";
-
-
-import PrivateRoute from "./components/Private-Route/PrivateRoute";
 import Feed from "./pages/Feed/Feed";
+import PrivateRoute from "./components/Private-Route/PrivateRoute";
+import { ProjectProvider } from "./utils/Store";
 
 const App = () => {
   return (
@@ -25,7 +23,7 @@ const App = () => {
           <Route exact path="/forums" component={Forums}/>
           <Route exact path="/register" component={Register}/>
           <Route exact path="/login" component={Login}/>
-          <PrivateRoute exact path="/feed" component={Feed} />
+          <PrivateRoute exact path="/feed" component={Feed}/>
           <Route component={Home}/>
         </Switch>
         <Footer/>
