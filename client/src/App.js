@@ -6,6 +6,8 @@ import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
+import Charts from "./pages/Charts/Charts";
+import Forums from "./pages/Forums/Forums";
 import { ProjectProvider } from "./utils/Store";
 
 
@@ -18,19 +20,17 @@ const App = () => {
       <Router>
         <Nav/>
         <Switch>
-          <Route exact path="/">
-            <Home/>
-          </Route>
-          <Route exact path="/register">
-            <Register/>
-          </Route>
-          <Route exact path="/login">
-            <Login/>
-          </Route>
-        </Switch>
-        <Switch>
+          <Route exact path="/" component={Home}/>
+          <Route exact path="/charts" component={Charts}/>
+          <Route exact path="/forums" component={Forums}/>
+          <Route exact path="/register" component={Register}/>
+          <Route exact path="/login" component={Login}/>
           <PrivateRoute exact path="/feed" component={Feed} />
+          <Route component={Home}/>
         </Switch>
+        {/* <Switch>
+          <PrivateRoute exact path="/feed" component={Feed} />
+        </Switch> */}
         <Footer/>
       </Router>
     </ProjectProvider>
