@@ -38,10 +38,11 @@ const reducer = (state, action) => {
                 ...state,
                 token: action.token
             }
-        case "UPDATE_TOP50USA":
+        case "UPDATE_CHARTS":
             return {
                 ...state,
-                top50USA: action.top50USA
+                chartSongs: action.chartSongs,
+                currentChart: action.currentChart
             }
         default:
             return state;
@@ -63,7 +64,8 @@ const ProjectProvider = ({ value = [], ...props}) => {
             password: ""
         },
         token: "",
-        top50USA: []
+        currentChart: "",
+        chartSongs: []
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

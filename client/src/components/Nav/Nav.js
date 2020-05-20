@@ -74,7 +74,7 @@ const Nav = () => {
 
     return(
         <div>
-            <nav className="navbar is-info" role="navigation" aria-label="main navigation">
+            <nav className="navbar is-success" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
                     <Link to={"/"}>
                         <div className="navbar-item" >
