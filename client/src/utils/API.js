@@ -3,6 +3,8 @@ const querystring = require("query-string");
 
 export default {
     getToken: function(){
+        console.log(process.env.REACT_APP_CLIENT_ID);
+        console.log(process.env.REACT_APP_CLIENT_SECRET);
         return axios.post(
             "https://accounts.spotify.com/api/token",
             querystring.stringify({grant_type: 'client_credentials'}),
