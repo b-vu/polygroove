@@ -5,7 +5,9 @@ import { useProjectContext } from "../../utils/Store";
 import API from "../../utils/API";
 import Box from "../../components/Box/Box";
 import Column from "../../components/Column/Column";
-import Container from "../../components/Container/Container";
+import Tracks from "../../components/Tracks/Tracks";
+import Albums from "../../components/Albums/Albums";
+import Related from "../../components/Related/Related";
 
 const Artist = () => {
     const [state, dispatch] = useProjectContext();
@@ -15,25 +17,80 @@ const Artist = () => {
     useEffect(() => {
         const artistInfo = {};
 
-        API.getArtistInfo(id, state.token).then(res => {
-            artistInfo.id = res[0].data.id;
-            artistInfo.image = res[0].data.images[0].url;
-            artistInfo.name = res[0].data.name;
-            artistInfo.spotifyLink = res[0].data.external_urls.spotify;
-            artistInfo.genres = res[0].data.genres;
+        if(!state.token.length){
+            API.getToken().then(res => {
+                dispatch({
+                    type: "UPDATE_TOKEN",
+                    token: res.data.access_token
+                });
 
-            artistInfo.albums = res[1].data.items;
-
-            artistInfo.topTracks = res[2].data.tracks;
-
-            artistInfo.relatedArtists = res[3].data.artists;
-
-            dispatch({
-                type: "UPDATE_CURRENT_ARTIST",
-                currentArtist: artistInfo
-            });
-        })
-    }, [])
+                API.getArtistInfo(id, state.token).then(res => {
+                    artistInfo.id = res[0].data.id;
+                    artistInfo.image = res[0].data.images[0].url;
+                    artistInfo.name = res[0].data.name;
+                    artistInfo.spotifyLink = res[0].data.external_urls.spotify;
+                    artistInfo.genres = res[0].data.genres;
+                    
+                    const albums = [];
+                    const albumNames = [];
+                    for(const album of res[1].data.items){
+                        if(albumNames.indexOf(album.name) === -1){
+                            albums.push(album);
+                            albumNames.push(album.name)
+                        }
+                    }
+        
+                    artistInfo.albums = albums;
+        
+                    artistInfo.topTracks = res[2].data.tracks;
+        
+                    const relatedArtists = [];
+                    for(let i = 0; i < 10; i++){
+                        relatedArtists.push(res[3].data.artists[i])
+                    }
+                    artistInfo.relatedArtists = relatedArtists;
+        
+                    dispatch({
+                        type: "UPDATE_CURRENT_ARTIST",
+                        currentArtist: artistInfo
+                    });
+                })
+            })
+        }
+        else{
+            API.getArtistInfo(id, state.token).then(res => {
+                artistInfo.id = res[0].data.id;
+                artistInfo.image = res[0].data.images[0].url;
+                artistInfo.name = res[0].data.name;
+                artistInfo.spotifyLink = res[0].data.external_urls.spotify;
+                artistInfo.genres = res[0].data.genres;
+                
+                const albums = [];
+                const albumNames = [];
+                for(const album of res[1].data.items){
+                    if(albumNames.indexOf(album.name) === -1){
+                        albums.push(album);
+                        albumNames.push(album.name)
+                    }
+                }
+    
+                artistInfo.albums = albums;
+    
+                artistInfo.topTracks = res[2].data.tracks;
+    
+                const relatedArtists = [];
+                for(let i = 0; i < 10; i++){
+                    relatedArtists.push(res[3].data.artists[i])
+                }
+                artistInfo.relatedArtists = relatedArtists;
+    
+                dispatch({
+                    type: "UPDATE_CURRENT_ARTIST",
+                    currentArtist: artistInfo
+                });
+            })
+        }
+    }, [id])
 
     return(
         <Box>
@@ -95,15 +152,21 @@ const Artist = () => {
                         </Column>
                         <Column>
                             <div className="column is-6">
+                                <h1 className="title has-text-centered">Top Tracks</h1>
                                 {
                                     state.currentArtist.topTracks
                                     ?
                                     <div>
-                                        <p>Genre:&nbsp;
                                         {state.currentArtist.topTracks.map((track, index) => 
-                                            <span key={index}>{ (index ? ', ' : '') + track.name }</span>
+                                            <Tracks
+                                                key={index}
+                                                song={track.name}
+                                                album={track.album.name}
+                                                image={track.album.images[0].url}
+                                                year={track.album.release_date}
+                                                duration={track.duration_ms}
+                                            />
                                         )}
-                                        </p>
                                     </div>
                                     :
                                     null
@@ -111,15 +174,20 @@ const Artist = () => {
                             </div>
 
                             <div className="column is-6">
+                                <h1 className="title has-text-centered">Albums</h1>
                                 {
                                     state.currentArtist.albums
                                     ?
                                     <div>
-                                        <p>Genre:&nbsp;
                                         {state.currentArtist.albums.map((album, index) => 
-                                            <span key={index}>{ (index ? ', ' : '') + album.name }</span>
+                                            <Albums
+                                                key={index}
+                                                album={album.name}
+                                                image={album.images[0].url}
+                                                releaseDate={album.release_date}
+                                                tracks={album.total_tracks}
+                                            />
                                         )}
-                                        </p>
                                     </div>
                                     :
                                     null
@@ -131,30 +199,9 @@ const Artist = () => {
 
                 <div className="column">
                     <Box>
-                        <aside className="menu">
-                            <p className="menu-label">
-                                Hot & Trending
-                            </p>
-                            <ul className="menu-list">
-                                <li><a name="US Top 50" href="#">US Top 50</a></li>
-                                <li><a name="Global Top 50" href="#">Global Top 50</a></li>
-                            </ul>
-                            <p className="menu-label">
-                                By Genre
-                            </p>
-                            <ul className="menu-list">
-                                <li><a name="Hottest Hip Hop" href="#">Hip Hop</a></li>
-                                <li><a name="Top Pop" href="#">Pop</a></li>
-                                <li><a name="The Best In Indie" href="#">Indie</a></li>
-                                <li><a name="Top Country Songs, y'all" href="#">Country</a></li>
-                                <li><a name="Rockin' and Rollin'" href="#">Rock</a></li>
-                                <li><a name="Top Kpop" href="#">Kpop</a></li>
-                                <li><a name="Top EDM" href="#">EDM</a></li>
-                                <li><a name="The Smoothest Jazz" href="#">Jazz</a></li>
-                                <li><a name="Top Latin" href="#">Latin</a></li>
-                                <li><a name="Kickass Metal" href="#">Metal</a></li>
-                            </ul>
-                        </aside>
+                        <Related
+                            artists={state.currentArtist.relatedArtists}
+                        />
                     </Box>            
                 </div>
             </Column>
