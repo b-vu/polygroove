@@ -3,8 +3,6 @@ const querystring = require("query-string");
 
 export default {
     getToken: function(){
-        console.log(process.env.REACT_APP_CLIENT_ID);
-        console.log(process.env.REACT_APP_CLIENT_SECRET);
         return axios.post(
             "https://accounts.spotify.com/api/token",
             querystring.stringify({grant_type: 'client_credentials'}),
@@ -140,4 +138,40 @@ export default {
             }
         );
     },
+    getArtistInfo: async function(id, token){
+        return Promise.all([
+            axios.get(
+                `https://api.spotify.com/v1/artists/${id}`,
+                {
+                    headers: {
+                      Authorization: `Bearer ${token}`
+                    }
+                }
+            ),
+            axios.get(
+                `https://api.spotify.com/v1/artists/${id}/albums?include_groups=album`,
+                {
+                    headers: {
+                      Authorization: `Bearer ${token}`
+                    }
+                }
+            ),
+            axios.get(
+                `https://api.spotify.com/v1/artists/${id}/top-tracks?country=US`,
+                {
+                    headers: {
+                      Authorization: `Bearer ${token}`
+                    }
+                }
+            ),
+            axios.get(
+                `https://api.spotify.com/v1/artists/${id}/related-artists`,
+                {
+                    headers: {
+                      Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        ]);
+    }
 }
