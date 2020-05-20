@@ -18,7 +18,7 @@ const Card = props => {
                         </div>
 
                         <div className="column">
-                            <figure className="image">
+                            <figure className="image card-image">
                                 <img src={image} alt={album}/>
                             </figure>
                         </div>

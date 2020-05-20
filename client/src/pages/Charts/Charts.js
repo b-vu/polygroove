@@ -374,10 +374,9 @@ const Charts = () => {
     }, []);
 
     return(
-        <div>
             <Box>
-                {console.log(state)}
                 <Column>
+                {console.log(state)}
                     <div className="column is-2">
                         <Box>
                             <aside className="menu">
@@ -428,11 +427,10 @@ const Charts = () => {
                             :
                             null
                             }
-                    </Box>
+                        </Box>
                     </div>
                 </Column>
             </Box>
-        </div>
     );
 }
 
