@@ -7,7 +7,6 @@ const Related = props => {
     
     return(
         <aside className="menu">
-            {console.log(artists)}
             <p className="menu-label">
                 Related Artists
             </p>
@@ -31,7 +30,7 @@ const Related = props => {
                     null
                 }
             </ul>
-        </aside>        
+        </aside>
     );
 }
 

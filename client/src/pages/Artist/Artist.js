@@ -104,22 +104,12 @@ const Artist = () => {
                             </p>
                             <ul className="menu-list">
                                 <li><a name="US Top 50" href="#">US Top 50</a></li>
-                                <li><a name="Global Top 50" href="#">Global Top 50</a></li>
                             </ul>
                             <p className="menu-label">
                                 By Genre
                             </p>
                             <ul className="menu-list">
-                                <li><a name="Hottest Hip Hop" href="#">Hip Hop</a></li>
-                                <li><a name="Top Pop" href="#">Pop</a></li>
-                                <li><a name="The Best In Indie" href="#">Indie</a></li>
-                                <li><a name="Top Country Songs, y'all" href="#">Country</a></li>
-                                <li><a name="Rockin' and Rollin'" href="#">Rock</a></li>
-                                <li><a name="Top Kpop" href="#">Kpop</a></li>
-                                <li><a name="Top EDM" href="#">EDM</a></li>
-                                <li><a name="The Smoothest Jazz" href="#">Jazz</a></li>
-                                <li><a name="Top Latin" href="#">Latin</a></li>
-                                <li><a name="Kickass Metal" href="#">Metal</a></li>
+
                             </ul>
                         </aside>
                     </Box>            
@@ -186,6 +176,7 @@ const Artist = () => {
                                                 image={album.images[0].url}
                                                 releaseDate={album.release_date}
                                                 tracks={album.total_tracks}
+                                                albumID={album.id}
                                             />
                                         )}
                                     </div>

@@ -173,5 +173,25 @@ export default {
                 }
             )
         ]);
+    },
+    getAlbumInfo: function(id, token){
+        return axios.get(
+            `https://api.spotify.com/v1/albums/${id}`,
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+            }
+        );
+    },
+    getAlbums: function(id, token){
+        return axios.get(
+            `https://api.spotify.com/v1/artists/${id}/albums?include_groups=album`,
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+            }
+        );
     }
 }

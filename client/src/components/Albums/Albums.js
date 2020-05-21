@@ -4,7 +4,7 @@ import Column from "../Column/Column";
 import { Link } from "react-router-dom";
 
 const Albums = props => {
-    const { image, album, spotifySong, spotifyArtist, spotifyAlbum, artistID, releaseDate, tracks } = props;
+    const { image, album, spotifySong, spotifyArtist, spotifyAlbum, artistID, releaseDate, tracks, albumID } = props;
 
     const formatReleaseDate = date => {
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -17,14 +17,18 @@ const Albums = props => {
             <div className="card-content">
                 <Column>
                     <div className="column is-4">
+                        <Link to={"/album/" + albumID}>
                         <figure className="image track-image">
                             <img src={image} alt={album}/>
                         </figure>
+                        </Link>
                     </div>
 
                     <div className="column">
                         <p className="track-listing">
-                            <a href={"#"}>{album}</a>
+                        <Link to={"/album/" + albumID}>
+                            {album}
+                        </Link>
                         </p>
 
                         <p className="track-album">
