@@ -126,21 +126,21 @@ const Album = () => {
                                     state.currentAlbum.tracks
                                     ?
                                     state.currentAlbum.tracks.items.map((track, index) => 
-                                        <div key={index}>
-                                            <p className="title level">
+                                        <div key={index} className="columns">
+                                            <p className="title column is-9">
                                                 <span>{(index + 1) + "."}&nbsp;</span>
-                                                <Link to={"/track/" + track.name} className="level-left level-item">
+                                                <Link to={"/track/" + track.name}>
                                                     {track.name}
                                                 </Link>
+                                            </p>
                                                 {
                                                     track.explicit
                                                     ?
-                                                    <span className="level-right explicit">Explicit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    <p className="column is-2 explicit">Explicit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                                                     :
-                                                    null
+                                                    <p className="column is-2 explicit"></p>
                                                 }
-                                                <span className="level-right">{" " + msToMinutes(track.duration_ms)}</span>
-                                            </p>
+                                                <p className="column is-2 runtime">{" " + msToMinutes(track.duration_ms)}</p>
                                             <br/>
                                         </div>
                                     )

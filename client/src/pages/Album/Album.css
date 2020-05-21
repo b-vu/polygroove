@@ -1,4 +1,9 @@
 .explicit{
     color: red;
-    font-size: 18px;
+    font-size: 22px;
+    margin-top: 3px;
+}
+
+.runtime{
+    font-size: 22px;
 }
