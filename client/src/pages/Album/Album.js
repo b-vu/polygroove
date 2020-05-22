@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "./Album.css";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useProjectContext } from "../../utils/Store";
 import API from "../../utils/API";
 import Box from "../../components/Box/Box";
@@ -129,7 +128,7 @@ const Album = () => {
                                         <div key={index} className="columns">
                                             <p className="title column is-9">
                                                 <span>{(index + 1) + "."}&nbsp;</span>
-                                                <Link to={"/track/" + track.name}>
+                                                <Link to={"/track/" + track.name + " " + state.currentAlbum.artists[0].name + "/" + track.id}>
                                                     {track.name}
                                                 </Link>
                                             </p>

@@ -4,8 +4,8 @@ import Column from "../Column/Column";
 import { Link } from "react-router-dom";
 
 const Card = props => {
-    const { image, song, artist, album, spotifySong, spotifyArtist, spotifyAlbum, rank, artistID } = props;
-    
+    const { image, song, artist, album, spotifySong, spotifyArtist, spotifyAlbum, rank, artistID, albumID } = props;
+
     return(
         <div className="card">
             <div className="card-content">
@@ -30,11 +30,11 @@ const Card = props => {
                         </p>
 
                         <p className="title is-4">
-                            by <Link to={"/artist/" + artistID}>{artist}</Link>
+                            by <Link to={"/artist/" + artist + "/" + artistID}>{artist}</Link>
                         </p>
                             
                         <p className="title is-4">
-                            on <a href={spotifyAlbum}>{album}</a>
+                            on <Link to={"/album/" + albumID}>{album}</Link>
                         </p>
                     </div>
                 </Column>

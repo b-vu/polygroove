@@ -49,6 +49,11 @@ const reducer = (state, action) => {
                 ...state,
                 currentArtist: action.currentArtist
             }
+        case "UPDATE_CURRENT_ARTIST_INFO":
+            return {
+                ...state,
+                currentArtistInfo: action.currentArtistInfo
+            }
         case "UPDATE_CURRENT_ALBUM":
             return {
                 ...state,
@@ -58,6 +63,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 otherAlbums: action.otherAlbums
+            }
+        case "UPDATE_CURRENT_TRACK":
+            return {
+                ...state,
+                currentTrack: action.currentTrack
             }
         default:
             return state;
@@ -82,8 +92,10 @@ const ProjectProvider = ({ value = [], ...props}) => {
         currentChart: "",
         chartSongs: [],
         currentArtist:{},
+        currentArtistInfo: {},
         currentAlbum: {},
-        otherAlbums: {}
+        otherAlbums: {},
+        currentTrack: []
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

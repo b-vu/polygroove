@@ -11,6 +11,7 @@ import Forums from "./pages/Forums/Forums";
 import Feed from "./pages/Feed/Feed";
 import Artist from "./pages/Artist/Artist";
 import Album from "./pages/Album/Album";
+import Track from "./pages/Track/Track";
 import PrivateRoute from "./components/Private-Route/PrivateRoute";
 import { ProjectProvider } from "./utils/Store";
 
@@ -26,8 +27,9 @@ const App = () => {
           <Route exact path="/register" component={Register}/>
           <Route exact path="/login" component={Login}/>
           <PrivateRoute exact path="/feed" component={Feed}/>
-          <Route exact path="/artist/:id" component={Artist}/>
+          <Route exact path="/artist/:name/:id" component={Artist}/>
           <Route exact path="/album/:id" component={Album}/>
+          <Route exact path="/track/:name/:id" component={Track}/>
           <Route component={Home}/>
         </Switch>
         <Footer/>

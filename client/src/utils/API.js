@@ -138,7 +138,7 @@ export default {
             }
         );
     },
-    getArtistInfo: async function(id, token){
+    getArtistInfo: async function(id, token, name){
         return Promise.all([
             axios.get(
                 `https://api.spotify.com/v1/artists/${id}`,
@@ -193,5 +193,44 @@ export default {
                 }
             }
         );
+    },
+    getGeniusArtistInfo: function(name){
+        return axios.get(
+            `https://cors-anywhere.herokuapp.com/https://api.genius.com/search?q=${name}`,
+            {
+                headers: {
+                  Authorization: `Bearer ${process.env.REACT_APP_GENIUS_TOKEN}`
+                }
+            }
+        ).then(res => {
+            return axios.get(
+                `https://cors-anywhere.herokuapp.com/https://api.genius.com/artists/${res.data.response.hits[0].result.primary_artist.id}?text_format=plain`,
+            {
+                headers: {
+                  Authorization: `Bearer ${process.env.REACT_APP_GENIUS_TOKEN}`
+                }
+            }
+            )
+        });
+    },
+    getTrackInfo: function(name, id, token){
+        return Promise.all([
+            axios.get(
+                `https://cors-anywhere.herokuapp.com/https://api.genius.com/search?q=${name}`,
+                {
+                    headers: {
+                      Authorization: `Bearer ${process.env.REACT_APP_GENIUS_TOKEN}`
+                    }
+                }
+            ),
+            axios.get(
+                `https://api.spotify.com/v1/tracks/${id}`,
+                {
+                    headers: {
+                      Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        ])
     }
 }

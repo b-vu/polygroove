@@ -21,7 +21,8 @@ const Charts = () => {
                     spotifyArtist: song.track.artists[0].external_urls.spotify,
                     spotifySong: song.track.external_urls.spotify,
                     spotifyAlbum: song.track.album.external_urls.spotify,
-                    artistID: song.track.artists[0].id
+                    artistID: song.track.artists[0].id,
+                    albumID: song.track.album.id
                 }
                 top50USA.push(songObj);
             }
@@ -36,7 +37,6 @@ const Charts = () => {
 
     const displayCharts = event => {
         const { name } = event.target;
-        console.log(name)
 
         switch(name){
             case "Global Top 50":
@@ -53,7 +53,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             top50Global.push(songObj);
                         }
@@ -80,7 +81,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topHipHop.push(songObj);
                         }
@@ -107,7 +109,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topPop.push(songObj);
                         }
@@ -134,7 +137,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topIndie.push(songObj);
                         }
@@ -161,7 +165,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topCountry.push(songObj);
                         }
@@ -188,7 +193,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topRock.push(songObj);
                         }
@@ -215,7 +221,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topKpop.push(songObj);
                         }
@@ -242,7 +249,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topEDM.push(songObj);
                         }
@@ -269,7 +277,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topJazz.push(songObj);
                         }
@@ -296,7 +305,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topLatin.push(songObj);
                         }
@@ -323,7 +333,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             topMetal.push(songObj);
                         }
@@ -349,7 +360,8 @@ const Charts = () => {
                                 spotifyArtist: song.track.artists[0].external_urls.spotify,
                                 spotifySong: song.track.external_urls.spotify,
                                 spotifyAlbum: song.track.album.external_urls.spotify,
-                                artistID: song.track.artists[0].id
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id
                             }
                             top50USA.push(songObj);
                         }
@@ -365,11 +377,16 @@ const Charts = () => {
 
     useEffect(() => {
         API.getToken().then(res => {
-            displayUSTop50(res.data.access_token);
-            dispatch({
+            if(state.chartSongs.length){
+                return
+            }
+            else{
+                displayUSTop50(res.data.access_token);
+                dispatch({
                 type: "UPDATE_TOKEN",
                 token: res.data.access_token
-            })
+                })
+            }
         })
     }, []);
 
@@ -420,6 +437,7 @@ const Charts = () => {
                                     spotifySong={song.spotifySong}
                                     spotifyAlbum={song.spotifyAlbum}
                                     artistID={song.artistID}
+                                    albumID={song.albumID}
                                     rank={index+1}
                                     key={index}
                                 />)

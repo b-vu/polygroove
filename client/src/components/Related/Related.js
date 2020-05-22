@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 const Related = props => {
     const { artists } = props;
+
+    console.log(artists);
     
     return(
         <aside className="menu">
@@ -16,7 +18,7 @@ const Related = props => {
                     ?
                     artists.map((artist, index) => 
                         <li key={index}>
-                            <Link to={"/artist/" + artist.id} className="columns">
+                            <Link to={"/artist/" + artist.name + "/" + artist.id} className="columns">
                                 <figure className="image column">
                                     <img src={artist.images[0].url} alt={artist.name}/>
                                 </figure>
