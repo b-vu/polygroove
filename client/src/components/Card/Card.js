@@ -4,7 +4,7 @@ import Column from "../Column/Column";
 import { Link } from "react-router-dom";
 
 const Card = props => {
-    const { image, song, artist, album, spotifySong, spotifyArtist, spotifyAlbum, rank, artistID, albumID } = props;
+    const { image, song, artist, album, spotifySong, spotifyArtist, spotifyAlbum, rank, artistID, albumID, trackID } = props;
 
     return(
         <div className="card">
@@ -26,7 +26,7 @@ const Card = props => {
 
                     <div className="column">
                         <p className="title is-3">
-                            <a href={spotifySong}>{song}</a>
+                            <Link to={"track/" + song + "/" + trackID}>{song}</Link>
                         </p>
 
                         <p className="title is-4">

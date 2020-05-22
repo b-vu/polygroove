@@ -21,13 +21,27 @@ const Track = () => {
         }
 
         API.getTrackInfo(name, id, state.token).then(res => {
-            console.log(res[1].data);
+            const trackArray = [res[0].data.response.hits, res[1].data]
             dispatch({
                 type: "UPDATE_CURRENT_TRACK",
-                currentTrack: res[0].data.response.hits
+                currentTrack: trackArray
             });
         })
-    }, [name])
+    }, [name]);
+
+    const msToMinutes = ms => {
+        const minutes = Math.floor(ms / 60000);
+        const seconds = ((ms % 60000) / 1000).toFixed(0);
+
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+
+    const formatReleaseDate = date => {
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const arr = date.split("-");
+
+        return `${months[(arr[1] - 1)]} ${arr[2]}, ${arr[0]}`
+    }
 
     return(
         <Box>
@@ -54,17 +68,28 @@ const Track = () => {
                 state.currentTrack.length
                 ?
                 <div className="column is-8">
-                    {console.log(state.currentTrack[0].result.full_title, state.currentTrack[0])}
                     <Box>
-                        <h1 className="title has-text-centered">{state.currentTrack[0].result.full_title}</h1>
                         <Column>
                             <div className="column is-5">
                                 <figure className="image artist-image">
-                                    <img src={state.currentTrack[0].result.header_image_url}/>
+                                    <img src={state.currentTrack[1].album.images[0].url}/>
                                 </figure>
                             </div>
                             <div className="column is-7">
-
+                                <h1 className="title">{state.currentTrack[1].name}</h1>
+                                <h1 className="title">By <Link to={"/artist/" + state.currentTrack[1].artists[0].name + "/" + state.currentTrack[1].artists[0].id}>{state.currentTrack[1].artists[0].name}</Link></h1>
+                                <h1 className="title">On <Link to={"/album/" + state.currentTrack[1].album.id}>{state.currentTrack[1].album.name}</Link></h1>
+                                <h1 className="title">Released on {formatReleaseDate(state.currentTrack[1].album.release_date)}</h1>
+                                <h1 className="title">Duration: {msToMinutes(state.currentTrack[1].duration_ms)}</h1>
+                                {
+                                    state.currentTrack[1].explicit
+                                    ?
+                                    <p className="explicit">Explicit</p>
+                                    :
+                                    null
+                                }
+                                <a href={state.currentTrack[1].external_urls.spotify}>Spotify</a>
+                                <a href={state.currentTrack[0][0].result.url}> Lyrics</a>
                             </div>
                         </Column>
                     </Box>

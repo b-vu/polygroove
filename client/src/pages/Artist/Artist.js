@@ -9,6 +9,8 @@ import Tracks from "../../components/Tracks/Tracks";
 import Albums from "../../components/Albums/Albums";
 import Related from "../../components/Related/Related";
 
+const parse = require("html-react-parser");
+
 const Artist = () => {
     const [state, dispatch] = useProjectContext();
 
@@ -28,7 +30,15 @@ const Artist = () => {
         }
 
         API.getGeniusArtistInfo(name).then(res => {
-            geniusInfo.desc = res.data.response.artist.description.plain;
+            const arr = res.data.response.artist.description.html.split("</p>");
+            const newArr = [];
+        
+            for(let i = 0; i < arr.length - 1; i++){
+                const str = arr[i] + "</p><br/>";
+                newArr.push(str);
+            }
+
+            geniusInfo.desc = newArr;
             geniusInfo.fb = res.data.response.artist.facebook_name;
             geniusInfo.ig = res.data.response.artist.instagram_name;
             geniusInfo.tw = res.data.response.artist.twitter_name;
@@ -106,11 +116,11 @@ const Artist = () => {
                             </div>
                             <div className="column is-7">
                                 {
-                                    state.currentArtistInfo
+                                    state.currentArtistInfo.desc
                                     ?
-                                    <p>
-                                        {state.currentArtistInfo.desc}
-                                    </p>
+                                    state.currentArtistInfo.desc.map(section => 
+                                        parse(section)
+                                        )
                                     :
                                     null
                                 }
@@ -177,10 +187,11 @@ const Artist = () => {
                                             <Tracks
                                                 key={index}
                                                 song={track.name}
+                                                songID={track.id}
                                                 album={track.album.name}
+                                                albumID={track.album.id}
                                                 image={track.album.images[0].url}
                                                 year={track.album.release_date}
-                                                duration={track.duration_ms}
                                             />
                                         )}
                                     </div>

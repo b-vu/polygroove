@@ -22,7 +22,6 @@ const Album = () => {
         }
 
         API.getAlbumInfo(id, state.token).then(res => {
-            console.log(res.data.artists[0].id)
             dispatch({
                 type: "UPDATE_CURRENT_ALBUM",
                 currentAlbum: res.data
@@ -74,8 +73,6 @@ const Album = () => {
     return(
         <Box>
             <Column>
-                {console.log(state.currentAlbum)}
-                {console.log(state.otherAlbums)}
                 <div className="column is-2">
                     <Box>
                         <aside className="menu">
@@ -107,7 +104,7 @@ const Album = () => {
                                 </figure>
                             </div>
                             <div className="column is-7">
-                                <h1 className="title">{state.currentAlbum.name} by {state.currentAlbum.artists[0].name}</h1>
+                                <h1 className="title">{state.currentAlbum.name} by <Link to={"/artist/" + state.currentAlbum.artists[0].name + "/" + state.currentAlbum.artists[0].id}>{state.currentAlbum.artists[0].name}</Link></h1>
                                 <h1 className="title">Released on {formatReleaseDate(state.currentAlbum.release_date)}</h1>
                                 <h1 className="title">{state.currentAlbum.total_tracks} tracks, {getRuntime(state.currentAlbum.tracks.items)}</h1>
                                 <h1 className="title">Label: {state.currentAlbum.label}</h1>

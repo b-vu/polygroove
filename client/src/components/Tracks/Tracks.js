@@ -4,14 +4,7 @@ import Column from "../Column/Column";
 import { Link } from "react-router-dom";
 
 const Tracks = props => {
-    const { image, song, album, spotifySong, spotifyArtist, spotifyAlbum, artistID, duration, year } = props;
-
-    const msToMinutes = ms => {
-        const minutes = Math.floor(ms / 60000);
-        const seconds = ((ms % 60000) / 1000).toFixed(0);
-
-        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-      }
+    const { image, song, songID, album, albumID, year } = props;
 
     const getYear = date => {
         const arr = date.split("-");
@@ -25,21 +18,21 @@ const Tracks = props => {
                 <Column>
                     <div className="column is-4">
                         <figure className="image track-image">
-                            <img src={image} alt={album}/>
+                            <a href={image}><img src={image} alt={album}/></a>
                         </figure>
                     </div>
 
                     <div className="column">
                         <p className="track-listing">
-                            <a href={spotifySong}>{song}</a>
+                            <Link to={"/track/" + song + "/" + songID}>{song}</Link>
                         </p>
                             
                         <p className="track-album">
-                            on <a href={spotifyAlbum}>{album}</a>
+                            on <Link to={"/album/" + albumID}>{album}</Link>
                         </p>
 
                         <p className="track-album">
-                            {msToMinutes(duration)}, {getYear(year)}
+                            {getYear(year)}
                         </p>
                     </div>
                 </Column>

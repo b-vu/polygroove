@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 
 const Related = props => {
     const { artists } = props;
-
-    console.log(artists);
     
     return(
         <aside className="menu">

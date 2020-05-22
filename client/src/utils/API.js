@@ -204,7 +204,7 @@ export default {
             }
         ).then(res => {
             return axios.get(
-                `https://cors-anywhere.herokuapp.com/https://api.genius.com/artists/${res.data.response.hits[0].result.primary_artist.id}?text_format=plain`,
+                `https://cors-anywhere.herokuapp.com/https://api.genius.com/artists/${res.data.response.hits[0].result.primary_artist.id}?text_format=html`,
             {
                 headers: {
                   Authorization: `Bearer ${process.env.REACT_APP_GENIUS_TOKEN}`
