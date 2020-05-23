@@ -43,24 +43,106 @@ const Track = () => {
         return `${months[(arr[1] - 1)]} ${arr[2]}, ${arr[0]}`
     }
 
+    const handleRating = event => {
+        if(state.isAuthenticated){
+            const value = parseInt(event.currentTarget.getAttribute("data-value"));
+            const values = document.querySelectorAll(".user-rating");
+            const state = event.currentTarget.firstElementChild.getAttribute("data-state");
+
+            if(state === "empty"){
+                for(const rating of values){
+                    if(value >= parseInt(rating.getAttribute("data-value"))){
+                        rating.setAttribute("class", event.currentTarget.firstElementChild.getAttribute("data-fill"));
+                        rating.setAttribute("data-state", "fill");
+                    }
+                }
+            }
+            else{
+                for(const rating of values){
+                    if(value < parseInt(rating.getAttribute("data-value"))){
+                        rating.setAttribute("class", event.currentTarget.firstElementChild.getAttribute("data-empty"));
+                        rating.setAttribute("data-state", "empty");
+                    }
+                }
+            }
+        }   
+        else{
+            window.location.assign("/register");
+        }
+    }
+
+    const handleFavorite = event => {
+        if(state.isAuthenticated){
+            const state = event.currentTarget.getAttribute("data-state");
+
+            if(state === "not-favorite"){
+                event.currentTarget.setAttribute("data-state", "favorite");
+                event.currentTarget.setAttribute("class", event.currentTarget.getAttribute("data-is"));
+                event.currentTarget.innerHTML = "Favorited&nbsp; <i class='fas fa-heart'></i>"
+            }
+            else{
+                event.currentTarget.setAttribute("data-state", "not-favorite");
+                event.currentTarget.setAttribute("class", event.currentTarget.getAttribute("data-not"));
+                event.currentTarget.innerHTML = "Favorite&nbsp; <i class='fas fa-heart'></i>"
+            }
+        }
+        else{
+            window.location.assign("/register");
+        }
+    }
+
     return(
         <Box>
             <Column>
                 <div className="column is-2">
                     <Box>
-                        <aside className="menu">
+                        <aside className="menu has-text-centered">
                             <p className="menu-label">
-                                Hot & Trending
+                                Your Track Rating
                             </p>
                             <ul className="menu-list">
-                                <li><a name="US Top 50" href="#">US Top 50</a></li>
+                                <span onClick={handleRating} data-value="1" className="icon has-text-warning">
+                                    <i className="far fa-star user-rating" data-value="1" data-fill="fas fa-star user-rating" data-empty="far fa-star user-rating" data-state="empty"></i>
+                                </span>
+                                <span onClick={handleRating} data-value="2" className="icon has-text-warning">
+                                    <i className="far fa-star user-rating" data-value="2" data-fill="fas fa-star user-rating" data-empty="far fa-star user-rating" data-state="empty"></i>
+                                </span>
+                                <span onClick={handleRating} data-value="3" className="icon has-text-warning">
+                                    <i className="far fa-star user-rating" data-value="3" data-fill="fas fa-star user-rating" data-empty="far fa-star user-rating" data-state="empty"></i>
+                                </span>
+                                <span onClick={handleRating} data-value="4" className="icon has-text-warning">
+                                    <i className="far fa-star user-rating" data-value="4" data-fill="fas fa-star user-rating" data-empty="far fa-star user-rating" data-state="empty"></i>
+                                </span>
+                                <span onClick={handleRating} data-value="5" className="icon has-text-warning">
+                                    <i className="far fa-star user-rating" data-value="5" data-fill="fas fa-star user-rating" data-empty="far fa-star user-rating" data-state="empty"></i>
+                                </span>
                             </ul>
-                            <p className="menu-label">
-                                By Genre
-                            </p>
-                            <ul className="menu-list">
+                            <br/>
 
+                            <p className="menu-label">
+                                Community Track Rating
+                            </p>
+                            <ul className="menu-list">
+                                <span className="icon has-text-warning">
+                                    <i className="fas fa-star"></i>
+                                </span>
+                                <span className="icon has-text-warning">
+                                    <i className="fas fa-star"></i>
+                                </span>
+                                <span className="icon has-text-warning">
+                                    <i className="fas fa-star"></i>
+                                </span>
+                                <span className="icon has-text-warning">
+                                    <i className="fas fa-star-half-alt"></i>
+                                </span>
+                                <span className="icon has-text-warning">
+                                    <i className="far fa-star"></i>
+                                </span>
                             </ul>
+                            <br/>
+                            <button onClick={handleFavorite} data-state="not-favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-outlined is-rounded">
+                                <span>Favorite&nbsp; <i className="fas fa-heart"></i></span>
+                            </button>
                         </aside>
                     </Box>            
                 </div>

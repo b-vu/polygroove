@@ -69,6 +69,26 @@ const reducer = (state, action) => {
                 ...state,
                 currentTrack: action.currentTrack
             }
+        case "UPDATE_FAVORITE_ARTISTS":
+            return {
+                ...state,
+                favoriteArtists: action.favoriteArtists
+            }
+        case "UPDATE_ISFAVORITEARTIST":
+            return{
+                ...state,
+                isFavoriteArtist: action.isFavoriteArtist
+            }
+        case "UPDATE_FAVORITE_ALBUMS":
+            return {
+                ...state,
+                favoriteAlbums: action.favoriteAlbums
+            }
+        case "UPDATE_ISFAVORITEALBUM":
+            return{
+                ...state,
+                isFavoriteAlbum: action.isFavoriteAlbum
+            }
         default:
             return state;
     }
@@ -95,7 +115,11 @@ const ProjectProvider = ({ value = [], ...props}) => {
         currentArtistInfo: {},
         currentAlbum: {},
         otherAlbums: {},
-        currentTrack: []
+        currentTrack: [],
+        favoriteArtists: [],
+        isFavoriteArtist: false,
+        favoriteAlbums: [],
+        isFavoriteAlbum: false
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

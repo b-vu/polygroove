@@ -80,7 +80,73 @@ const Artist = () => {
                 currentArtist: artistInfo
             });
         })
-    }, [id])
+
+        if(state.isAuthenticated && !state.favoriteArtists.length){
+            API.checkFavorites(state.user.id).then(res => {
+                checkFavorites(res.data.favoriteArtists);
+            });
+        }
+        else{
+            checkFavorites(state.favoriteArtists);
+
+        }
+    }, [id]);
+
+    const handleFavorite = event => {
+        if(state.isAuthenticated){
+            const btnState = event.currentTarget.getAttribute("data-state");
+            
+            if(btnState === "not-favorite"){
+                API.addFavoriteArtist(state.user.id, { name: state.currentArtist.name, id: state.currentArtist.id }).then(res => {
+                    API.checkFavorites(state.user.id).then(res => {
+                        checkFavorites(res.data.favoriteArtists);
+                        dispatch({
+                            type: "UPDATE_FAVORITE_ARTISTS",
+                            favoriteArtists: res.data.favoriteArtists
+                        });
+                    });
+                })
+            }
+            else{
+                API.removeFavoriteArtist(state.user.id, { id: state.currentArtist.id }).then(res => {
+                    API.checkFavorites(state.user.id).then(res => {
+                        checkFavorites(res.data.favoriteArtists);
+                        dispatch({
+                            type: "UPDATE_FAVORITE_ARTISTS",
+                            favoriteArtists: res.data.favoriteArtists
+                        });
+                    });
+                })
+            }
+        }
+        else{
+            window.location.assign("/register");
+        }
+    }
+
+    const checkFavorites = array => {
+        if(!array.length){
+            dispatch({
+                type: "UPDATE_ISFAVORITEARTIST",
+                isFavoriteArtist: false
+            });
+        }
+
+        for(const artist of array){
+            if(artist.id === id){
+                return dispatch({
+                    type: "UPDATE_ISFAVORITEARTIST",
+                    isFavoriteArtist: true
+                });
+            }
+            else{
+                dispatch({
+                    type: "UPDATE_ISFAVORITEARTIST",
+                    isFavoriteArtist: false
+                });
+            }
+        }
+    }
 
     return(
         <Box>
@@ -88,19 +154,69 @@ const Artist = () => {
             <Column>
                 <div className="column is-2">
                     <Box>
-                        <aside className="menu">
+                        <aside className="menu has-text-centered">
                             <p className="menu-label">
-                                Hot & Trending
+                                Genre&nbsp;<i className="fas fa-music"></i>
                             </p>
                             <ul className="menu-list">
-                                <li><a name="US Top 50" href="#">US Top 50</a></li>
+                                {
+                                    state.currentArtist.genres
+                                    ?
+                                    state.currentArtist.genres.map((genre, index) => 
+                                        <div key={index}>
+                                            <li>{ genre }</li>
+                                            <br/>
+                                        </div>
+                                    )
+                                    :
+                                    null
+                                }
                             </ul>
                             <p className="menu-label">
-                                By Genre
+                                Follow Them&nbsp;<i className="fas fa-hashtag"></i>
                             </p>
                             <ul className="menu-list">
-
+                                {
+                                    state.currentArtist.spotifyLink
+                                    ?
+                                    <a href={state.currentArtist.spotifyLink} id="spotify">Spotify&nbsp;<i className="fab fa-spotify"></i></a>
+                                    :
+                                    null
+                                }
+                                {
+                                    state.currentArtistInfo.tw
+                                    ?
+                                    <a href={"http://twitter.com/" + state.currentArtistInfo.tw}>Twitter&nbsp;<i className="fab fa-twitter"></i></a>
+                                    :
+                                    null
+                                }
+                                {
+                                    state.currentArtistInfo.ig
+                                    ?
+                                    <a href={"http://instagram.com/" + state.currentArtistInfo.ig}>Instagram&nbsp;<i className="fab fa-instagram"></i></a>
+                                    :
+                                    null
+                                }
+                                {
+                                    state.currentArtistInfo.fb
+                                    ?
+                                    <a href={"http://facebook.com/" + state.currentArtistInfo.fb}>Facebook&nbsp;<i className="fab fa-facebook-f"></i></a>
+                                    :
+                                    null
+                                }
                             </ul>
+                            <br/>
+                            {
+                                state.isFavoriteArtist
+                                ?
+                                <button onClick={handleFavorite} data-state="favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-rounded favorite" id="fav-artist">
+                                    <span>Favorited&nbsp; <i className='fas fa-heart'></i></span>
+                                </button>
+                                :
+                                <button onClick={handleFavorite} data-state="not-favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-outlined is-rounded" id="fav-artist">
+                                    <span>Favorite&nbsp; <i className="fas fa-heart"></i></span>
+                                </button>
+                            }
                         </aside>
                     </Box>            
                 </div>
@@ -121,56 +237,6 @@ const Artist = () => {
                                     state.currentArtistInfo.desc.map(section => 
                                         parse(section)
                                         )
-                                    :
-                                    null
-                                }
-                                {
-                                    state.currentArtist.genres
-                                    ?
-                                    <div>
-                                        <br/>
-                                        <p><strong>Genre:</strong>&nbsp;
-                                        {state.currentArtist.genres.map((genre, index) => 
-                                            <span key={index}>{ (index ? ', ' : '') + genre }</span>
-                                        )}
-                                        </p>
-                                    </div>
-                                    :
-                                    null
-                                }
-                                {
-                                    state.currentArtist.spotifyLink
-                                    ?
-                                    <span>
-                                        <a href={state.currentArtist.spotifyLink}>Spotify</a>
-                                    </span>
-                                    :
-                                    null
-                                }
-                                {
-                                    state.currentArtistInfo.tw
-                                    ?
-                                    <span>
-                                    <a href={"http://twitter.com/" + state.currentArtistInfo.tw}>&nbsp;Twitter</a>
-                                    </span>
-                                    :
-                                    null
-                                }
-                                {
-                                    state.currentArtistInfo.ig
-                                    ?
-                                    <span>
-                                    <a href={"http://instagram.com/" + state.currentArtistInfo.ig}>&nbsp;Instagram</a>
-                                    </span>
-                                    :
-                                    null
-                                }
-                                {
-                                    state.currentArtistInfo.fb
-                                    ?
-                                    <span>
-                                    <a href={"http://facebook.com/" + state.currentArtistInfo.fb}>&nbsp;Facebook</a>
-                                    </span>
                                     :
                                     null
                                 }

@@ -50,7 +50,6 @@ const Nav = () => {
     useEffect(() => {
         // Check for token to keep user logged in
         if (localStorage.jwtToken) {
-            console.log("authenticated")
             // Set auth token header auth
             const token = localStorage.jwtToken;
             setAuthToken(token);

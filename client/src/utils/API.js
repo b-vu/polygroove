@@ -196,7 +196,7 @@ export default {
     },
     getGeniusArtistInfo: function(name){
         return axios.get(
-            `https://cors-anywhere.herokuapp.com/https://api.genius.com/search?q=${name}`,
+            `https://serene-atoll-63730.herokuapp.com/https://api.genius.com/search?q=${name}`,
             {
                 headers: {
                   Authorization: `Bearer ${process.env.REACT_APP_GENIUS_TOKEN}`
@@ -204,7 +204,7 @@ export default {
             }
         ).then(res => {
             return axios.get(
-                `https://cors-anywhere.herokuapp.com/https://api.genius.com/artists/${res.data.response.hits[0].result.primary_artist.id}?text_format=html`,
+                `https://serene-atoll-63730.herokuapp.com/https://api.genius.com/artists/${res.data.response.hits[0].result.primary_artist.id}?text_format=html`,
             {
                 headers: {
                   Authorization: `Bearer ${process.env.REACT_APP_GENIUS_TOKEN}`
@@ -216,7 +216,7 @@ export default {
     getTrackInfo: function(name, id, token){
         return Promise.all([
             axios.get(
-                `https://cors-anywhere.herokuapp.com/https://api.genius.com/search?q=${name}`,
+                `https://serene-atoll-63730.herokuapp.com/https://api.genius.com/search?q=${name}`,
                 {
                     headers: {
                       Authorization: `Bearer ${process.env.REACT_APP_GENIUS_TOKEN}`
@@ -232,5 +232,20 @@ export default {
                 }
             )
         ])
+    },
+    checkFavorites: function(userID){
+        return axios.get(`/api/favorites/artist/${userID}`);
+    },
+    addFavoriteArtist: function(userID, artistData){
+        return axios.post(`/api/favorites/artist/${userID}`, artistData);
+    },
+    removeFavoriteArtist: function(userID, artistData){
+        return axios.put(`/api/favorites/artist/${userID}`, artistData);
+    },
+    addFavoriteAlbum: function(userID, albumData){
+        return axios.post(`/api/favorites/album/${userID}`, albumData);
+    },
+    removeFavoriteAlbum: function(userID, albumData){
+        return axios.put(`/api/favorites/album/${userID}`, albumData);
     }
 }

@@ -17,7 +17,10 @@ const UserSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  favoriteArtists: [{ name: String, id: String }],
+  favoriteAlbums: [{ name: String, id: String }],
+  favoriteTracks: [{ name: String, id: String }]
 });
 
 const User = mongoose.model("users", UserSchema);
