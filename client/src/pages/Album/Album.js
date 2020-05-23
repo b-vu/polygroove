@@ -117,7 +117,7 @@ const Album = () => {
                 });
             }
             else{
-                API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, id: state.currentAlbum.id, rating: value }).then(res => {
+                API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, artist: state.currentAlbum.artists[0].name, id: state.currentAlbum.id, rating: value, image: state.currentAlbum.images[0].url }).then(res => {
                     console.log(res);
                 });
             }
@@ -132,7 +132,7 @@ const Album = () => {
             const btnState = event.currentTarget.getAttribute("data-state");
             
             if(btnState === "not-favorite"){
-                API.addFavoriteAlbum(state.user.id, { name: state.currentAlbum.name, id: state.currentAlbum.id }).then(res => {
+                API.addFavoriteAlbum(state.user.id, { name: state.currentAlbum.name, artist: state.currentAlbum.artists[0].name, id: state.currentAlbum.id, image: state.currentAlbum.images[0].url }).then(res => {
                     API.checkFavorites(state.user.id).then(res => {
                         checkFavorites(res.data.favoriteAlbums);
                         dispatch({
