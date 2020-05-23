@@ -20,7 +20,9 @@ const UserSchema = new Schema({
   },
   favoriteArtists: [{ name: String, id: String }],
   favoriteAlbums: [{ name: String, id: String }],
-  favoriteTracks: [{ name: String, id: String }]
+  favoriteTracks: [{ name: String, id: String }],
+  albumRatings: [{ name: String, id: String, rating: Number }],
+  trackRatings: [{ name: String, id: String, rating: Number }]
 });
 
 const User = mongoose.model("users", UserSchema);

@@ -27,6 +27,25 @@ const Track = () => {
                 currentTrack: trackArray
             });
         })
+
+        if(state.isAuthenticated && !state.favoriteTracks.length){
+            API.checkFavorites(state.user.id).then(res => {
+                checkFavorites(res.data.favoriteTracks);
+            });
+        }
+        else{
+            checkFavorites(state.favoriteTracks);
+        }
+
+        if(state.isAuthenticated && !state.ratedTracks.length){
+            API.getRatings(state.user.id).then(res => {
+                console.log(res.data.trackRatings);
+                checkRatings(res.data.trackRatings);
+            });
+        }
+        else{
+            checkRatings(state.ratedTracks);
+        }
     }, [name]);
 
     const msToMinutes = ms => {
@@ -47,9 +66,9 @@ const Track = () => {
         if(state.isAuthenticated){
             const value = parseInt(event.currentTarget.getAttribute("data-value"));
             const values = document.querySelectorAll(".user-rating");
-            const state = event.currentTarget.firstElementChild.getAttribute("data-state");
+            const starState = event.currentTarget.firstElementChild.getAttribute("data-state");
 
-            if(state === "empty"){
+            if(starState === "empty"){
                 for(const rating of values){
                     if(value >= parseInt(rating.getAttribute("data-value"))){
                         rating.setAttribute("class", event.currentTarget.firstElementChild.getAttribute("data-fill"));
@@ -65,6 +84,17 @@ const Track = () => {
                     }
                 }
             }
+
+            if(state.isTrackRated){
+                API.editTrackRating(state.user.id, { id: state.currentTrack[1].id, rating: value }).then(res => {
+                    console.log(res);
+                });
+            }
+            else{
+                API.addTrackRating(state.user.id, { name: state.currentTrack[1].name, id: state.currentTrack[1].id, rating: value }).then(res => {
+                    console.log(res);
+                });
+            }
         }   
         else{
             window.location.assign("/register");
@@ -73,21 +103,106 @@ const Track = () => {
 
     const handleFavorite = event => {
         if(state.isAuthenticated){
-            const state = event.currentTarget.getAttribute("data-state");
-
-            if(state === "not-favorite"){
-                event.currentTarget.setAttribute("data-state", "favorite");
-                event.currentTarget.setAttribute("class", event.currentTarget.getAttribute("data-is"));
-                event.currentTarget.innerHTML = "Favorited&nbsp; <i class='fas fa-heart'></i>"
+            const btnState = event.currentTarget.getAttribute("data-state");
+            
+            if(btnState === "not-favorite"){
+                API.addFavoriteTrack(state.user.id, { name: state.currentTrack[1].name, id: state.currentTrack[1].id }).then(res => {
+                    API.checkFavorites(state.user.id).then(res => {
+                        checkFavorites(res.data.favoriteTracks);
+                        dispatch({
+                            type: "UPDATE_FAVORITE_TRACKS",
+                            favoriteTracks: res.data.favoriteTracks
+                        });
+                    });
+                })
             }
             else{
-                event.currentTarget.setAttribute("data-state", "not-favorite");
-                event.currentTarget.setAttribute("class", event.currentTarget.getAttribute("data-not"));
-                event.currentTarget.innerHTML = "Favorite&nbsp; <i class='fas fa-heart'></i>"
+                API.removeFavoriteTrack(state.user.id, { id: state.currentTrack[1].id }).then(res => {
+                    API.checkFavorites(state.user.id).then(res => {
+                        checkFavorites(res.data.favoriteTracks);
+                        dispatch({
+                            type: "UPDATE_FAVORITE_TRACKS",
+                            favoriteTracks: res.data.favoriteTracks
+                        });
+                    });
+                })
             }
         }
         else{
             window.location.assign("/register");
+        }
+    }
+
+    const checkFavorites = array => {
+        if(!array.length){
+            dispatch({
+                type: "UPDATE_ISFAVORITETRACK",
+                isFavoriteTrack: false
+            });
+        }
+
+        for(const track of array){
+            if(track.id === id){
+                return dispatch({
+                    type: "UPDATE_ISFAVORITETRACK",
+                    isFavoriteTrack: true
+                });
+            }
+            else{
+                dispatch({
+                    type: "UPDATE_ISFAVORITETRACK",
+                    isFavoriteTrack: false
+                });
+            }
+        }
+    }
+
+    const checkRatings = array => {
+        if(!array.length){
+            updateStars(0);
+            return dispatch({
+                type: "UPDATE_ISTRACKRATED",
+                isTrackRated: false
+            })
+        }
+
+        for(const rating of array){
+            if(rating.id === id){
+                updateStars(rating.rating);
+                return dispatch({
+                    type: "UPDATE_ISTRACKRATED",
+                    isTrackRated: true
+                });
+            }
+        }
+
+        updateStars(0);
+        return dispatch({
+            type: "UPDATE_ISTRACKRATED",
+            isTrackRated: false
+        });
+    }
+
+    const updateStars = number => {
+        const value = document.querySelectorAll(".user-rating");
+        console.log(number)
+
+        if(!number){
+            for(const star of value){
+                star.setAttribute("class", "far fa-star user-rating");
+                star.setAttribute("data-state", "empty");
+            }
+        }
+
+        for(const star of value){
+            if(number >= parseInt(star.getAttribute("data-value"))){
+                star.setAttribute("class", "fas fa-star user-rating");
+                star.setAttribute("data-state", "fill");
+            }
+            else{
+                star.setAttribute("class", "far fa-star user-rating");
+                star.setAttribute("data-state", "empty");
+            }
         }
     }
 
@@ -140,9 +255,17 @@ const Track = () => {
                                 </span>
                             </ul>
                             <br/>
-                            <button onClick={handleFavorite} data-state="not-favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-outlined is-rounded">
-                                <span>Favorite&nbsp; <i className="fas fa-heart"></i></span>
-                            </button>
+                            {
+                                state.isFavoriteTrack
+                                ?
+                                <button onClick={handleFavorite} data-state="favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-rounded favorite">
+                                    <span>Favorited&nbsp; <i className='fas fa-heart'></i></span>
+                                </button>
+                                :
+                                <button onClick={handleFavorite} data-state="not-favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-outlined is-rounded">
+                                    <span>Favorite&nbsp; <i className="fas fa-heart"></i></span>
+                                </button>
+                            }
                         </aside>
                     </Box>            
                 </div>

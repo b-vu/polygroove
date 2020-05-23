@@ -11,4 +11,9 @@ router.route("/album/:id")
     .post(favController.addFavAlbum)
     .put(favController.removeFavAlbum);
 
+router.route("/track/:id")
+    .get(favController.getFavorites)
+    .post(favController.addFavTrack)
+    .put(favController.removeFavTrack);
+
 module.exports = router;

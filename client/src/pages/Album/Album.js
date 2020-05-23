@@ -52,6 +52,16 @@ const Album = () => {
         else{
             checkFavorites(state.favoriteAlbums);
         }
+
+        if(state.isAuthenticated && !state.ratedAlbums.length){
+            API.getRatings(state.user.id).then(res => {
+                console.log(res.data.albumRatings);
+                checkRatings(res.data.albumRatings);
+            });
+        }
+        else{
+            checkRatings(state.ratedAlbums);
+        }
     }, [id]);
 
     const formatReleaseDate = date => {
@@ -82,9 +92,9 @@ const Album = () => {
         if(state.isAuthenticated){
             const value = parseInt(event.currentTarget.getAttribute("data-value"));
             const values = document.querySelectorAll(".user-rating");
-            const state = event.currentTarget.firstElementChild.getAttribute("data-state");
+            const starState = event.currentTarget.firstElementChild.getAttribute("data-state");
 
-            if(state === "empty"){
+            if(starState === "empty"){
                 for(const rating of values){
                     if(value >= parseInt(rating.getAttribute("data-value"))){
                         rating.setAttribute("class", event.currentTarget.firstElementChild.getAttribute("data-fill"));
@@ -99,6 +109,17 @@ const Album = () => {
                         rating.setAttribute("data-state", "empty");
                     }
                 }
+            }
+
+            if(state.isAlbumRated){
+                API.editAlbumRating(state.user.id, { id: state.currentAlbum.id, rating: value }).then(res => {
+                    console.log(res);
+                });
+            }
+            else{
+                API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, id: state.currentAlbum.id, rating: value }).then(res => {
+                    console.log(res);
+                });
             }
         }
         else{
@@ -158,6 +179,54 @@ const Album = () => {
                     type: "UPDATE_ISFAVORITEALBUM",
                     isFavoriteAlbum: false
                 });
+            }
+        }
+    }
+
+    const checkRatings = array => {
+        if(!array.length){
+            updateStars(0);
+            return dispatch({
+                type: "UPDATE_ISALBUMRATED",
+                isAlbumRated: false
+            })
+        }
+
+        for(const rating of array){
+            if(rating.id === id){
+                updateStars(rating.rating);
+                return dispatch({
+                    type: "UPDATE_ISALBUMRATED",
+                    isAlbumRated: true
+                });
+            }
+        }
+
+        updateStars(0);
+        return dispatch({
+            type: "UPDATE_ISALBUMRATED",
+            isAlbumRated: false
+        });
+    }
+
+    const updateStars = number => {
+        const value = document.querySelectorAll(".user-rating");
+
+        if(!number){
+            for(const star of value){
+                star.setAttribute("class", "far fa-star user-rating");
+                star.setAttribute("data-state", "empty");
+            }
+        }
+
+        for(const star of value){
+            if(number >= parseInt(star.getAttribute("data-value"))){
+                star.setAttribute("class", "fas fa-star user-rating");
+                star.setAttribute("data-state", "fill");
+            }
+            else{
+                star.setAttribute("class", "far fa-star user-rating");
+                star.setAttribute("data-state", "empty");
             }
         }
     }

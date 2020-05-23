@@ -30,5 +30,17 @@ module.exports = {
         .update({ _id: req.params.id }, { $pull: { favoriteAlbums: req.body } })
         .then(dbResponse => res.json(dbResponse))
         .catch(err => res.status(422).json(err));
+    },
+    addFavTrack: function(req, res){
+        db.User
+        .update({ _id: req.params.id }, { $push: { favoriteTracks: req.body } })
+        .then(dbResponse => res.json(dbResponse))
+        .catch(err => res.status(422).json(err));
+    },
+    removeFavTrack: function(req, res){
+        db.User
+        .update({ _id: req.params.id }, { $pull: { favoriteTracks: req.body } })
+        .then(dbResponse => res.json(dbResponse))
+        .catch(err => res.status(422).json(err));
     }
 }

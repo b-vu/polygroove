@@ -89,6 +89,36 @@ const reducer = (state, action) => {
                 ...state,
                 isFavoriteAlbum: action.isFavoriteAlbum
             }
+        case "UPDATE_FAVORITE_TRACKS":
+            return {
+                ...state,
+                favoriteTracks: action.favoriteTracks
+            }
+        case "UPDATE_ISFAVORITETRACK":
+            return{
+                ...state,
+                isFavoriteTrack: action.isFavoriteTrack
+            }
+        case "UPDATE_RATED_ALBUMS":
+            return {
+                ...state,
+                ratedAlbums: action.ratedAlbums
+            }
+        case "UPDATE_ISALBUMRATED":
+            return{
+                ...state,
+                isAlbumRated: action.isAlbumRated
+            }
+        case "UPDATE_RATED_TRACKS":
+            return {
+                ...state,
+                ratedTracks: action.ratedTracks
+            }
+        case "UPDATE_ISTRACKRATED":
+            return{
+                ...state,
+                isTrackRated: action.isTrackRated
+            }
         default:
             return state;
     }
@@ -119,7 +149,13 @@ const ProjectProvider = ({ value = [], ...props}) => {
         favoriteArtists: [],
         isFavoriteArtist: false,
         favoriteAlbums: [],
-        isFavoriteAlbum: false
+        isFavoriteAlbum: false,
+        favoriteTracks: [],
+        isFavoriteTrack: false,
+        ratedAlbums: [],
+        isAlbumRated: false,
+        ratedTracks: [],
+        isTrackRated: false
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

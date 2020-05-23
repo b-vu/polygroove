@@ -247,5 +247,26 @@ export default {
     },
     removeFavoriteAlbum: function(userID, albumData){
         return axios.put(`/api/favorites/album/${userID}`, albumData);
+    },
+    addFavoriteTrack: function(userID, trackData){
+        return axios.post(`/api/favorites/track/${userID}`, trackData);
+    },
+    removeFavoriteTrack: function(userID, trackData){
+        return axios.put(`/api/favorites/track/${userID}`, trackData);
+    },
+    getRatings: function(userID){
+        return axios.get(`/api/ratings/album/${userID}`);
+    },
+    addAlbumRating: function(userID, albumRating){
+        return axios.post(`/api/ratings/album/${userID}`, albumRating);
+    },
+    editAlbumRating: function(userID, albumRating){
+        return axios.put(`/api/ratings/album/${userID}`, albumRating);
+    },
+    addTrackRating: function(userID, trackRating){
+        return axios.post(`/api/ratings/track/${userID}`, trackRating);
+    },
+    editTrackRating: function(userID, trackRating){
+        return axios.put(`/api/ratings/track/${userID}`, trackRating);
     }
 }
