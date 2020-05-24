@@ -47,6 +47,10 @@ const Album = () => {
         if(state.isAuthenticated && !state.favoriteAlbums.length){
             API.checkFavorites(state.user.id).then(res => {
                 checkFavorites(res.data.favoriteAlbums);
+                dispatch({
+                    type: "UPDATE_FAVORITE_ALBUMS",
+                    favoriteAlbums: res.data.favoriteAlbums
+                });
             });
         }
         else{
@@ -55,8 +59,11 @@ const Album = () => {
 
         if(state.isAuthenticated && !state.ratedAlbums.length){
             API.getRatings(state.user.id).then(res => {
-                console.log(res.data.albumRatings);
                 checkRatings(res.data.albumRatings);
+                dispatch({
+                    type: "UPDATE_RATED_ALBUMS",
+                    ratedAlbums: res.data.albumRatings
+                });
             });
         }
         else{
@@ -113,12 +120,24 @@ const Album = () => {
 
             if(state.isAlbumRated){
                 API.editAlbumRating(state.user.id, { id: state.currentAlbum.id, rating: value }).then(res => {
-                    console.log(res);
+                    API.getRatings(state.user.id).then(res => {
+                        checkRatings(res.data.albumRatings);
+                        dispatch({
+                            type: "UPDATE_RATED_ALBUMS",
+                            ratedAlbums: res.data.albumRatings
+                        });
+                    });
                 });
             }
             else{
                 API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, artist: state.currentAlbum.artists[0].name, id: state.currentAlbum.id, rating: value, image: state.currentAlbum.images[0].url }).then(res => {
-                    console.log(res);
+                    API.getRatings(state.user.id).then(res => {
+                        checkRatings(res.data.albumRatings);
+                        dispatch({
+                            type: "UPDATE_RATED_ALBUMS",
+                            ratedAlbums: res.data.albumRatings
+                        });
+                    });
                 });
             }
         }
@@ -233,6 +252,7 @@ const Album = () => {
 
     return(
         <Box>
+            {console.log(state)}
             <Column>
                 <div className="column is-2">
                     <Box>

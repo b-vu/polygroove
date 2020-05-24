@@ -115,9 +115,18 @@ const reducer = (state, action) => {
                 ratedTracks: action.ratedTracks
             }
         case "UPDATE_ISTRACKRATED":
-            return{
+            return {
                 ...state,
                 isTrackRated: action.isTrackRated
+            }
+        case "UPDATE_FEED":
+            return {
+                ...state,
+                favoriteArtists: action.favoriteArtists,
+                favoriteAlbums: action.favoriteAlbums,
+                favoriteTracks: action.favoriteTracks,
+                ratedAlbums: action.ratedAlbums,
+                ratedTracks: action.ratedTracks
             }
         default:
             return state;
@@ -155,7 +164,8 @@ const ProjectProvider = ({ value = [], ...props}) => {
         ratedAlbums: [],
         isAlbumRated: false,
         ratedTracks: [],
-        isTrackRated: false
+        isTrackRated: false,
+        feed: ""
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

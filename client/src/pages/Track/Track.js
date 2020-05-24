@@ -31,6 +31,10 @@ const Track = () => {
         if(state.isAuthenticated && !state.favoriteTracks.length){
             API.checkFavorites(state.user.id).then(res => {
                 checkFavorites(res.data.favoriteTracks);
+                dispatch({
+                    type: "UPDATE_FAVORITE_TRACKS",
+                    favoriteTracks: res.data.favoriteTracks
+                });
             });
         }
         else{
@@ -39,8 +43,11 @@ const Track = () => {
 
         if(state.isAuthenticated && !state.ratedTracks.length){
             API.getRatings(state.user.id).then(res => {
-                console.log(res.data.trackRatings);
                 checkRatings(res.data.trackRatings);
+                dispatch({
+                    type: "UPDATE_RATED_TRACKS",
+                    ratedTracks: res.data.trackRatings
+                })
             });
         }
         else{
@@ -87,12 +94,24 @@ const Track = () => {
 
             if(state.isTrackRated){
                 API.editTrackRating(state.user.id, { id: state.currentTrack[1].id, rating: value }).then(res => {
-                    console.log(res);
+                    API.getRatings(state.user.id).then(res => {
+                        checkRatings(res.data.trackRatings);
+                        dispatch({
+                            type: "UPDATE_RATED_TRACKS",
+                            ratedTracks: res.data.trackRatings
+                        })
+                    });
                 });
             }
             else{
                 API.addTrackRating(state.user.id, { name: state.currentTrack[1].name, artist: state.currentTrack[1].artists[0].name, id: state.currentTrack[1].id, rating: value, image: state.currentTrack[1].album.images[0].url }).then(res => {
-                    console.log(res);
+                    API.getRatings(state.user.id).then(res => {
+                        checkRatings(res.data.trackRatings);
+                        dispatch({
+                            type: "UPDATE_RATED_TRACKS",
+                            ratedTracks: res.data.trackRatings
+                        })
+                    });
                 });
             }
         }   
@@ -185,8 +204,7 @@ const Track = () => {
 
     const updateStars = number => {
         const value = document.querySelectorAll(".user-rating");
-        console.log(number)
-
+        
         if(!number){
             for(const star of value){
                 star.setAttribute("class", "far fa-star user-rating");

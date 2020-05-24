@@ -84,6 +84,10 @@ const Artist = () => {
         if(state.isAuthenticated && !state.favoriteArtists.length){
             API.checkFavorites(state.user.id).then(res => {
                 checkFavorites(res.data.favoriteArtists);
+                dispatch({
+                    type: "UPDATE_FAVORITE_ARTISTS",
+                    favoriteArtists: res.data.favoriteArtists
+                });
             });
         }
         else{
