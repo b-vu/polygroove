@@ -5,18 +5,13 @@ import { Link, useParams } from "react-router-dom";
 import API from "../../utils/API";
 import Box from "../../components/Box/Box";
 import Column from "../../components/Column/Column";
+import FeedCard from "../../components/FeedCard/FeedCard";
 
 const Feed = () => {
     const [state, dispatch] = useProjectContext();
 
     useEffect(() => {
-        getList();
-    }, []);
-
-    const getList = () => {
-        const id = state.user.id;
-
-        API.checkFavorites(id).then(res => {
+        API.checkFavorites(state.user.id).then(res => {
             dispatch({
                 type: "UPDATE_FEED",
                 favoriteArtists: res.data.favoriteArtists,
@@ -26,6 +21,35 @@ const Feed = () => {
                 ratedTracks: res.data.trackRatings
             });
         });
+    }, []);
+
+    const handleFeedChange = event => {
+        const feed = event.currentTarget.getAttribute("name");
+
+        let feedDisplayArr;
+
+        switch(feed){
+            case "❤️ Favorite Artists ❤️":
+                feedDisplayArr = state.favoriteArtists;
+                break;
+            case "favAlbums":
+                feedDisplayArr = state.favoriteAlbums;
+                break;
+            case "favTracks":
+                feedDisplayArr = state.favoriteTracks;
+                break;
+            case "albumReviews":
+                feedDisplayArr = state.ratedAlbums;
+                break;
+            default:
+                feedDisplayArr = state.ratedTracks;
+        }
+
+        dispatch({
+            type: "UPDATE_FEED_STATE",
+            feed: feed
+        });
+        
     }
 
     return(
@@ -36,20 +60,20 @@ const Feed = () => {
                     <Box>
                         <aside className="menu has-text-centered">
                             <p className="menu-label">
-                                Your Favorites
+                                ❤️ Your Favorites ❤️
                             </p>
                             <ul className="menu-list">
-                                <a href="#"><li>Artists</li></a>
-                                <a href="#"><li>Albums</li></a>
-                                <a href="#"><li>Tracks</li></a>
+                                <a href="#" onClick={handleFeedChange} name="❤️ Favorite Artists ❤️"><li>Artists</li></a>
+                                <a href="#" onClick={handleFeedChange} name="favAlbums"><li>Albums</li></a>
+                                <a href="#" onClick={handleFeedChange} name="favTracks"><li>Tracks</li></a>
                             </ul>
                             <br/>
                             <p className="menu-label">
                                 Your Reviews
                             </p>
                             <ul className="menu-list">
-                                <a href="#"><li>Albums</li></a>
-                                <a href="#"><li>Tracks</li></a>
+                                <a href="#" onClick={handleFeedChange} name="albumReviews"><li>Albums</li></a>
+                                <a href="#" onClick={handleFeedChange} name="trackReviews"><li>Tracks</li></a>
                             </ul>
                         </aside>
                     </Box>            
@@ -57,16 +81,26 @@ const Feed = () => {
 
                 <div className="column is-8">
                     <Box>
-                        <Column>
-                            <div className="column is-5">
-                                
-                            </div>
-                            <div className="column is-7">
-                                {
-                                    state.feed
-                                }
-                            </div>
-                        </Column>
+                        <h1 className="has-text-centered title">{state.feed}</h1>
+                        <div className="columns is-multiline">
+                            {
+                                state.favoriteArtists.length && state.feed === "❤️ Favorite Artists ❤️"
+                                ?
+                                state.favoriteArtists.map((item, index) => 
+                                    <FeedCard
+                                        key={index}
+                                        name={item.name ? item.name : null}
+                                        artist={item.artist}
+                                        artistID={item.artistID}
+                                        id={item.id ? item.id : null}
+                                        image={item.image}
+                                        rating={item.rating ? item.rating : null}
+                                    />
+                                )
+                                :
+                                null
+                            }
+                        </div>                          
                     </Box>
                 </div>
             </Column>

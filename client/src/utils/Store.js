@@ -128,6 +128,11 @@ const reducer = (state, action) => {
                 ratedAlbums: action.ratedAlbums,
                 ratedTracks: action.ratedTracks
             }
+        case "UPDATE_FEED_STATE":
+            return {
+                ...state,
+                feed: action.feed
+            }
         default:
             return state;
     }
@@ -165,7 +170,7 @@ const ProjectProvider = ({ value = [], ...props}) => {
         isAlbumRated: false,
         ratedTracks: [],
         isTrackRated: false,
-        feed: ""
+        feed: "❤️ Favorite Artists ❤️"
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

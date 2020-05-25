@@ -18,11 +18,11 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  favoriteArtists: [{ name: String, id: String, image: String }],
-  favoriteAlbums: [{ name: String, artist: String, id: String, image: String }],
-  favoriteTracks: [{ name: String, artist: String, id: String, image: String }],
-  albumRatings: [{ name: String, artist: String, id: String, rating: Number, image: String }],
-  trackRatings: [{ name: String, artist: String, id: String, rating: Number, image: String }]
+  favoriteArtists: [{ artist: String, artistID: String, image: String }],
+  favoriteAlbums: [{ name: String, id: String, artist: String, artistID: String, image: String }],
+  favoriteTracks: [{ name: String, id: String, artist: String, artistID: String, image: String }],
+  albumRatings: [{ name: String, id: String, artist: String, artistID: String, rating: Number, image: String }],
+  trackRatings: [{ name: String, id: String, artist: String, artistID: String, rating: Number, image: String }]
 });
 
 const User = mongoose.model("users", UserSchema);

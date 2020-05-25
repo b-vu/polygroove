@@ -104,7 +104,7 @@ const Track = () => {
                 });
             }
             else{
-                API.addTrackRating(state.user.id, { name: state.currentTrack[1].name, artist: state.currentTrack[1].artists[0].name, id: state.currentTrack[1].id, rating: value, image: state.currentTrack[1].album.images[0].url }).then(res => {
+                API.addTrackRating(state.user.id, { name: state.currentTrack[1].name, id: state.currentTrack[1].id, artist: state.currentTrack[1].artists[0].name, artistID: state.currentTrack[1].artists[0].id, rating: value, image: state.currentTrack[1].album.images[0].url }).then(res => {
                     API.getRatings(state.user.id).then(res => {
                         checkRatings(res.data.trackRatings);
                         dispatch({
@@ -125,7 +125,7 @@ const Track = () => {
             const btnState = event.currentTarget.getAttribute("data-state");
             
             if(btnState === "not-favorite"){
-                API.addFavoriteTrack(state.user.id, { name: state.currentTrack[1].name, artist: state.currentTrack[1].artists[0].name, id: state.currentTrack[1].id, image: state.currentTrack[1].album.images[0].url }).then(res => {
+                API.addFavoriteTrack(state.user.id, { name: state.currentTrack[1].name, id: state.currentTrack[1].id, artist: state.currentTrack[1].artists[0].name, artistID: state.currentTrack[1].artists[0].id, image: state.currentTrack[1].album.images[0].url }).then(res => {
                     API.checkFavorites(state.user.id).then(res => {
                         checkFavorites(res.data.favoriteTracks);
                         dispatch({

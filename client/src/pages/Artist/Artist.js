@@ -101,7 +101,7 @@ const Artist = () => {
             const btnState = event.currentTarget.getAttribute("data-state");
             
             if(btnState === "not-favorite"){
-                API.addFavoriteArtist(state.user.id, { name: state.currentArtist.name, id: state.currentArtist.id, image:state.currentArtist.image }).then(res => {
+                API.addFavoriteArtist(state.user.id, { artist: state.currentArtist.name, artistID: state.currentArtist.id, image:state.currentArtist.image }).then(res => {
                     API.checkFavorites(state.user.id).then(res => {
                         checkFavorites(res.data.favoriteArtists);
                         dispatch({
@@ -112,7 +112,7 @@ const Artist = () => {
                 })
             }
             else{
-                API.removeFavoriteArtist(state.user.id, { id: state.currentArtist.id }).then(res => {
+                API.removeFavoriteArtist(state.user.id, { artistID: state.currentArtist.id }).then(res => {
                     API.checkFavorites(state.user.id).then(res => {
                         checkFavorites(res.data.favoriteArtists);
                         dispatch({
@@ -137,7 +137,7 @@ const Artist = () => {
         }
 
         for(const artist of array){
-            if(artist.id === id){
+            if(artist.artistID === id){
                 return dispatch({
                     type: "UPDATE_ISFAVORITEARTIST",
                     isFavoriteArtist: true
