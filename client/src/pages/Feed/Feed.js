@@ -119,16 +119,38 @@ const Feed = () => {
 
         API.checkFavorites(state.user.id).then(res => {
             if((state.feedDisplay === "Highest" || state.feedDisplay === "Lowest" || state.feedDisplay === "1" || state.feedDisplay === "2" || state.feedDisplay === "3" || state.feedDisplay === "4" || state.feedDisplay === "5") && (feed === "❤️ Favorite Artists ❤️" || feed === "❤️ Favorite Albums ❤️" || feed === "❤️ Favorite Tracks ❤️")){
-                dispatch({
-                    type: "UPDATE_FEED_STATE",
-                    feed: feed,
-                    favoriteArtists: res.data.favoriteArtists,
-                    favoriteAlbums: res.data.favoriteAlbums,
-                    favoriteTracks: res.data.favoriteTracks,
-                    ratedAlbums: res.data.albumRatings,
-                    ratedTracks: res.data.trackRatings,
-                    feedDisplay: "Oldest"
-                });
+                const favArtists = res.data.favoriteArtists.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                const favAlbums = res.data.favoriteAlbums.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                const favTracks = res.data.favoriteTracks.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                const ratedAlbums = res.data.albumRatings.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                const ratedTracks = res.data.trackRatings.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                
+                if(state.feedSearch.length){    
+                    const arr = applySearch(favArtists, favAlbums, favTracks, ratedAlbums, ratedTracks, state.feedSearch);
+                    
+                    dispatch({
+                        type: "UPDATE_FEED_STATE",
+                        feed: feed,
+                        favoriteArtists: arr[0],
+                        favoriteAlbums: arr[1],
+                        favoriteTracks: arr[2],
+                        ratedAlbums: arr[3],
+                        ratedTracks: arr[4],
+                        feedDisplay: "Newest"
+                    })
+                }
+                else{
+                    dispatch({
+                        type: "UPDATE_FEED_STATE",
+                        feed: feed,
+                        favoriteArtists: favArtists,
+                        favoriteAlbums: favAlbums,
+                        favoriteTracks: favTracks,
+                        ratedAlbums: ratedAlbums,
+                        ratedTracks: ratedTracks,
+                        feedDisplay: "Newest"
+                    });
+                }
             }
             else{
                 dispatch({
@@ -224,14 +246,177 @@ const Feed = () => {
                     return;
             }
 
+            if(state.feedSearch.length){
+                const arr = applySearch(favArtists, favAlbums, favTracks, ratedAlbums, ratedTracks, state.feedSearch);
+                dispatch({
+                    type: "UPDATE_FEED",
+                    favoriteArtists: arr[0],
+                    favoriteAlbums: arr[1],
+                    favoriteTracks: arr[2],
+                    ratedAlbums: arr[3],
+                    ratedTracks: arr[4],
+                    feedDisplay: name
+                })
+            }
+            else{
+                dispatch({
+                    type: "UPDATE_FEED",
+                    favoriteArtists: favArtists,
+                    favoriteAlbums: favAlbums,
+                    favoriteTracks: favTracks,
+                    ratedAlbums: ratedAlbums,
+                    ratedTracks: ratedTracks,
+                    feedDisplay: name
+                });
+            }
+        });
+    }
+
+    const applySearch = (favArtists, favAlbums, favTracks, ratedAlbums, ratedTracks, searchValue) => {
+        const favArtistsSearch = favArtists.filter(artist =>
+            artist.artist.replace(/ /g, "").toLowerCase().includes(searchValue)
+        );
+
+        const favAlbumsSearch = favAlbums.filter(album =>
+            album.artist.replace(/ /g, "").toLowerCase().includes(searchValue) || 
+            album.name.replace(/ /g, "").toLowerCase().includes(searchValue)
+        );
+
+        const favTracksSearch = favTracks.filter(track =>
+            track.artist.replace(/ /g, "").toLowerCase().includes(searchValue) || 
+            track.name.replace(/ /g, "").toLowerCase().includes(searchValue)
+        );
+
+        const ratedAlbumsSearch = ratedAlbums.filter(album =>
+            album.artist.replace(/ /g, "").toLowerCase().includes(searchValue) || 
+            album.name.replace(/ /g, "").toLowerCase().includes(searchValue)
+        );
+
+        const ratedTracksSearch = ratedTracks.filter(track =>
+            track.artist.replace(/ /g, "").toLowerCase().includes(searchValue) || 
+            track.name.replace(/ /g, "").toLowerCase().includes(searchValue)
+        );
+
+        return [favArtistsSearch, favAlbumsSearch, favTracksSearch, ratedAlbumsSearch, ratedTracksSearch];
+    }
+
+    const handleSearchChange = event => {
+        const { name, value } = event.target;
+        const newValue = value.replace(/ /g, "").trim().toLowerCase();
+        let favArtists;
+        let favAlbums;
+        let favTracks;
+        let ratedAlbums;
+        let ratedTracks;
+
+        API.checkFavorites(state.user.id).then(res => {
+            switch(state.feedDisplay){
+                case "Alphabetical":
+                    favArtists = res.data.favoriteArtists.sort((a, b) => { return (a.artist.toLowerCase() < b.artist.toLowerCase() ? -1 : (a.artist.toLowerCase() > b.artist.toLowerCase()) ? 1 : 0) });
+                    favAlbums = res.data.favoriteAlbums.sort((a, b) => { return (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : 0) });
+                    favTracks = res.data.favoriteTracks.sort((a, b) => { return (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : 0) });
+                    ratedAlbums = res.data.albumRatings.sort((a, b) => { return (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : 0) });
+                    ratedTracks = res.data.trackRatings.sort((a, b) => { return (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : 0) });
+                    break;
+                case "Oldest":
+                    favArtists = res.data.favoriteArtists.sort((a, b) => { return (a.date.toLowerCase() < b.date.toLowerCase() ? -1 : (a.date.toLowerCase() > b.date.toLowerCase()) ? 1 : 0) });
+                    favAlbums = res.data.favoriteAlbums.sort((a, b) => { return (a.date.toLowerCase() < b.date.toLowerCase() ? -1 : (a.date.toLowerCase() > b.date.toLowerCase()) ? 1 : 0) });
+                    favTracks = res.data.favoriteTracks.sort((a, b) => { return (a.date.toLowerCase() < b.date.toLowerCase() ? -1 : (a.date.toLowerCase() > b.date.toLowerCase()) ? 1 : 0) });
+                    ratedAlbums = res.data.albumRatings.sort((a, b) => { return (a.date.toLowerCase() < b.date.toLowerCase() ? -1 : (a.date.toLowerCase() > b.date.toLowerCase()) ? 1 : 0) });
+                    ratedTracks = res.data.trackRatings.sort((a, b) => { return (a.date.toLowerCase() < b.date.toLowerCase() ? -1 : (a.date.toLowerCase() > b.date.toLowerCase()) ? 1 : 0) });
+                    break;
+                case "Newest":
+                    favArtists = res.data.favoriteArtists.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                    favAlbums = res.data.favoriteAlbums.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                    favTracks = res.data.favoriteTracks.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                    ratedAlbums = res.data.albumRatings.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                    ratedTracks = res.data.trackRatings.sort((a, b) => { return (a.date.toLowerCase() > b.date.toLowerCase() ? -1 : (a.date.toLowerCase() < b.date.toLowerCase()) ? 1 : 0) });
+                    break;
+                case "1":
+                    favArtists = res.data.favoriteArtists;
+                    favAlbums = res.data.favoriteAlbums;
+                    favTracks = res.data.favoriteTracks;
+                    ratedAlbums = res.data.albumRatings.filter(rating => rating.rating === 1);
+                    ratedTracks = res.data.trackRatings.filter(rating => rating.rating === 1);
+                    break;
+                case "2":
+                    favArtists = res.data.favoriteArtists;
+                    favAlbums = res.data.favoriteAlbums;
+                    favTracks = res.data.favoriteTracks;
+                    ratedAlbums = res.data.albumRatings.filter(rating => rating.rating === 2);
+                    ratedTracks = res.data.trackRatings.filter(rating => rating.rating === 2);
+                    break;
+                case "3":
+                    favArtists = res.data.favoriteArtists;
+                    favAlbums = res.data.favoriteAlbums;
+                    favTracks = res.data.favoriteTracks;
+                    ratedAlbums = res.data.albumRatings.filter(rating => rating.rating === 3);
+                    ratedTracks = res.data.trackRatings.filter(rating => rating.rating === 3);
+                    break;
+                case "4":
+                    favArtists = res.data.favoriteArtists;
+                    favAlbums = res.data.favoriteAlbums;
+                    favTracks = res.data.favoriteTracks;
+                    ratedAlbums = res.data.albumRatings.filter(rating => rating.rating === 4);
+                    ratedTracks = res.data.trackRatings.filter(rating => rating.rating === 4);
+                    break;
+                case "5":
+                    favArtists = res.data.favoriteArtists;
+                    favAlbums = res.data.favoriteAlbums;
+                    favTracks = res.data.favoriteTracks;
+                    ratedAlbums = res.data.albumRatings.filter(rating => rating.rating === 5);
+                    ratedTracks = res.data.trackRatings.filter(rating => rating.rating === 5);
+                    break;
+                case "Lowest":
+                    favArtists = res.data.favoriteArtists;
+                    favAlbums = res.data.favoriteAlbums;
+                    favTracks = res.data.favoriteTracks;
+                    ratedAlbums = res.data.albumRatings.sort((a, b) => { return (a.rating < b.rating ? -1 : (a.rating > b.rating) ? 1 : 0) });
+                    ratedTracks = res.data.trackRatings.sort((a, b) => { return (a.rating < b.rating ? -1 : (a.rating > b.rating) ? 1 : 0) });
+                    break;
+                case "Highest":
+                    favArtists = res.data.favoriteArtists;
+                    favAlbums = res.data.favoriteAlbums;
+                    favTracks = res.data.favoriteTracks;
+                    ratedAlbums = res.data.albumRatings.sort((a, b) => { return (a.rating > b.rating ? -1 : (a.rating < b.rating) ? 1 : 0) });
+                    ratedTracks = res.data.trackRatings.sort((a, b) => { return (a.rating > b.rating ? -1 : (a.rating < b.rating) ? 1 : 0) });
+                    break;
+                default:
+                    return
+            }
+
+            const favArtistsSearch = favArtists.filter(artist =>
+                artist.artist.replace(/ /g, "").toLowerCase().includes(newValue)
+            );
+
+            const favAlbumsSearch = favAlbums.filter(album =>
+                album.artist.replace(/ /g, "").toLowerCase().includes(newValue) || 
+                album.name.replace(/ /g, "").toLowerCase().includes(newValue)
+            );
+
+            const favTracksSearch = favTracks.filter(track =>
+                track.artist.replace(/ /g, "").toLowerCase().includes(newValue) || 
+                track.name.replace(/ /g, "").toLowerCase().includes(newValue)
+            );
+
+            const ratedAlbumsSearch = ratedAlbums.filter(album =>
+                album.artist.replace(/ /g, "").toLowerCase().includes(newValue) || 
+                album.name.replace(/ /g, "").toLowerCase().includes(newValue)
+            );
+
+            const ratedTracksSearch = ratedTracks.filter(track =>
+                track.artist.replace(/ /g, "").toLowerCase().includes(newValue) || 
+                track.name.replace(/ /g, "").toLowerCase().includes(newValue)
+            );
+
             dispatch({
-                type: "UPDATE_FEED",
-                favoriteArtists: favArtists,
-                favoriteAlbums: favAlbums,
-                favoriteTracks: favTracks,
-                ratedAlbums: ratedAlbums,
-                ratedTracks: ratedTracks,
-                feedDisplay: name
+                type: "UPDATE_FEED_SEARCH",
+                [name]: value,
+                favoriteArtists: favArtistsSearch,
+                favoriteAlbums: favAlbumsSearch,
+                favoriteTracks: favTracksSearch,
+                ratedAlbums: ratedAlbumsSearch,
+                ratedTracks: ratedTracksSearch
             });
         });
     }
@@ -453,6 +638,12 @@ const Feed = () => {
                                     </div>
                                 </div>
                             }
+                            <br/><br/>
+                            <div className="field">
+                                <div className="control">
+                                    <input name="feedSearch" onChange={handleSearchChange} className="input is-success" type="text" placeholder="Search"/>
+                                </div>
+                            </div>
                         </aside>
                     </Box>            
                 </div>
