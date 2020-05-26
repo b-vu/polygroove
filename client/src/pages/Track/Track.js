@@ -230,6 +230,20 @@ const Track = () => {
                 <div className="column is-2">
                     <Box>
                         <aside className="menu has-text-centered">
+                            <br/>
+                            {
+                                state.isFavoriteTrack
+                                ?
+                                <button onClick={handleFavorite} data-state="favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-rounded favorite">
+                                    <span>Favorited&nbsp; <i className='fas fa-heart'></i></span>
+                                </button>
+                                :
+                                <button onClick={handleFavorite} data-state="not-favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-outlined is-rounded">
+                                    <span>Favorite&nbsp; <i className="fas fa-heart"></i></span>
+                                </button>
+                            }
+                            <br/>
+                            <br/>
                             <p className="menu-label">
                                 Your Track Rating
                             </p>
@@ -272,18 +286,6 @@ const Track = () => {
                                     <i className="far fa-star"></i>
                                 </span>
                             </ul>
-                            <br/>
-                            {
-                                state.isFavoriteTrack
-                                ?
-                                <button onClick={handleFavorite} data-state="favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-rounded favorite">
-                                    <span>Favorited&nbsp; <i className='fas fa-heart'></i></span>
-                                </button>
-                                :
-                                <button onClick={handleFavorite} data-state="not-favorite" data-not="button is-danger is-outlined is-rounded" data-is="button is-danger is-rounded favorite" className="button is-danger is-outlined is-rounded">
-                                    <span>Favorite&nbsp; <i className="fas fa-heart"></i></span>
-                                </button>
-                            }
                         </aside>
                     </Box>            
                 </div>

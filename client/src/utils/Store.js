@@ -126,12 +126,19 @@ const reducer = (state, action) => {
                 favoriteAlbums: action.favoriteAlbums,
                 favoriteTracks: action.favoriteTracks,
                 ratedAlbums: action.ratedAlbums,
-                ratedTracks: action.ratedTracks
+                ratedTracks: action.ratedTracks,
+                feedDisplay: action.feedDisplay
             }
         case "UPDATE_FEED_STATE":
             return {
                 ...state,
-                feed: action.feed
+                feed: action.feed,
+                favoriteArtists: action.favoriteArtists || state.favoriteArtists,
+                favoriteAlbums: action.favoriteAlbums || state.favoriteAlbums,
+                favoriteTracks: action.favoriteTracks || state.favoriteTracks,
+                ratedAlbums: action.ratedAlbums || state.ratedAlbums,
+                ratedTracks: action.ratedTracks || state.ratedTracks,
+                feedDisplay: action.feedDisplay
             }
         default:
             return state;
@@ -170,7 +177,8 @@ const ProjectProvider = ({ value = [], ...props}) => {
         isAlbumRated: false,
         ratedTracks: [],
         isTrackRated: false,
-        feed: "❤️ Favorite Artists ❤️"
+        feed: "❤️ Favorite Artists ❤️",
+        feedDisplay: "Oldest"
     });
 
     return <Provider value={[state, dispatch]} {...props} />;
