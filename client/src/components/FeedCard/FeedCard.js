@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./FeedCard.css";
 import { Link } from "react-router-dom";
 

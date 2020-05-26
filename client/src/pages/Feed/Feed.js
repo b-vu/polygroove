@@ -292,7 +292,86 @@ const Feed = () => {
                                 <div className="dropdown is-hoverable">
                                     <div className="dropdown-trigger">
                                         <button className="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-                                        <span>{state.feedDisplay}</span>
+                                        <span>
+                                            {
+                                                state.feedDisplay !== "1" && state.feedDisplay !== "2" && state.feedDisplay !== "3" && state.feedDisplay !== "4" && state.feedDisplay !== "5"
+                                                ?
+                                                state.feedDisplay
+                                                :
+                                                null
+                                            }
+                                            {
+                                            state.feedDisplay === "1"
+                                            ?
+                                            <span className="icon has-text-warning">
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                            </span>
+                                            :
+                                            null
+                                            }
+                                            {
+                                            state.feedDisplay === "2"
+                                            ?
+                                            <div>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <span className="icon has-text-warning">
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                            </span>
+                                            &nbsp;&nbsp;&nbsp;
+                                            </div>
+                                            :
+                                            null
+                                            }
+                                            {
+                                            state.feedDisplay === "3"
+                                            ?
+                                            <div>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span className="icon has-text-warning">
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                            </span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                            :
+                                            null
+                                            }
+                                            {
+                                            state.feedDisplay === "4"
+                                            ?
+                                            <div>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span className="icon has-text-warning">
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                            </span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                            :
+                                            null
+                                            }
+                                            {
+                                            state.feedDisplay === "5"
+                                            ?
+                                            <div>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span className="icon has-text-warning">
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                                <i className="fas fa-star user-rating-feed"></i>
+                                            </span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                            :
+                                            null
+                                            }
+                                        </span>
                                         <span className="icon is-small">
                                             <i className="fas fa-angle-down" aria-hidden="true"></i>
                                         </span>
