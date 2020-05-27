@@ -37,7 +37,12 @@ const Search = () => {
     }, [search]);
 
     const handleSearchDisplayChange = event => {
-        
+        const { name } = event.target;
+
+        dispatch({
+            type: "UPDATE_SEARCH_DISPLAY",
+            searchDisplay: name
+        });
     }
 
     return(
@@ -51,8 +56,27 @@ const Search = () => {
                                 Search instead for
                             </p>
                             <ul className="menu-list">
-                                <li><a name="Album" href="#">Albums</a></li>
-                                <li><a name="Track" href="#">Tracks</a></li>
+                                {
+                                    state.searchDisplay === "Artist" &&
+                                    <div>
+                                        <li><a onClick={handleSearchDisplayChange} name="Album" href="#">Albums</a></li>
+                                        <li><a onClick={handleSearchDisplayChange} name="Track" href="#">Tracks</a></li>
+                                    </div>
+                                }
+                                {
+                                    state.searchDisplay === "Album" &&
+                                    <div>
+                                        <li><a onClick={handleSearchDisplayChange} name="Artist" href="#">Artists</a></li>
+                                        <li><a onClick={handleSearchDisplayChange} name="Track" href="#">Tracks</a></li>
+                                    </div>
+                                }
+                                {
+                                    state.searchDisplay === "Track" &&
+                                    <div>
+                                        <li><a onClick={handleSearchDisplayChange} name="Artist" href="#">Artists</a></li>
+                                        <li><a onClick={handleSearchDisplayChange} name="Album" href="#">Albums</a></li>
+                                    </div>
+                                }
                             </ul>
                         </aside>
                     </Box>
@@ -63,7 +87,7 @@ const Search = () => {
                             {state.searchDisplay} search results for "{search}"
                         </p>
                         {
-                            (state.artistSearchResults.length && state.searchDisplay === "Artist") &&
+                            (state.artistSearchResults.length !==0 && state.searchDisplay === "Artist") &&
                             state.artistSearchResults.map((artist, index) =>
                                 <SearchCard
                                     key={index}
@@ -71,6 +95,32 @@ const Search = () => {
                                     artistID={artist.id}
                                     genre={artist.genres}
                                     image={artist.images.length ? artist.images[0].url : "https://i.imgur.com/QbHZ4uj.png"}
+                                />
+                            )
+                        }
+                        {
+                            (state.albumSearchResults.length !== 0 && state.searchDisplay === "Album") &&
+                            state.albumSearchResults.map((album, index) =>
+                                <SearchCard
+                                    key={index}
+                                    artist={album.artists[0].name}
+                                    artistID={album.artists[0].id}
+                                    album={album.name}
+                                    albumID={album.id}
+                                    image={album.images.length ? album.images[0].url : "https://i.imgur.com/QbHZ4uj.png"}
+                                />
+                            )
+                        }
+                        {
+                            (state.trackSearchResults.length !==0 && state.searchDisplay === "Track") &&
+                            state.trackSearchResults.map((track, index) =>
+                                <SearchCard
+                                    key={index}
+                                    artist={track.artists[0].name}
+                                    artistID={track.artists[0].id}
+                                    track={track.name}
+                                    trackID={track.id}
+                                    image={track.album.images.length ? track.album.images[0].url : "https://i.imgur.com/QbHZ4uj.png"}
                                 />
                             )
                         }

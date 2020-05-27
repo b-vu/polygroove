@@ -42,11 +42,15 @@ const Artist = () => {
         
                     artistInfo.topTracks = res[2].data.tracks;
         
-                    const relatedArtists = [];
-                    for(let i = 0; i < 10; i++){
-                        relatedArtists.push(res[3].data.artists[i])
+                    if(res[3].data.artists.length){
+                        const relatedArtists = [];
+    
+                        for(let i = 0; i < 10; i++){
+                            relatedArtists.push(res[3].data.artists[i])
+                        }
+    
+                        artistInfo.relatedArtists = relatedArtists;
                     }
-                    artistInfo.relatedArtists = relatedArtists;
         
                     dispatch({
                         type: "UPDATE_CURRENT_ARTIST",
@@ -122,11 +126,15 @@ const Artist = () => {
 
                 artistInfo.topTracks = res[2].data.tracks;
 
-                const relatedArtists = [];
-                for(let i = 0; i < 10; i++){
-                    relatedArtists.push(res[3].data.artists[i])
+                if(res[3].data.artists.length){
+                    const relatedArtists = [];
+
+                    for(let i = 0; i < 10; i++){
+                        relatedArtists.push(res[3].data.artists[i])
+                    }
+
+                    artistInfo.relatedArtists = relatedArtists;
                 }
-                artistInfo.relatedArtists = relatedArtists;
 
                 dispatch({
                     type: "UPDATE_CURRENT_ARTIST",

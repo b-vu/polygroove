@@ -18,7 +18,7 @@ const Related = props => {
                         <li key={index}>
                             <Link to={"/artist/" + artist.name + "/" + artist.id} className="columns">
                                 <figure className="image column">
-                                    <img src={artist.images[0].url} alt={artist.name}/>
+                                    <img src={artist.images.length ? artist.images[0].url : "https://i.imgur.com/QbHZ4uj.png"} alt={artist.name}/>
                                 </figure>
                                 <div className="column">
                                     {artist.name}

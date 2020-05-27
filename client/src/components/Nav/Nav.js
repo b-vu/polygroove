@@ -81,6 +81,15 @@ const Nav = () => {
         });
     }
 
+    const handleSearchDisplayChange = event => {
+        const { name } = event.target;
+
+        dispatch({
+            type: "UPDATE_SEARCH_DISPLAY",
+            searchDisplay: name
+        });
+    }
+
     return(
         <div>
             <nav className="navbar is-success" role="navigation" aria-label="main navigation">
@@ -135,6 +144,31 @@ const Nav = () => {
                         <form className="field navbar-item nav-search control">
                             <input name="navbarSearch" onChange={handleNavbarSearchChange} className="input is-rounded is-success" type="text" placeholder="Search for artists, albums, or tracks"/>
                             &nbsp;
+
+                            <div className="dropdown is-hoverable">
+                                <div className="dropdown-trigger">
+                                    <a className="button is-rounded is-normal is-success" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                    <span>{state.searchDisplay}</span>
+                                    <span className="icon is-small">
+                                        <i className="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                    </a>
+                                </div>
+                                <div className="dropdown-menu" id="dropdown-menu4" role="menu">
+                                    <div className="dropdown-content">
+                                        <a href="#" className="dropdown-item" onClick={handleSearchDisplayChange} name="Artist">
+                                            Search Artists
+                                        </a>
+                                        <a href="#" className="dropdown-item" onClick={handleSearchDisplayChange} name="Album">
+                                            Search Albums
+                                        </a>
+                                        <a href="#" className="dropdown-item" onClick={handleSearchDisplayChange} name="Track">
+                                            Search Tracks
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
                             <Link to={"/search/" + state.navbarSearch}>
                                 <button className="button is-success">
                                     <i className="fas fa-search"></i>
