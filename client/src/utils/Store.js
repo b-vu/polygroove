@@ -150,6 +150,24 @@ const reducer = (state, action) => {
                 ratedAlbums: action.ratedAlbums,
                 ratedTracks: action.ratedTracks
             }
+        case "UPDATE_NAVBAR_SEARCH":
+            return {
+                ...state,
+                navbarSearch: action.navbarSearch
+            }
+        case "UPDATE_SEARCH_RESULTS":
+            return {
+                ...state,
+                artistSearchResults: action.artistSearchResults,
+                albumSearchResults: action.albumSearchResults,
+                trackSearchResults: action.trackSearchResults,
+                token: action.token || state.token
+            }
+        case "UPDATE_SEARCH_DISPLAY":
+            return {
+                ...state,
+                searchDisplay: action.searchDisplay
+            }
         default:
             return state;
     }
@@ -189,7 +207,12 @@ const ProjectProvider = ({ value = [], ...props}) => {
         isTrackRated: false,
         feed: "❤️ Favorite Artists ❤️",
         feedDisplay: "Newest",
-        feedSearch: ""
+        feedSearch: "",
+        navbarSearch: "",
+        artistSearchResults: [],
+        albumSearchResults: [],
+        trackSearchResults: [],
+        searchDisplay: "Artist"
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

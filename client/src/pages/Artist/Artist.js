@@ -22,64 +22,118 @@ const Artist = () => {
 
         if(!state.token.length){
             API.getToken().then(res => {
+                API.getArtistInfo(id, res.data.access_token, name).then(res => {
+                    artistInfo.id = res[0].data.id;
+                    artistInfo.image = res[0].data.images[0].url;
+                    artistInfo.name = res[0].data.name;
+                    artistInfo.spotifyLink = res[0].data.external_urls.spotify;
+                    artistInfo.genres = res[0].data.genres;
+                    
+                    const albums = [];
+                    const albumNames = [];
+                    for(const album of res[1].data.items){
+                        if(albumNames.indexOf(album.name) === -1){
+                            albums.push(album);
+                            albumNames.push(album.name)
+                        }
+                    }
+        
+                    artistInfo.albums = albums;
+        
+                    artistInfo.topTracks = res[2].data.tracks;
+        
+                    const relatedArtists = [];
+                    for(let i = 0; i < 10; i++){
+                        relatedArtists.push(res[3].data.artists[i])
+                    }
+                    artistInfo.relatedArtists = relatedArtists;
+        
+                    dispatch({
+                        type: "UPDATE_CURRENT_ARTIST",
+                        currentArtist: artistInfo
+                    });
+                })
+
                 dispatch({
                     type: "UPDATE_TOKEN",
                     token: res.data.access_token
                 });
             })
+
+            API.getGeniusArtistInfo(name).then(res => {
+                const arr = res.data.response.artist.description.html.split("</p>");
+                const newArr = [];
+            
+                for(let i = 0; i < arr.length - 1; i++){
+                    const str = arr[i] + "</p><br/>";
+                    newArr.push(str);
+                }
+    
+                geniusInfo.desc = newArr;
+                geniusInfo.fb = res.data.response.artist.facebook_name;
+                geniusInfo.ig = res.data.response.artist.instagram_name;
+                geniusInfo.tw = res.data.response.artist.twitter_name;
+    
+                dispatch({
+                    type: "UPDATE_CURRENT_ARTIST_INFO",
+                    currentArtistInfo: geniusInfo
+                });
+            });
         }
 
-        API.getGeniusArtistInfo(name).then(res => {
-            const arr = res.data.response.artist.description.html.split("</p>");
-            const newArr = [];
-        
-            for(let i = 0; i < arr.length - 1; i++){
-                const str = arr[i] + "</p><br/>";
-                newArr.push(str);
-            }
-
-            geniusInfo.desc = newArr;
-            geniusInfo.fb = res.data.response.artist.facebook_name;
-            geniusInfo.ig = res.data.response.artist.instagram_name;
-            geniusInfo.tw = res.data.response.artist.twitter_name;
-
-            dispatch({
-                type: "UPDATE_CURRENT_ARTIST_INFO",
-                currentArtistInfo: geniusInfo
-            });
-        });
-
-        API.getArtistInfo(id, state.token, name).then(res => {
-            artistInfo.id = res[0].data.id;
-            artistInfo.image = res[0].data.images[0].url;
-            artistInfo.name = res[0].data.name;
-            artistInfo.spotifyLink = res[0].data.external_urls.spotify;
-            artistInfo.genres = res[0].data.genres;
+        else{
+            API.getGeniusArtistInfo(name).then(res => {
+                const arr = res.data.response.artist.description.html.split("</p>");
+                const newArr = [];
             
-            const albums = [];
-            const albumNames = [];
-            for(const album of res[1].data.items){
-                if(albumNames.indexOf(album.name) === -1){
-                    albums.push(album);
-                    albumNames.push(album.name)
+                for(let i = 0; i < arr.length - 1; i++){
+                    const str = arr[i] + "</p><br/>";
+                    newArr.push(str);
                 }
-            }
 
-            artistInfo.albums = albums;
+                geniusInfo.desc = newArr;
+                geniusInfo.fb = res.data.response.artist.facebook_name;
+                geniusInfo.ig = res.data.response.artist.instagram_name;
+                geniusInfo.tw = res.data.response.artist.twitter_name;
 
-            artistInfo.topTracks = res[2].data.tracks;
-
-            const relatedArtists = [];
-            for(let i = 0; i < 10; i++){
-                relatedArtists.push(res[3].data.artists[i])
-            }
-            artistInfo.relatedArtists = relatedArtists;
-
-            dispatch({
-                type: "UPDATE_CURRENT_ARTIST",
-                currentArtist: artistInfo
+                dispatch({
+                    type: "UPDATE_CURRENT_ARTIST_INFO",
+                    currentArtistInfo: geniusInfo
+                });
             });
-        })
+
+            API.getArtistInfo(id, state.token, name).then(res => {
+                artistInfo.id = res[0].data.id;
+                artistInfo.image = res[0].data.images[0].url;
+                artistInfo.name = res[0].data.name;
+                artistInfo.spotifyLink = res[0].data.external_urls.spotify;
+                artistInfo.genres = res[0].data.genres;
+                
+                const albums = [];
+                const albumNames = [];
+                for(const album of res[1].data.items){
+                    if(albumNames.indexOf(album.name) === -1){
+                        albums.push(album);
+                        albumNames.push(album.name)
+                    }
+                }
+
+                artistInfo.albums = albums;
+
+                artistInfo.topTracks = res[2].data.tracks;
+
+                const relatedArtists = [];
+                for(let i = 0; i < 10; i++){
+                    relatedArtists.push(res[3].data.artists[i])
+                }
+                artistInfo.relatedArtists = relatedArtists;
+
+                dispatch({
+                    type: "UPDATE_CURRENT_ARTIST",
+                    currentArtist: artistInfo
+                });
+            });
+        }
 
         if(state.isAuthenticated && !state.favoriteArtists.length){
             API.checkFavorites(state.user.id).then(res => {

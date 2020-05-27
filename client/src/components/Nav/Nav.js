@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
-
 import { useProjectContext } from "../../utils/Store";
 
 import jwt_decode from "jwt-decode";
@@ -71,6 +70,17 @@ const Nav = () => {
         }
     }, []);
 
+    const handleNavbarSearchChange = event => {
+        const { name, value } = event.target;
+
+        const parsedValue = value.trim().toLowerCase();
+
+        dispatch({
+            type: "UPDATE_NAVBAR_SEARCH",
+            [name]: parsedValue
+        });
+    }
+
     return(
         <div>
             <nav className="navbar is-success" role="navigation" aria-label="main navigation">
@@ -121,6 +131,16 @@ const Nav = () => {
                                 Forums
                             </Link>
                         </p>
+
+                        <form className="field navbar-item nav-search control">
+                            <input name="navbarSearch" onChange={handleNavbarSearchChange} className="input is-rounded is-success" type="text" placeholder="Search for artists, albums, or tracks"/>
+                            &nbsp;
+                            <Link to={"/search/" + state.navbarSearch}>
+                                <button className="button is-success">
+                                    <i className="fas fa-search"></i>
+                                </button>
+                            </Link>
+                        </form>
                     </div>
 
                     <div className="navbar-end">

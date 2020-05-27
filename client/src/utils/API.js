@@ -194,6 +194,16 @@ export default {
             }
         );
     },
+    search: function(searchTerm, token){
+        return axios.get(
+            `https://api.spotify.com/v1/search?q=${searchTerm}&type=artist,album,track&limit=10`,
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+            }
+        );
+    },
     getGeniusArtistInfo: function(name){
         return axios.get(
             `https://serene-atoll-63730.herokuapp.com/https://api.genius.com/search?q=${name}`,

@@ -12,6 +12,7 @@ import Feed from "./pages/Feed/Feed";
 import Artist from "./pages/Artist/Artist";
 import Album from "./pages/Album/Album";
 import Track from "./pages/Track/Track";
+import Search from "./pages/Search/Search";
 import PrivateRoute from "./components/Private-Route/PrivateRoute";
 import { ProjectProvider } from "./utils/Store";
 
@@ -30,6 +31,7 @@ const App = () => {
           <Route exact path="/artist/:name/:id" component={Artist}/>
           <Route exact path="/album/:id" component={Album}/>
           <Route exact path="/track/:name/:id" component={Track}/>
+          <Route exact path="/search/:search" component={Search}/>
           <Route component={Home}/>
         </Switch>
         <Footer/>
