@@ -31,7 +31,7 @@ const SearchCard = props => {
                     {
                         artist && track &&
                         
-                        <Link to={"/track/" + track + "/" + trackID}>
+                        <Link to={"/track/" + track + " " + artist + "/" + trackID}>
                             <figure className="column image">
                                 <img src={image} alt={track}/>
                             </figure>
@@ -53,7 +53,7 @@ const SearchCard = props => {
                             track &&
 
                             <div>
-                                <Link to={"/track/" + track + "/" + trackID}>
+                                <Link to={"/track/" + track + " " + artist + "/" + trackID}>
                                     <p className="title">{track}</p>
                                 </Link>
                                 <br/>

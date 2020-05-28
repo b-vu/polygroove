@@ -13,20 +13,29 @@ const Track = () => {
     useEffect(() => {
         if(!state.token.length){
             API.getToken().then(res => {
+                API.getTrackInfo(name, id, res.data.access_token).then(res => {
+                    const trackArray = [res[0].data.response.hits, res[1].data]
+                    dispatch({
+                        type: "UPDATE_CURRENT_TRACK",
+                        currentTrack: trackArray
+                    });
+                });
+
                 dispatch({
                     type: "UPDATE_TOKEN",
                     token: res.data.access_token
                 });
             })
         }
-
-        API.getTrackInfo(name, id, state.token).then(res => {
-            const trackArray = [res[0].data.response.hits, res[1].data]
-            dispatch({
-                type: "UPDATE_CURRENT_TRACK",
-                currentTrack: trackArray
+        else{
+            API.getTrackInfo(name, id, state.token).then(res => {
+                const trackArray = [res[0].data.response.hits, res[1].data]
+                dispatch({
+                    type: "UPDATE_CURRENT_TRACK",
+                    currentTrack: trackArray
+                });
             });
-        })
+        }
 
         if(state.isAuthenticated && !state.favoriteTracks.length){
             API.checkFavorites(state.user.id).then(res => {
@@ -47,7 +56,7 @@ const Track = () => {
                 dispatch({
                     type: "UPDATE_RATED_TRACKS",
                     ratedTracks: res.data.trackRatings
-                })
+                });
             });
         }
         else{

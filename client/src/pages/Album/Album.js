@@ -13,36 +13,54 @@ const Album = () => {
     useEffect(() => {
         if(!state.token.length){
             API.getToken().then(res => {
-                dispatch({
-                    type: "UPDATE_TOKEN",
-                    token: res.data.access_token
+                API.getAlbumInfo(id, res.data.access_token).then(res => {
+                    dispatch({
+                        type: "UPDATE_CURRENT_ALBUM",
+                        currentAlbum: res.data
+                    });
+                    API.getAlbums(res.data.artists[0].id, state.token).then(res => {
+                        const albumNames = [];
+                        const albums = [];
+                        for(const album of res.data.items){
+                            if(albumNames.indexOf(album.name) === -1){
+                                albumNames.push(album.name)
+                                albums.push(album)
+                            }
+                        }
+                        res.data.items = albums;
+        
+                        dispatch({
+                            type: "UPDATE_CURRENT_OTHER_ALBUMS",
+                            otherAlbums: res.data
+                        })
+                    });
                 });
-
             });
         }
-
-        API.getAlbumInfo(id, state.token).then(res => {
-            dispatch({
-                type: "UPDATE_CURRENT_ALBUM",
-                currentAlbum: res.data
-            });
-            API.getAlbums(res.data.artists[0].id, state.token).then(res => {
-                const albumNames = [];
-                const albums = [];
-                for(const album of res.data.items){
-                    if(albumNames.indexOf(album.name) === -1){
-                        albumNames.push(album.name)
-                        albums.push(album)
-                    }
-                }
-                res.data.items = albums;
-
+        else{
+            API.getAlbumInfo(id, state.token).then(res => {
                 dispatch({
-                    type: "UPDATE_CURRENT_OTHER_ALBUMS",
-                    otherAlbums: res.data
-                })
-            })
-        });
+                    type: "UPDATE_CURRENT_ALBUM",
+                    currentAlbum: res.data
+                });
+                API.getAlbums(res.data.artists[0].id, state.token).then(res => {
+                    const albumNames = [];
+                    const albums = [];
+                    for(const album of res.data.items){
+                        if(albumNames.indexOf(album.name) === -1){
+                            albumNames.push(album.name)
+                            albums.push(album)
+                        }
+                    }
+                    res.data.items = albums;
+    
+                    dispatch({
+                        type: "UPDATE_CURRENT_OTHER_ALBUMS",
+                        otherAlbums: res.data
+                    })
+                });
+            });
+        }
 
         if(state.isAuthenticated && !state.favoriteAlbums.length){
             API.checkFavorites(state.user.id).then(res => {

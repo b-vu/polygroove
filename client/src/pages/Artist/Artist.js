@@ -326,6 +326,7 @@ const Artist = () => {
                                                 albumID={track.album.id}
                                                 image={track.album.images[0].url}
                                                 year={track.album.release_date}
+                                                artist={state.currentArtist.name}
                                             />
                                         )}
                                     </div>

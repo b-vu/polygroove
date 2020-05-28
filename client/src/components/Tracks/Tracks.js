@@ -4,7 +4,7 @@ import Column from "../Column/Column";
 import { Link } from "react-router-dom";
 
 const Tracks = props => {
-    const { image, song, songID, album, albumID, year } = props;
+    const { image, song, songID, album, albumID, year, artist } = props;
 
     const getYear = date => {
         const arr = date.split("-");
@@ -24,7 +24,7 @@ const Tracks = props => {
 
                     <div className="column">
                         <p className="track-listing">
-                            <Link to={"/track/" + song + "/" + songID}>{song}</Link>
+                            <Link to={"/track/" + song + " " + artist + "/" + songID}>{song}</Link>
                         </p>
                             
                         <p className="track-album">
