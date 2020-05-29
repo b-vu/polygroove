@@ -168,6 +168,11 @@ const reducer = (state, action) => {
                 ...state,
                 searchDisplay: action.searchDisplay
             }
+        case "UPDATE_COMMUNITY_RATINGS":
+            return {
+                ...state,
+                communityRatings: action.communityRatings
+            }
         default:
             return state;
     }
@@ -212,7 +217,8 @@ const ProjectProvider = ({ value = [], ...props}) => {
         artistSearchResults: [],
         albumSearchResults: [],
         trackSearchResults: [],
-        searchDisplay: "Artist"
+        searchDisplay: "Artist",
+        communityRatings: []
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

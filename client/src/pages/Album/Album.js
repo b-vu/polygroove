@@ -62,6 +62,8 @@ const Album = () => {
             });
         }
 
+        getCommunityRatings(id);
+
         if(state.isAuthenticated && !state.favoriteAlbums.length){
             API.checkFavorites(state.user.id).then(res => {
                 checkFavorites(res.data.favoriteAlbums);
@@ -76,13 +78,7 @@ const Album = () => {
         }
 
         if(state.isAuthenticated && !state.ratedAlbums.length){
-            API.getRatings(state.user.id).then(res => {
-                checkRatings(res.data.albumRatings);
-                dispatch({
-                    type: "UPDATE_RATED_ALBUMS",
-                    ratedAlbums: res.data.albumRatings
-                });
-            });
+            getUserRatings(state.user.id);
         }
         else{
             checkRatings(state.ratedAlbums);
@@ -138,26 +134,15 @@ const Album = () => {
 
             if(state.isAlbumRated){
                 API.editAlbumRating(state.user.id, { id: state.currentAlbum.id, rating: value }).then(res => {
-                    API.getRatings(state.user.id).then(res => {
-                        checkRatings(res.data.albumRatings);
-                        dispatch({
-                            type: "UPDATE_RATED_ALBUMS",
-                            ratedAlbums: res.data.albumRatings
-                        });
-                    });
+                    getUserRatings(state.user.id);
                 });
             }
             else{
-                API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, id: state.currentAlbum.id, artist: state.currentAlbum.artists[0].name, artistID: state.currentAlbum.artists[0].id, rating: value, image: state.currentAlbum.images[0].url }).then(res => {
-                    API.getRatings(state.user.id).then(res => {
-                        checkRatings(res.data.albumRatings);
-                        dispatch({
-                            type: "UPDATE_RATED_ALBUMS",
-                            ratedAlbums: res.data.albumRatings
-                        });
-                    });
+                API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, id: state.currentAlbum.id, artist: state.currentAlbum.artists[0].name, artistID: state.currentAlbum.artists[0].id, rating: value, image: state.currentAlbum.images[0].url, userName: state.user.name }).then(res => {
+                   getUserRatings(state.user.id);
                 });
             }
+            getCommunityRatings(id);
         }
         else{
             window.location.assign("/register");
@@ -220,16 +205,16 @@ const Album = () => {
         }
     }
 
-    const checkRatings = array => {
-        if(!array.length){
+    const checkRatings = userRatingsArray => {
+        if(!userRatingsArray.length){
             updateStars(0);
             return dispatch({
                 type: "UPDATE_ISALBUMRATED",
                 isAlbumRated: false
-            })
+            });
         }
 
-        for(const rating of array){
+        for(const rating of userRatingsArray){
             if(rating.id === id){
                 updateStars(rating.rating);
                 return dispatch({
@@ -243,6 +228,73 @@ const Album = () => {
         return dispatch({
             type: "UPDATE_ISALBUMRATED",
             isAlbumRated: false
+        });
+    }
+
+    const getUserRatings = userID => {
+        API.getRatings(userID).then(res => {
+            checkRatings(res.data.albumRatings);
+            
+            dispatch({
+                type: "UPDATE_RATED_ALBUMS",
+                ratedAlbums: res.data.albumRatings
+            });
+        });
+    }
+
+    const updateCommunityStars = communityRatingsArray => {
+        const stars = document.querySelectorAll(".community-rating");
+        let average = 0;
+
+        if(!communityRatingsArray.length){
+            for(let i = 0; i < 5; i++){
+                stars[i].setAttribute("class", "far fa-star community-rating");
+                stars[i].setAttribute("data-state", "empty");
+            }
+            return;
+        }
+
+        for(const rating of communityRatingsArray){
+            average += rating.rating
+        }
+
+        average = parseInt(average.toFixed(2)) / communityRatingsArray.length;
+
+        console.log(average)
+        for(let i = 0; i < 5; i++){
+            if(average < parseInt(stars[i].getAttribute("data-value")) && average >= parseInt(stars[i].getAttribute("data-decimal")) + 0.50){
+                stars[i].setAttribute("class", "fas fa-star-half-alt community-rating");
+                stars[i].setAttribute("data-state", "half");
+            }
+            else if(average >= parseInt(stars[i].getAttribute("data-value"))){
+                stars[i].setAttribute("class", "fas fa-star community-rating");
+                stars[i].setAttribute("data-state", "fill");
+            }
+            else{
+                stars[i].setAttribute("class", "far fa-star community-rating");
+                stars[i].setAttribute("data-state", "empty");
+            }
+        }
+    }
+
+    const getCommunityRatings = id => {
+        API.getCommunityRatings(id).then(res => {
+            if(res.data !== null){
+                updateCommunityStars(res.data.ratings);
+                
+                dispatch({
+                    type: "UPDATE_COMMUNITY_RATINGS",
+                    communityRatings: res.data.ratings
+                });
+            }
+            else{
+                updateCommunityStars([]);
+
+                dispatch({
+                    type: "UPDATE_COMMUNITY_RATINGS",
+                    communityRatings: []
+                });
+            }
         });
     }
 
@@ -316,19 +368,19 @@ const Album = () => {
                             </p>
                             <ul className="menu-list">
                                 <span className="icon has-text-warning">
-                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star community-rating" data-value="1" data-decimal="0" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                                 <span className="icon has-text-warning">
-                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star community-rating" data-value="2" data-decimal="1" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                                 <span className="icon has-text-warning">
-                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star community-rating" data-value="3" data-decimal="2" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                                 <span className="icon has-text-warning">
-                                    <i className="fas fa-star-half-alt"></i>
+                                    <i className="far fa-star community-rating" data-value="4" data-decimal="3" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                                 <span className="icon has-text-warning">
-                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star community-rating" data-value="5" data-decimal="4" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                             </ul>
                         </aside>

@@ -278,5 +278,8 @@ export default {
     },
     editTrackRating: function(userID, trackRating){
         return axios.put(`/api/ratings/track/${userID}`, trackRating);
+    },
+    getCommunityRatings: function(id){
+        return axios.get(`/api/communityratings/${id}`);
     }
 }

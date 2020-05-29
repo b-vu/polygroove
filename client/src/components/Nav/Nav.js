@@ -56,8 +56,8 @@ const Nav = () => {
             const decoded = jwt_decode(token);
             // Set user and isAuthenticated
             dispatch({
-            type: "SET_CURRENT_USER",
-            payload: decoded
+                type: "SET_CURRENT_USER",
+                payload: decoded
             });
             // Check for expired token
             const currentTime = Date.now() / 1000; // to get in milliseconds

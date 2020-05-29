@@ -37,6 +37,8 @@ const Track = () => {
             });
         }
 
+        getCommunityRatings(id);
+
         if(state.isAuthenticated && !state.favoriteTracks.length){
             API.checkFavorites(state.user.id).then(res => {
                 checkFavorites(res.data.favoriteTracks);
@@ -51,13 +53,7 @@ const Track = () => {
         }
 
         if(state.isAuthenticated && !state.ratedTracks.length){
-            API.getRatings(state.user.id).then(res => {
-                checkRatings(res.data.trackRatings);
-                dispatch({
-                    type: "UPDATE_RATED_TRACKS",
-                    ratedTracks: res.data.trackRatings
-                });
-            });
+            getUserRatings(state.user.id);
         }
         else{
             checkRatings(state.ratedTracks);
@@ -103,26 +99,15 @@ const Track = () => {
 
             if(state.isTrackRated){
                 API.editTrackRating(state.user.id, { id: state.currentTrack[1].id, rating: value }).then(res => {
-                    API.getRatings(state.user.id).then(res => {
-                        checkRatings(res.data.trackRatings);
-                        dispatch({
-                            type: "UPDATE_RATED_TRACKS",
-                            ratedTracks: res.data.trackRatings
-                        })
-                    });
+                    getUserRatings(state.user.id);
                 });
             }
             else{
                 API.addTrackRating(state.user.id, { name: state.currentTrack[1].name, id: state.currentTrack[1].id, artist: state.currentTrack[1].artists[0].name, artistID: state.currentTrack[1].artists[0].id, rating: value, image: state.currentTrack[1].album.images[0].url }).then(res => {
-                    API.getRatings(state.user.id).then(res => {
-                        checkRatings(res.data.trackRatings);
-                        dispatch({
-                            type: "UPDATE_RATED_TRACKS",
-                            ratedTracks: res.data.trackRatings
-                        })
-                    });
+                    getUserRatings(state.user.id);
                 });
             }
+            getCommunityRatings(id);
         }   
         else{
             window.location.assign("/register");
@@ -185,8 +170,8 @@ const Track = () => {
         }
     }
 
-    const checkRatings = array => {
-        if(!array.length){
+    const checkRatings = userRatingsArray => {
+        if(!userRatingsArray.length){
             updateStars(0);
             return dispatch({
                 type: "UPDATE_ISTRACKRATED",
@@ -194,7 +179,7 @@ const Track = () => {
             })
         }
 
-        for(const rating of array){
+        for(const rating of userRatingsArray){
             if(rating.id === id){
                 updateStars(rating.rating);
                 return dispatch({
@@ -208,6 +193,72 @@ const Track = () => {
         return dispatch({
             type: "UPDATE_ISTRACKRATED",
             isTrackRated: false
+        });
+    }
+
+    const getUserRatings = userID => {
+        API.getRatings(userID).then(res => {
+            checkRatings(res.data.trackRatings);
+            dispatch({
+                type: "UPDATE_RATED_TRACKS",
+                ratedTracks: res.data.trackRatings
+            })
+        });
+    }
+
+    const updateCommunityStars = communityRatingsArray => {
+        const stars = document.querySelectorAll(".community-rating");
+        let average = 0;
+
+        if(!communityRatingsArray.length){
+            for(let i = 0; i < 5; i++){
+                stars[i].setAttribute("class", "far fa-star community-rating");
+                stars[i].setAttribute("data-state", "empty");
+            }
+            return;
+        }
+
+        for(const rating of communityRatingsArray){
+            average += rating.rating
+        }
+
+        average = parseInt(average.toFixed(2)) / communityRatingsArray.length;
+
+        console.log(average)
+        for(let i = 0; i < 5; i++){
+            if(average < parseInt(stars[i].getAttribute("data-value")) && average >= parseInt(stars[i].getAttribute("data-decimal")) + 0.50){
+                stars[i].setAttribute("class", "fas fa-star-half-alt community-rating");
+                stars[i].setAttribute("data-state", "half");
+            }
+            else if(average >= parseInt(stars[i].getAttribute("data-value"))){
+                stars[i].setAttribute("class", "fas fa-star community-rating");
+                stars[i].setAttribute("data-state", "fill");
+            }
+            else{
+                stars[i].setAttribute("class", "far fa-star community-rating");
+                stars[i].setAttribute("data-state", "empty");
+            }
+        }
+    }
+
+    const getCommunityRatings = id => {
+        API.getCommunityRatings(id).then(res => {
+            if(res.data !== null){
+                updateCommunityStars(res.data.ratings);
+                
+                dispatch({
+                    type: "UPDATE_COMMUNITY_RATINGS",
+                    communityRatings: res.data.ratings
+                });
+            }
+            else{
+                updateCommunityStars([]);
+
+                dispatch({
+                    type: "UPDATE_COMMUNITY_RATINGS",
+                    communityRatings: []
+                });
+            }
         });
     }
 
@@ -280,19 +331,19 @@ const Track = () => {
                             </p>
                             <ul className="menu-list">
                                 <span className="icon has-text-warning">
-                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star community-rating" data-value="1" data-decimal="0" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                                 <span className="icon has-text-warning">
-                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star community-rating" data-value="2" data-decimal="1" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                                 <span className="icon has-text-warning">
-                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star community-rating" data-value="3" data-decimal="2" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                                 <span className="icon has-text-warning">
-                                    <i className="fas fa-star-half-alt"></i>
+                                    <i className="far fa-star community-rating" data-value="4" data-decimal="3" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                                 <span className="icon has-text-warning">
-                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star community-rating" data-value="5" data-decimal="4" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
                             </ul>
                         </aside>
