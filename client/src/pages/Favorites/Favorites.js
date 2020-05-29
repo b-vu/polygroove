@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import "./Feed.css";
+import "./Favorites.css";
 import { useProjectContext } from "../../utils/Store";
 import { Link, useParams } from "react-router-dom";
 import API from "../../utils/API";
 import Box from "../../components/Box/Box";
 import Column from "../../components/Column/Column";
-import FeedCard from "../../components/FeedCard/FeedCard";
+import FavoritesCard from "../../components/FavoritesCard/FavoritesCard";
 
-const Feed = () => {
+const Favorites = () => {
     const [state, dispatch] = useProjectContext();
 
     useEffect(() => {
@@ -656,7 +656,7 @@ const Feed = () => {
                                 state.favoriteArtists.length && state.feed === "❤️ Favorite Artists ❤️"
                                 ?
                                 state.favoriteArtists.map((item, index) => 
-                                    <FeedCard
+                                    <FavoritesCard
                                         key={index}
                                         artist={item.artist}
                                         artistID={item.artistID}
@@ -671,7 +671,7 @@ const Feed = () => {
                                 state.favoriteAlbums.length && state.feed === "❤️ Favorite Albums ❤️"
                                 ?
                                 state.favoriteAlbums.map((item, index) => 
-                                    <FeedCard
+                                    <FavoritesCard
                                         key={index}
                                         album={item.name}
                                         albumID={item.id}
@@ -688,7 +688,7 @@ const Feed = () => {
                                 state.favoriteTracks.length && state.feed === "❤️ Favorite Tracks ❤️"
                                 ?
                                 state.favoriteTracks.map((item, index) => 
-                                    <FeedCard
+                                    <FavoritesCard
                                         key={index}
                                         track={item.name}
                                         trackID={item.id}
@@ -705,7 +705,7 @@ const Feed = () => {
                                 state.ratedAlbums.length && state.feed === "📊 Album Reviews 📊"
                                 ?
                                 state.ratedAlbums.map((item, index) => 
-                                    <FeedCard
+                                    <FavoritesCard
                                         key={index}
                                         album={item.name}
                                         albumID={item.id}
@@ -723,7 +723,7 @@ const Feed = () => {
                                 state.ratedTracks.length && state.feed === "📊 Track Reviews 📊"
                                 ?
                                 state.ratedTracks.map((item, index) => 
-                                    <FeedCard
+                                    <FavoritesCard
                                         key={index}
                                         track={item.name}
                                         trackID={item.id}
@@ -745,4 +745,4 @@ const Feed = () => {
     );
 }
 
-export default Feed;
+export default Favorites;

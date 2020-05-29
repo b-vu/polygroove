@@ -96,6 +96,7 @@ const Track = () => {
                     }
                 }
             }
+            getCommunityRatings(id);
 
             if(state.isTrackRated){
                 API.editTrackRating(state.user.id, { id: state.currentTrack[1].id, rating: value }).then(res => {

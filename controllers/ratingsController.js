@@ -25,7 +25,7 @@ module.exports = {
                     rating: req.body.rating
                 }]
             });
-            rating.save()
+            rating.save();
         })
         .then(dbResponse => {
             communityRating = dbResponse;

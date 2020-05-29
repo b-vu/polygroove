@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./Artist.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useProjectContext } from "../../utils/Store";
 import API from "../../utils/API";
 import Box from "../../components/Box/Box";
@@ -233,6 +233,13 @@ const Artist = () => {
                                     <span>Favorite&nbsp; <i className="fas fa-heart"></i></span>
                                 </button>
                             }
+                            <br/>
+                            <br/>
+
+                            <Link to={"/forums/" + state.currentArtist.id}>
+                                <button className="button is-info is-rounded">Forums</button>
+                            </Link>
+
                             <br/>
                             <br/>
                             <p className="menu-label">

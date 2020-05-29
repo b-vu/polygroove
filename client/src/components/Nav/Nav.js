@@ -126,10 +126,10 @@ const Nav = () => {
                         </p>
 
                         <p className="navbar-item">
-                            <Link to={"/feed"}
+                            <Link to={"/favorites"}
                                 className="navlink"
                             >
-                                Feed
+                                Favorites
                             </Link>
                         </p>
 

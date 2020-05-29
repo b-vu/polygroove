@@ -8,11 +8,12 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Charts from "./pages/Charts/Charts";
 import Forums from "./pages/Forums/Forums";
-import Feed from "./pages/Feed/Feed";
+import Favorites from "./pages/Favorites/Favorites";
 import Artist from "./pages/Artist/Artist";
 import Album from "./pages/Album/Album";
 import Track from "./pages/Track/Track";
 import Search from "./pages/Search/Search";
+import ForumTopic from "./pages/ForumTopic/ForumTopic";
 import PrivateRoute from "./components/Private-Route/PrivateRoute";
 import { ProjectProvider } from "./utils/Store";
 
@@ -27,11 +28,12 @@ const App = () => {
           <Route exact path="/forums" component={Forums}/>
           <Route exact path="/register" component={Register}/>
           <Route exact path="/login" component={Login}/>
-          <PrivateRoute exact path="/feed" component={Feed}/>
+          <PrivateRoute exact path="/favorites" component={Favorites}/>
           <Route exact path="/artist/:name/:id" component={Artist}/>
           <Route exact path="/album/:id" component={Album}/>
           <Route exact path="/track/:name/:id" component={Track}/>
           <Route exact path="/search/:search" component={Search}/>
+          <Route exact path="/forums/:id" component={ForumTopic}/>
           <Route component={Home}/>
         </Switch>
         <Footer/>

@@ -1,8 +1,8 @@
 import React from "react";
-import "./FeedCard.css";
+import "./FavoritesCard.css";
 import { Link } from "react-router-dom";
 
-const FeedCard = props => {
+const FavoritesCard = props => {
     const { artist, artistID, image, type, album, albumID, track, trackID, rating } = props;
 
     return(
@@ -311,4 +311,4 @@ const FeedCard = props => {
     );
 }
 
-export default FeedCard;
+export default FavoritesCard;

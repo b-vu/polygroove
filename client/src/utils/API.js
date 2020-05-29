@@ -281,5 +281,14 @@ export default {
     },
     getCommunityRatings: function(id){
         return axios.get(`/api/communityratings/${id}`);
+    },
+    getAllForums: function(){
+        return axios.get("/api/forums/");
+    },
+    getForumTopics: function(id){
+        return axios.get(`/api/forums/${id}`);
+    },
+    addForum: function(id, forum){
+        return axios.post(`/api/forums/${id}`, forum);
     }
 }

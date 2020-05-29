@@ -131,6 +131,7 @@ const Album = () => {
                     }
                 }
             }
+            getCommunityRatings(id);
 
             if(state.isAlbumRated){
                 API.editAlbumRating(state.user.id, { id: state.currentAlbum.id, rating: value }).then(res => {
