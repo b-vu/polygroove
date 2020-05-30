@@ -174,6 +174,16 @@ export default {
             )
         ]);
     },
+    getArtistOnly: function(id, token){
+        return axios.get(
+            `https://api.spotify.com/v1/artists/${id}`,
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+            }
+        );
+    },
     getAlbumInfo: function(id, token){
         return axios.get(
             `https://api.spotify.com/v1/albums/${id}`,

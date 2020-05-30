@@ -173,6 +173,21 @@ const reducer = (state, action) => {
                 ...state,
                 communityRatings: action.communityRatings
             }
+        case "UPDATE_FORUM_POSTS":
+            return {
+                ...state,
+                forumPosts: action.forumPosts
+            }
+        case "UPDATE_CURRENT_FORUM_POSTS":
+            return {
+                ...state,
+                currentForumPosts: {
+                    name: action.name,
+                    id: action.id,
+                    image: action.image,
+                    posts: action.posts
+                }
+            }
         default:
             return state;
     }
@@ -218,7 +233,9 @@ const ProjectProvider = ({ value = [], ...props}) => {
         albumSearchResults: [],
         trackSearchResults: [],
         searchDisplay: "Artist",
-        communityRatings: []
+        communityRatings: [],
+        forumPosts: [],
+        currentForumPosts: {}
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

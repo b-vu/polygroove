@@ -12,12 +12,17 @@ const Forums = () => {
 
     useEffect(() => {
         API.getAllForums().then(res => {
-            console.log(res);
+            console.log(res.data);
+            dispatch({
+                type: "UPDATE_FORUM_POSTS",
+                forumPosts: res.data
+            });
         });
     }, []);
 
     return(
         <Box>
+            {console.log(state)}
             <Column>
                 <div className="column is-2">
                     <Box>
@@ -65,6 +70,29 @@ const Forums = () => {
                         </Column>
                     </Box>
                 </div>
+
+                <div className="column is-2">
+                    <Box>
+                        <aside className="menu has-text-centered">
+                            <p className="menu-label">
+                                Genre Discussions
+                            </p>
+                            <ul className="menu-list">
+                                
+                            </ul>
+
+                            <br/>
+
+                            <p className="menu-label">
+                                Miscellaneous
+                            </p>
+                            <ul className="menu-list">
+                                
+                            </ul>
+                        </aside>
+                    </Box>            
+                </div>
+
             </Column>
         </Box>
     );
