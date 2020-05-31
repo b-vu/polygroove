@@ -6,7 +6,7 @@ const ForumSchema = new Schema({
         type: String,
         requried: true
     },
-    id: {               //id of the artist or genre
+    id: {
         type: String,
         requried: true
     },
@@ -15,6 +15,7 @@ const ForumSchema = new Schema({
         userName: String,
         title: String,
         body: String,
+        postID: Number,
         date: {
             type: Date,
             default: Date.now

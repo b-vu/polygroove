@@ -7,9 +7,13 @@ router.route("/")
 router.route("/:id")
     .get(forumsController.getForumTopics)
     .post(forumsController.addForum);
+
+router.route("/topic/:id/:postID")
+    .get(forumsController.getTopicByPostID)
+    .post(forumsController.addTopic);
+    // .put(forumsController.editTopic);
 //     .post(forumsController.addTopic)
 //     .post(forumsController.addPost)
-//     .put(forumsController.editTopic)
 //     .put(forumsController.editPost)
 //     .delete(forumsController.deleteTopic)
 //     .delete(forumsController.deletePost);

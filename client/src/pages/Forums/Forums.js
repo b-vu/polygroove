@@ -12,10 +12,10 @@ const Forums = () => {
 
     useEffect(() => {
         API.getAllForums().then(res => {
-            console.log(res.data);
             dispatch({
                 type: "UPDATE_FORUM_POSTS",
-                forumPosts: res.data
+                forumPosts: res.data,
+                startForumTopic: false
             });
         });
     }, []);
@@ -61,7 +61,23 @@ const Forums = () => {
                         <Column>
                             <div className="column is-6">
                                 <h1 className="title has-text-centered">Recent Topics</h1>
-                                <ForumTopicCard></ForumTopicCard>
+                                {
+                                    state.forumPosts.length &&
+
+                                    state.forumPosts.map(post =>
+                                        post.topics.map((topic, index) =>
+                                            <ForumTopicCard
+                                                key={index}
+                                                name={post.name}
+                                                id={post.id}
+                                                title={topic.title}
+                                                date={topic.date}
+                                                postID={topic.postID}
+                                                userName={topic.userName}
+                                            />
+                                        )
+                                    )
+                                }
                             </div>
                             <div className="column is-6">
                                 <h1 className="title has-text-centered">Recent User Posts</h1>

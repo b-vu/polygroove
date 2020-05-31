@@ -14,6 +14,7 @@ import Album from "./pages/Album/Album";
 import Track from "./pages/Track/Track";
 import Search from "./pages/Search/Search";
 import ForumTopic from "./pages/ForumTopic/ForumTopic";
+import ForumTopicsAndPosts from "./pages/ForumTopicsAndPosts/ForumTopicsAndPosts";
 import PrivateRoute from "./components/Private-Route/PrivateRoute";
 import { ProjectProvider } from "./utils/Store";
 
@@ -34,6 +35,7 @@ const App = () => {
           <Route exact path="/track/:name/:id" component={Track}/>
           <Route exact path="/search/:search" component={Search}/>
           <Route exact path="/forums/:id" component={ForumTopic}/>
+          <Route exact path="/topic/:id/:postID" component={ForumTopicsAndPosts}/>
           <Route component={Home}/>
         </Switch>
         <Footer/>

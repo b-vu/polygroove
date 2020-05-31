@@ -300,5 +300,11 @@ export default {
     },
     addForum: function(id, forum){
         return axios.post(`/api/forums/${id}`, forum);
+    },
+    getSpecificTopic: function(id, postID){
+        return axios.get(`/api/forums/topic/${id}/${postID}`);
+    },
+    addForumTopic: function(id, postID, topic){
+        return axios.post(`/api/forums/topic/${id}/${postID}`, topic);
     }
 }

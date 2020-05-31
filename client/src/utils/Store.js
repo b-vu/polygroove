@@ -176,7 +176,8 @@ const reducer = (state, action) => {
         case "UPDATE_FORUM_POSTS":
             return {
                 ...state,
-                forumPosts: action.forumPosts
+                forumPosts: action.forumPosts,
+                startForumTopic: action.startForumTopic
             }
         case "UPDATE_CURRENT_FORUM_POSTS":
             return {
@@ -185,7 +186,30 @@ const reducer = (state, action) => {
                     name: action.name,
                     id: action.id,
                     image: action.image,
-                    posts: action.posts
+                    topics: action.topics,
+                    postID: action.postID
+                },
+                startForumTopic: action.startForumTopic
+            }
+        case "UPDATE_START_TOPIC":
+            return {
+                ...state,
+                startForumTopic: action.startForumTopic
+            }
+        case "UPDATE_CURRENT_FORUM_TOPIC_FORM":
+            return {
+                ...state,
+                currentForumTopic: {
+                    ...state.currentForumTopic,
+                    [action.name]: action.value
+                }
+            }
+        case "UPDATE_CURRENT_FORUM_TOPIC":
+            return {
+                ...state,
+                currentForumTopic: {
+                    title: action.title,
+                    body: action.body
                 }
             }
         default:
@@ -235,7 +259,18 @@ const ProjectProvider = ({ value = [], ...props}) => {
         searchDisplay: "Artist",
         communityRatings: [],
         forumPosts: [],
-        currentForumPosts: {}
+        currentForumPosts: {
+            name: "",
+            id: "",
+            image: "",
+            topics: [],
+            postID: 0
+        },
+        startForumTopic: false,
+        currentForumTopic: {
+            title: "",
+            body: ""
+        }
     });
 
     return <Provider value={[state, dispatch]} {...props} />;
