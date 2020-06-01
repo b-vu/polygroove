@@ -209,8 +209,20 @@ const reducer = (state, action) => {
                 ...state,
                 currentForumTopic: {
                     title: action.title,
-                    body: action.body
-                }
+                    body: action.body,
+                    userName: action.userName || state.currentForumTopic.userName,
+                    userID: action.userID || state.currentForumTopic.userID,
+                    date: action.date || state.currentForumTopic.date,
+                    posts: action.posts || state.currentForumTopic.posts,
+                    id: action.id || state.currentForumTopic.id,
+                    postID: action.postID || state.currentForumTopic.postID
+                },
+                forumReply: action.forumReply || state.forumReply
+            }
+        case "UPDATE_FORUM_REPLY":
+            return {
+                ...state,
+                forumReply: action.forumReply
             }
         default:
             return state;
@@ -269,8 +281,15 @@ const ProjectProvider = ({ value = [], ...props}) => {
         startForumTopic: false,
         currentForumTopic: {
             title: "",
-            body: ""
-        }
+            body: "",
+            userName: "",
+            userID: "",
+            date: "",
+            posts: [],
+            id: "",
+            postID: ""
+        },
+        forumReply: ""
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

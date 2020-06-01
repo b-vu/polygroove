@@ -304,7 +304,10 @@ export default {
     getSpecificTopic: function(id, postID){
         return axios.get(`/api/forums/topic/${id}/${postID}`);
     },
-    addForumTopic: function(id, postID, topic){
-        return axios.post(`/api/forums/topic/${id}/${postID}`, topic);
+    addForumTopic: function(id, topic){
+        return axios.post(`/api/forums/topic/${id}`, topic);
+    },
+    addReply: function(id, postID, reply){
+        return axios.post(`/api/forums/topic/${id}/${postID}`, reply);
     }
 }

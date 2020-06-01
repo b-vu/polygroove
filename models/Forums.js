@@ -15,7 +15,7 @@ const ForumSchema = new Schema({
         userName: String,
         title: String,
         body: String,
-        postID: Number,
+        postID: String,
         date: {
             type: Date,
             default: Date.now

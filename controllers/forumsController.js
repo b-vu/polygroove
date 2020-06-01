@@ -16,8 +16,6 @@ module.exports = {
     addForum: function(req, res){
         const forum = new db.Forum(req.body);
 
-        console.log(forum)
-
         forum.save()
         .then(dbResponse => res.json(dbResponse))
         .catch(err => res.status(422).json(err));
@@ -31,6 +29,12 @@ module.exports = {
     addTopic: function(req, res){
         db.Forum
         .update({ id: req.params.id }, { $push: { topics: req.body } })
+        .then(dbResponse => res.json(dbResponse))
+        .catch(err => res.status(422).json(err));
+    },
+    addReply: function(req, res){
+        db.Forum
+        .update({ _id: req.params.id, "topics._id": req.params.postID }, { $addToSet: { "topics.$.posts": req.body } })
         .then(dbResponse => res.json(dbResponse))
         .catch(err => res.status(422).json(err));
     }

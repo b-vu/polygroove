@@ -4,7 +4,7 @@ import { useProjectContext } from "../../utils/Store";
 import { Link, useParams } from "react-router-dom";
 import Column from "../Column/Column";
 
-const TopicForm = props => {
+const TopicForm = () => {
     const [state, dispatch] = useProjectContext();
     const { id } = useParams();
 
@@ -18,10 +18,6 @@ const TopicForm = props => {
         });
     }
 
-    const addForumTopic = () => {
-        console.log(state.currentForumTopic.title, state.currentForumTopic.body);
-    }
-
     return(
         <Column>
             <div className="column is-2"/>
@@ -29,19 +25,19 @@ const TopicForm = props => {
                 <label className="label">Title</label>
                 <div className="field">
                     <div className="control">
-                        <input onChange={handleCurrentForumTopic} name="title" className="input is-info" type="text" placeholder="Info input"/>
+                        <input onChange={handleCurrentForumTopic} name="title" className="input is-info" type="text" placeholder="Title"/>
                     </div>
                 </div>
 
                 <label className="label">Body</label>
                 <div className="field">
                     <div className="control">
-                    <textarea onChange={handleCurrentForumTopic} name="body" className="textarea is-info" placeholder="Info textarea"></textarea>
+                    <textarea onChange={handleCurrentForumTopic} name="body" className="textarea is-info" placeholder="Discuss here!"></textarea>
                     </div>
                 </div>
 
                 <Link to={`/topic/${id}/${state.currentForumPosts.postID}`}>
-                    <button onClick={addForumTopic} className="button is-info is-rounded">Post</button>
+                    <button className="button is-info is-rounded">Post</button>
                 </Link>
             </div>
             <div className="column is-2"/>

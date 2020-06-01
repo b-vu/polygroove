@@ -8,9 +8,12 @@ router.route("/:id")
     .get(forumsController.getForumTopics)
     .post(forumsController.addForum);
 
+router.route("/topic/:id")
+    .post(forumsController.addTopic);
+
 router.route("/topic/:id/:postID")
     .get(forumsController.getTopicByPostID)
-    .post(forumsController.addTopic);
+    .post(forumsController.addReply);
     // .put(forumsController.editTopic);
 //     .post(forumsController.addTopic)
 //     .post(forumsController.addPost)
