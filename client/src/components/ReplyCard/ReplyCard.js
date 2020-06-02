@@ -1,10 +1,9 @@
 import React from "react";
-import "./ForumReply.css";
+import "./ReplyCard.css";
 import { Link } from "react-router-dom";
-import Column from "../Column/Column";
 
-const ForumReply = props => {
-    const { userID, userName, body, date, postNumber, name, id } = props;
+const ReplyCard = props => {
+    const { name, body, id, title, date, postID, userName } = props;
 
     const formatDate = time => {
         if(time === undefined){
@@ -76,15 +75,13 @@ const ForumReply = props => {
     return (
         <div className="card">
             <div className="card-content">
-                <p className="forum-subtext">#{postNumber}</p>
                 <div className="content">
                     <p>{body}</p>
-                    <br/>
-                    <p className="forum-subtext">Posted by {userName} in <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}</p>
+                    <p className="forum-subtext">Posted by {userName} in <Link to={`/topic/${id}/${postID}`}>{title}</Link> - <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}</p>
                 </div>
             </div>
         </div>
     );
 }
 
-export default ForumReply;
+export default ReplyCard;

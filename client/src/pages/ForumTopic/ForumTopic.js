@@ -7,6 +7,7 @@ import Box from "../../components/Box/Box";
 import Column from "../../components/Column/Column";
 import ForumTopicCard from "../../components/ForumTopicCard/ForumTopicCard";
 import TopicForm from "../../components/TopicForm/TopicForm";
+import ReplyCard from "../../components/ReplyCard/ReplyCard";
 
 const ForumTopic = () => {
     const [state, dispatch] = useProjectContext();
@@ -14,17 +15,20 @@ const ForumTopic = () => {
 
     useEffect(() => {
         API.getForumTopics(id).then(res => {
-            const currentForumPosts = res.data;
+            console.log(res.data);
+            const currentForumPosts = res.data.recentTopics;
+            const recentReplies = res.data.recentReplies;
 
-            API.getArtistOnly(id, state.token).then(res => {
+            if(id === "0" || id === "1" || id === "2" || id === "3" || id === "4" || id === "5" || id === "6" || id === "7" || id === "8" || id === "9" || id === "10"){
                 if(currentForumPosts){
                     dispatch({
                         type: "UPDATE_CURRENT_FORUM_POSTS",
                         name: res.data.name,
                         id: res.data.id,
                         image: res.data.images[0].url,
-                        topics: currentForumPosts.topics,
-                        postID: currentForumPosts.topics.length,
+                        topics: currentForumPosts,
+                        postID: currentForumPosts.length,
+                        recentReplies: recentReplies,
                         startForumTopic: false
                     });
                 }
@@ -36,18 +40,52 @@ const ForumTopic = () => {
                         image: res.data.images[0].url,
                         topics: [],
                         postID: 0,
+                        recentReplies: recentReplies,
                         startForumTopic: false
                     });
                 }
-            })
+            }
+            else{
+                API.getArtistOnly(id, state.token).then(res => {
+                    if(currentForumPosts){
+                        dispatch({
+                            type: "UPDATE_CURRENT_FORUM_POSTS",
+                            name: res.data.name,
+                            id: res.data.id,
+                            image: res.data.images[0].url,
+                            topics: currentForumPosts,
+                            postID: currentForumPosts.length,
+                            recentReplies: recentReplies,
+                            startForumTopic: false
+                        });
+                    }
+                    else{
+                        dispatch({
+                            type: "UPDATE_CURRENT_FORUM_POSTS",
+                            name: res.data.name,
+                            id: res.data.id,
+                            image: res.data.images[0].url,
+                            topics: [],
+                            postID: 0,
+                            recentReplies: recentReplies,
+                            startForumTopic: false
+                        });
+                    }
+                })
+            }
         })
     }, [id]);
 
     const handleStartForumTopic = () => {
-        dispatch({
-            type: "UPDATE_START_TOPIC",
-            startForumTopic: !state.startForumTopic
-        });
+        if(state.isAuthenticated){
+            dispatch({
+                type: "UPDATE_START_TOPIC",
+                startForumTopic: !state.startForumTopic
+            });
+        }
+        else{
+            window.location.assign("/register");
+        }
     }
 
     return(
@@ -66,7 +104,7 @@ const ForumTopic = () => {
                             <br/>
 
                             <p className="menu-label">
-                                Recent Forum Posts
+                                Genre Discussions
                             </p>
                             <ul className="menu-list">
                                 
@@ -75,7 +113,7 @@ const ForumTopic = () => {
                             <br/>
 
                             <p className="menu-label">
-                                Recent Forum Topics
+                                Miscellaneous
                             </p>
                             <ul className="menu-list">
                                 
@@ -127,7 +165,23 @@ const ForumTopic = () => {
                             </div>
                             <div className="column is-6">
                                 <h1 className="title has-text-centered">Recent User Posts</h1>
-                                <ForumTopicCard></ForumTopicCard>
+                                {
+                                    (state.currentForumPosts.recentReplies !== undefined && state.currentForumPosts.recentReplies.length !== 0) &&
+
+                                    state.currentForumPosts.recentReplies.map((reply, index) =>
+                                        reply.posts.length !== 0 &&
+                                            <ReplyCard
+                                                key={index}
+                                                name={reply.name}
+                                                body={reply.posts.length && reply.posts[reply.posts.length - 1].body}
+                                                id={reply.id}
+                                                title={reply.title}
+                                                date={reply.posts.length && reply.posts[reply.posts.length - 1].date}
+                                                postID={reply.postID}
+                                                userName={reply.posts.length && reply.posts[reply.posts.length - 1].userName}
+                                            />
+                                    )
+                                }
                             </div>
                             </Column>
                             </div>
@@ -152,6 +206,37 @@ const ForumTopic = () => {
                             </div>
                         }
                     </Box>
+                </div>
+
+                <div className="column is-2">
+                    <Box>
+                        <aside className="menu has-text-centered">
+                            <p className="menu-label">
+                                Your Account Stats
+                            </p>
+                            <ul className="menu-list">
+                                
+                            </ul>
+
+                            <br/>
+
+                            <p className="menu-label">
+                                Your Recent Forum Topics
+                            </p>
+                            <ul className="menu-list">
+                                
+                            </ul>
+
+                            <br/>
+
+                            <p className="menu-label">
+                                Your Recent Forum Posts
+                            </p>
+                            <ul className="menu-list">
+                                
+                            </ul>
+                        </aside>
+                    </Box>            
                 </div>
             </Column>
         </Box>

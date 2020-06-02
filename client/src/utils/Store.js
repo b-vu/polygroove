@@ -177,6 +177,7 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 forumPosts: action.forumPosts,
+                recentPosts: action.recentPosts,
                 startForumTopic: action.startForumTopic
             }
         case "UPDATE_CURRENT_FORUM_POSTS":
@@ -187,7 +188,8 @@ const reducer = (state, action) => {
                     id: action.id,
                     image: action.image,
                     topics: action.topics,
-                    postID: action.postID
+                    postID: action.postID,
+                    recentReplies: action.recentReplies
                 },
                 startForumTopic: action.startForumTopic
             }
@@ -208,6 +210,7 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 currentForumTopic: {
+                    name: action.name,
                     title: action.title,
                     body: action.body,
                     userName: action.userName || state.currentForumTopic.userName,
@@ -276,10 +279,12 @@ const ProjectProvider = ({ value = [], ...props}) => {
             id: "",
             image: "",
             topics: [],
-            postID: 0
+            postID: 0,
+            recentReplies: []
         },
         startForumTopic: false,
         currentForumTopic: {
+            name: "",
             title: "",
             body: "",
             userName: "",
@@ -289,7 +294,8 @@ const ProjectProvider = ({ value = [], ...props}) => {
             id: "",
             postID: ""
         },
-        forumReply: ""
+        forumReply: "",
+        recentPosts: []
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

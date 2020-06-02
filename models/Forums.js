@@ -10,25 +10,23 @@ const ForumSchema = new Schema({
         type: String,
         requried: true
     },
-    topics: [{
+    userID: String,
+    userName: String,
+    title: String,
+    body: String,
+    postID: String,
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    posts: [{
         userID: String,
         userName: String,
-        title: String,
         body: String,
-        postID: String,
         date: {
             type: Date,
             default: Date.now
-        },
-        posts: [{
-            userID: String,
-            userName: String,
-            body: String,
-            date: {
-                type: Date,
-                default: Date.now
-            }
-        }]
+        }
     }]
 });
 

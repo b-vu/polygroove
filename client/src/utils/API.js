@@ -295,6 +295,9 @@ export default {
     getAllForums: function(){
         return axios.get("/api/forums/");
     },
+    getAllPosts: function(){
+        return axios.get("/api/forums/posts");
+    },
     getForumTopics: function(id){
         return axios.get(`/api/forums/${id}`);
     },
@@ -303,9 +306,6 @@ export default {
     },
     getSpecificTopic: function(id, postID){
         return axios.get(`/api/forums/topic/${id}/${postID}`);
-    },
-    addForumTopic: function(id, topic){
-        return axios.post(`/api/forums/topic/${id}`, topic);
     },
     addReply: function(id, postID, reply){
         return axios.post(`/api/forums/topic/${id}/${postID}`, reply);

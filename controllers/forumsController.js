@@ -4,14 +4,34 @@ module.exports = {
     getAll: function(req, res){
         db.Forum
         .find({})
+        .sort({ "date": -1 })
+        .then(dbResponse => res.json(dbResponse))
+        .catch(err => res.status(422).json(err));
+    },
+    getAllPosts: function(req, res){
+        db.Forum
+        .find({})
+        .sort({ "posts.date": -1 })
         .then(dbResponse => res.json(dbResponse))
         .catch(err => res.status(422).json(err));
     },
     getForumTopics: function(req, res){
+        let response = {};
         db.Forum
-        .findOne({ id: req.params.id })
-        .then(dbResponse => res.json(dbResponse))
-        .catch(err => res.status(422).json(err));
+        .find({ id: req.params.id })
+        .sort({ "posts.date": -1 })
+        .then(dbResponse => {
+            response.recentReplies = dbResponse;
+
+            db.Forum
+            .find({ id: req.params.id })
+            .sort({ "date": -1 })
+            .then(dbResponse => {
+                response.recentTopics = dbResponse;
+                res.json(response);
+            })
+            .catch(err => res.status(422).json(err));
+        });
     },
     addForum: function(req, res){
         const forum = new db.Forum(req.body);
@@ -22,19 +42,13 @@ module.exports = {
     },
     getTopicByPostID: function(req, res){
         db.Forum
-        .findOne({ id: req.params.id, "topics.postID": req.params.postID })
-        .then(dbResponse => res.json(dbResponse))
-        .catch(err => res.status(422).json(err));
-    },
-    addTopic: function(req, res){
-        db.Forum
-        .update({ id: req.params.id }, { $push: { topics: req.body } })
+        .findOne({ id: req.params.id, postID: req.params.postID })
         .then(dbResponse => res.json(dbResponse))
         .catch(err => res.status(422).json(err));
     },
     addReply: function(req, res){
         db.Forum
-        .update({ _id: req.params.id, "topics._id": req.params.postID }, { $addToSet: { "topics.$.posts": req.body } })
+        .update({ _id: req.params.id }, { $push: { posts: req.body } })
         .then(dbResponse => res.json(dbResponse))
         .catch(err => res.status(422).json(err));
     }
