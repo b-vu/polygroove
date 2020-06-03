@@ -16,7 +16,18 @@ router.route("/topic/:id")
 
 router.route("/topic/:id/:postID")
     .get(forumsController.getTopicByPostID)
-    .post(forumsController.addReply);
+    .post(forumsController.addReply)
+    .put(forumsController.deleteReply)
+    .delete(forumsController.deleteTopic);
+
+router.route("/topic/edit/:id/:postID")
+    .put(forumsController.editTopic);
+
+router.route("/reply/edit/:id/:replyID")
+    .put(forumsController.editReply);
+
+router.route("/user/:userID")
+    .get(forumsController.getUserInfo);
 
     // .put(forumsController.editTopic);
 //     .post(forumsController.addTopic)

@@ -178,6 +178,11 @@ const reducer = (state, action) => {
                 ...state,
                 forumPosts: action.forumPosts,
                 recentPosts: action.recentPosts,
+                userInfo: {
+                    ...state.userInfo,
+                    userTopics: action.userTopics || state.userInfo.userTopics,
+                    userReplies: action.userReplies || state.userInfo.userReplies
+                },
                 startForumTopic: action.startForumTopic
             }
         case "UPDATE_CURRENT_FORUM_POSTS":
@@ -226,6 +231,27 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 forumReply: action.forumReply
+            }
+        case "UPDATE_USER_INFO":
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    userTopics: action.userTopics || state.userInfo.userTopics,
+                    userReplies: action.userReplies || state.userInfo.userReplies
+                }
+            }
+        case "UPDATE_EDIT_TOPIC":
+            return {
+                ...state,
+                editTopic: action.editTopic
+            }
+        case "UPDATE_EDIT_POST":
+            return {
+                ...state,
+                editPost: action.editPost,
+                editPostNumber: action.editPostNumber || state.editPostNumber,
+                forumReply: action.forumReply || state.forumReply
             }
         default:
             return state;
@@ -295,7 +321,14 @@ const ProjectProvider = ({ value = [], ...props}) => {
             postID: ""
         },
         forumReply: "",
-        recentPosts: []
+        recentPosts: [],
+        userInfo: {
+            userTopics: [],
+            userReplies: []
+        },
+        editTopic: false,
+        editPost: false,
+        editPostNumber: ""
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

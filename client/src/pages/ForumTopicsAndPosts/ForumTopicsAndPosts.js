@@ -12,6 +12,37 @@ const ForumTopicsAndPosts = () => {
     const { id, postID } = useParams();
 
     useEffect(() => {
+        if(state.isAuthenticated){
+            API.getUserInfo(state.user.id).then(userResponse => {
+                let userReplies = [];
+                for(const reply of userResponse.data.userReplies){
+                    let replyObj = {
+                        body: reply.body,
+                        date: reply.date,
+                        id: reply.id,
+                        name: reply.name,
+                        postID: reply.postID,
+                        title: reply.title,
+                        userID: reply.userID,
+                        userName: reply.userName,
+                        posts: []
+                    };
+                    for(const post of reply.posts){
+                        if(post.userID === state.user.id){
+                            replyObj.posts.push(post);
+                        }
+                    }
+                    userReplies.push(replyObj);
+                }
+
+                dispatch({
+                    type: "UPDATE_USER_INFO",
+                    userTopics: userResponse.data.userTopics,
+                    userReplies: userReplies
+                });
+            });
+        }
+
         if(state.forumPosts.length){
             checkIfForumCollectionIsEmpty();
         }
@@ -30,7 +61,7 @@ const ForumTopicsAndPosts = () => {
                 });
             });
         }
-    }, [state.forumPosts]);
+    }, [state.forumPosts, state.isAuthenticated, id, postID, state.currentForumTopic.posts.length, state.editPost]);
 
     const startNewForumCollection = () => {
         const forum = {
@@ -133,7 +164,7 @@ const ForumTopicsAndPosts = () => {
         dispatch({
             type: "UPDATE_FORUM_REPLY",
             forumReply: parsedValue
-        })
+        });
     }
 
     const addReply = () => {
@@ -241,27 +272,105 @@ const ForumTopicsAndPosts = () => {
         return(hour + ":" + minute + " " + meridian + ", " + newDate);
     }
 
+    const deleteTopic = () => {
+        API.deleteTopic(id, postID).then(res => {
+            window.location.assign("/forums");
+        });
+    }
+
+    const updateEditTopic = () => {
+        dispatch({
+            type: "UPDATE_EDIT_TOPIC",
+            editTopic: !state.editTopic
+        });
+    }
+
+    const handleEditTopic = event => {
+        const { name, value } = event.target;
+  
+        dispatch({
+            type: "UPDATE_CURRENT_FORUM_TOPIC_FORM",
+            name: name,
+            value: value
+        });
+    }
+
+    const editTopic = () => {
+        API.editTopic(id, postID, { body: state.currentForumTopic.body, title: state.currentForumTopic.title }).then(res => {
+            dispatch({
+                type: "UPDATE_CURRENT_FORUM_TOPIC_FORM",
+                title: state.currentForumTopic.body,
+                body: state.currentForumTopic.title
+            });
+            dispatch({
+                type: "UPDATE_EDIT_TOPIC",
+                editTopic: !state.editTopic
+            });
+        });
+    }
+
+    const updateEditPost = event => {
+        const editPostNumber = event.currentTarget.getAttribute("data-value");
+
+        dispatch({
+            type: "UPDATE_EDIT_POST",
+            editPost: !state.editPost,
+            editPostNumber: editPostNumber
+        });
+    }
+
+    const handleEditPost = event => {
+        const { value } = event.target;
+        
+        dispatch({
+            type: "UPDATE_FORUM_REPLY",
+            forumReply: value
+        });
+    }
+
+    const editReply = replyID => {
+        if(state.forumReply.length){
+            API.editReply(state.currentForumTopic.id, replyID, { userID: state.user.id, userName: state.user.name, body: state.forumReply }).then(res => {
+                dispatch({
+                    type: "UPDATE_EDIT_POST",
+                    editPost: !state.editPost,
+                    forumReply: ""
+                });
+            });
+        }
+        else{
+            return;
+        }
+    }
+
     return(
         <Box>
             {console.log(state)}
             <Column>
                 <div className="column is-2">
                     <Box>
-                        <aside className="menu has-text-centered">
+                        <aside className="menu">
                             <p className="menu-label">
                                 Genre Discussions
                             </p>
                             <ul className="menu-list">
-                                
+                                <Link to={"/forums/Hip Hop"}>Hip Hop</Link>
+                                <Link to={"/forums/Pop"}>Pop</Link>
+                                <Link to={"/forums/Indie"}>Indie</Link>
+                                <Link to={"/forums/Country"}>Country</Link>
+                                <Link to={"/forums/Rock"}>Rock</Link>
+                                <Link to={"/forums/Kpop"}>Kpop</Link>
+                                <Link to={"/forums/EDM"}>EDM</Link>
+                                <Link to={"/forums/Jazz"}>Jazz</Link>
+                                <Link to={"/forums/Latin"}>Latin</Link>
+                                <Link to={"/forums/Metal"}>Metal</Link>
                             </ul>
-
-                            <br/>
 
                             <p className="menu-label">
                                 Miscellaneous
                             </p>
                             <ul className="menu-list">
-                                
+                            <Link to={"/forums/General"}>General</Link>
                             </ul>
                         </aside>
                     </Box>            
@@ -272,8 +381,37 @@ const ForumTopicsAndPosts = () => {
                         <h1 className="title">{state.currentForumTopic.title}</h1>
                         <p className="">{state.currentForumTopic.body}</p>
                         <br/>
-                        <p className="forum-subtext">Posted by {state.currentForumTopic.userName} in <Link to={`/forums/${id}`}>{state.currentForumTopic.name}</Link> at {state.currentForumTopic.date.length !== 0 && formatDate(state.currentForumTopic.date)}</p>
+                        <p className="forum-subtext">
+                            Posted by {state.currentForumTopic.userName} in <Link to={`/forums/${id}`}>{state.currentForumTopic.name}</Link> at {state.currentForumTopic.date.length !== 0 && formatDate(state.currentForumTopic.date)}
+                            {
+                                (state.isAuthenticated && state.currentForumTopic.userID === state.user.id) &&
+                                    <span><span onClick={updateEditTopic} className="forum-edit-button"> Edit </span> | <span onClick={deleteTopic} className="forum-delete-button"> Delete</span></span>
+                            }
+                        </p>
                     </Box>
+                        {
+                            state.editTopic &&
+
+                            <div>
+                                <label className="label">Title</label>
+                                <div className="field">
+                                    <div className="control">
+                                        <input onChange={handleEditTopic} name="title" className="input is-info" type="text" placeholder="Title" value={state.currentForumTopic.title}/>
+                                    </div>
+                                </div>
+                
+                                <label className="label">Body</label>
+                                <div className="field">
+                                    <div className="control">
+                                    <textarea onChange={handleEditTopic} name="body" className="textarea is-info" placeholder="Discuss here!" value={state.currentForumTopic.body}/>
+                                    </div>
+                                </div>
+
+                                <button onClick={editTopic} className="button is-info is-rounded">Edit</button>
+                                <br/>
+                                <br/>
+                            </div>
+                        }
                         {
                             state.currentForumTopic.posts.length === 0
                             ?
@@ -307,6 +445,12 @@ const ForumTopicsAndPosts = () => {
                                         body={post.body}
                                         date={post.date}
                                         postNumber={(index + 1)}
+                                        _id={post._id}
+                                        postID={postID}
+                                        displayTopic={displayTopic}
+                                        updateEditPost={updateEditPost}
+                                        handleEditPost={handleEditPost}
+                                        editReply={editReply}
                                     />
                                 )
                                 }
@@ -329,31 +473,48 @@ const ForumTopicsAndPosts = () => {
 
                 <div className="column is-2">
                     <Box>
-                        <aside className="menu has-text-centered">
-                            <p className="menu-label">
+                        <aside className="menu">
+                            <p className="menu-label has-text-centered">
                                 Your Account Stats
                             </p>
-                            <ul className="menu-list">
-                                
+                            <ul className="menu-list has-text-centered">
+                                {
+                                    state.isAuthenticated &&
+                                    <div>
+                                        {state.userInfo.userTopics.length} Topics
+                                        <br/>
+                                        <br/>
+                                        {state.userInfo.userReplies.length} Replies
+                                    </div>
+                                }
                             </ul>
 
                             <br/>
 
-                            <p className="menu-label">
+                            <p className="menu-label has-text-centered">
                                 Your Recent Forum Topics
                             </p>
-                            <ul className="menu-list">
-                                
-                            </ul>
-
+                                {
+                                    (state.isAuthenticated && state.userInfo.userTopics.length !== 0) &&
+                                        state.userInfo.userTopics.map((topic, index) =>
+                                            <div key={index}>
+                                                <Link to={`/topic/${topic.id}/${topic.postID}`}>{topic.title}</Link>
+                                            </div>
+                                        )
+                                }
                             <br/>
 
-                            <p className="menu-label">
+                            <p className="menu-label has-text-centered">
                                 Your Recent Forum Posts
                             </p>
-                            <ul className="menu-list">
-                                
-                            </ul>
+                                {
+                                    (state.isAuthenticated && state.userInfo.userReplies.length !== 0) &&
+                                        state.userInfo.userReplies.map((reply, index) =>
+                                            <div key={index}>
+                                                <Link to={`/topic/${reply.id}/${reply.postID}`}>{reply.posts[reply.posts.length - 1].body}</Link>
+                                            </div>
+                                        )
+                                }
                         </aside>
                     </Box>            
                 </div>

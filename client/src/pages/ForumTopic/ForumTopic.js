@@ -14,18 +14,58 @@ const ForumTopic = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        if(!state.token.length){
+            API.getToken().then(res => {
+                dispatch({
+                    type: "UPDATE_TOKEN",
+                    token: res.data.access_token
+                });
+            });
+        }
+
+        if(state.isAuthenticated){
+            API.getUserInfo(state.user.id).then(userResponse => {
+                let userReplies = [];
+                for(const reply of userResponse.data.userReplies){
+                    let replyObj = {
+                        body: reply.body,
+                        date: reply.date,
+                        id: reply.id,
+                        name: reply.name,
+                        postID: reply.postID,
+                        title: reply.title,
+                        userID: reply.userID,
+                        userName: reply.userName,
+                        posts: []
+                    };
+                    for(const post of reply.posts){
+                        if(post.userID === state.user.id){
+                            replyObj.posts.push(post);
+                        }
+                    }
+                    userReplies.push(replyObj);
+                }
+
+                dispatch({
+                    type: "UPDATE_USER_INFO",
+                    userTopics: userResponse.data.userTopics,
+                    userReplies: userReplies
+                });
+            });
+        }
+
         API.getForumTopics(id).then(res => {
             console.log(res.data);
             const currentForumPosts = res.data.recentTopics;
             const recentReplies = res.data.recentReplies;
 
-            if(id === "0" || id === "1" || id === "2" || id === "3" || id === "4" || id === "5" || id === "6" || id === "7" || id === "8" || id === "9" || id === "10"){
+            if(id === "General" || id === "Hip Hop" || id === "1" || id === "Pop" || id === "Indie" || id === "Country" || id === "Rock" || id === "Kpop" || id === "EDM" || id === "Jazz" || id === "Latin" || id === "Metal"){    
                 if(currentForumPosts){
                     dispatch({
                         type: "UPDATE_CURRENT_FORUM_POSTS",
-                        name: res.data.name,
-                        id: res.data.id,
-                        image: res.data.images[0].url,
+                        name: id,
+                        id: id,
+                        image: "https://i.imgur.com/QG1EfLP.jpg",
                         topics: currentForumPosts,
                         postID: currentForumPosts.length,
                         recentReplies: recentReplies,
@@ -35,9 +75,9 @@ const ForumTopic = () => {
                 else{
                     dispatch({
                         type: "UPDATE_CURRENT_FORUM_POSTS",
-                        name: res.data.name,
-                        id: res.data.id,
-                        image: res.data.images[0].url,
+                        name: id,
+                        id: id,
+                        image: "https://i.imgur.com/QG1EfLP.jpg",
                         topics: [],
                         postID: 0,
                         recentReplies: recentReplies,
@@ -74,7 +114,7 @@ const ForumTopic = () => {
                 })
             }
         })
-    }, [id]);
+    }, [id, state.isAuthenticated]);
 
     const handleStartForumTopic = () => {
         if(state.isAuthenticated){
@@ -94,29 +134,35 @@ const ForumTopic = () => {
             <Column>
                 <div className="column is-2">
                     <Box>
-                        <aside className="menu has-text-centered">
+                        <aside className="menu">
                             {
                                 state.currentForumPosts.topics.length !== 0 &&
-                                <button onClick={handleStartForumTopic} className="button is-info is-rounded">Start new topic</button>
+                                <div className="has-text-centered">
+                                    <button onClick={handleStartForumTopic} className="button is-info is-rounded">Start new topic</button>
+                                </div>
                             }
-
-                            <br/>
-                            <br/>
 
                             <p className="menu-label">
                                 Genre Discussions
                             </p>
                             <ul className="menu-list">
-                                
+                                <Link to={"/forums/Hip Hop"}>Hip Hop</Link>
+                                <Link to={"/forums/Pop"}>Pop</Link>
+                                <Link to={"/forums/Indie"}>Indie</Link>
+                                <Link to={"/forums/Country"}>Country</Link>
+                                <Link to={"/forums/Rock"}>Rock</Link>
+                                <Link to={"/forums/Kpop"}>Kpop</Link>
+                                <Link to={"/forums/EDM"}>EDM</Link>
+                                <Link to={"/forums/Jazz"}>Jazz</Link>
+                                <Link to={"/forums/Latin"}>Latin</Link>
+                                <Link to={"/forums/Metal"}>Metal</Link>
                             </ul>
-
-                            <br/>
 
                             <p className="menu-label">
                                 Miscellaneous
                             </p>
                             <ul className="menu-list">
-                                
+                                <Link to={"/forums/General"}>General</Link>
                             </ul>
                         </aside>
                     </Box>            
@@ -210,31 +256,48 @@ const ForumTopic = () => {
 
                 <div className="column is-2">
                     <Box>
-                        <aside className="menu has-text-centered">
-                            <p className="menu-label">
+                        <aside className="menu">
+                            <p className="menu-label has-text-centered">
                                 Your Account Stats
                             </p>
-                            <ul className="menu-list">
-                                
+                            <ul className="menu-list has-text-centered">
+                                {
+                                    state.isAuthenticated &&
+                                    <div>
+                                        {state.userInfo.userTopics.length} Topics
+                                        <br/>
+                                        <br/>
+                                        {state.userInfo.userReplies.length} Replies
+                                    </div>
+                                }
                             </ul>
 
                             <br/>
 
-                            <p className="menu-label">
+                            <p className="menu-label has-text-centered">
                                 Your Recent Forum Topics
                             </p>
-                            <ul className="menu-list">
-                                
-                            </ul>
-
+                                {
+                                    (state.isAuthenticated && state.userInfo.userTopics.length !== 0) &&
+                                        state.userInfo.userTopics.map((topic, index) =>
+                                            <div key={index}>
+                                                <Link to={`/topic/${topic.id}/${topic.postID}`}>{topic.title}</Link>
+                                            </div>
+                                        )
+                                }
                             <br/>
 
-                            <p className="menu-label">
+                            <p className="menu-label has-text-centered">
                                 Your Recent Forum Posts
                             </p>
-                            <ul className="menu-list">
-                                
-                            </ul>
+                                {
+                                    (state.isAuthenticated && state.userInfo.userReplies.length !== 0) &&
+                                        state.userInfo.userReplies.map((reply, index) =>
+                                            <div key={index}>
+                                                <Link to={`/topic/${reply.id}/${reply.postID}`}>{reply.posts[reply.posts.length - 1].body}</Link>
+                                            </div>
+                                        )
+                                }
                         </aside>
                     </Box>            
                 </div>

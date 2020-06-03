@@ -309,5 +309,20 @@ export default {
     },
     addReply: function(id, postID, reply){
         return axios.post(`/api/forums/topic/${id}/${postID}`, reply);
+    },
+    getUserInfo: function(userID){
+        return axios.get(`/api/forums/user/${userID}`);
+    },
+    deleteReply: function(id, postID, replyID){
+        return axios.put(`/api/forums/topic/${id}/${postID}`, replyID);
+    },
+    deleteTopic: function(id, postID){
+        return axios.delete(`/api/forums/topic/${id}/${postID}`);
+    },
+    editTopic: function(id, postID, topic){
+        return axios.put(`/api/forums/topic/edit/${id}/${postID}`, topic);
+    },
+    editReply: function(id, replyID, reply){
+        return axios.put(`/api/forums/reply/edit/${id}/${replyID}`, reply);
     }
 }

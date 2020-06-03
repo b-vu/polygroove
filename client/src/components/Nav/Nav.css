@@ -11,10 +11,6 @@
     width: 500px;
 }
 
-/* #name{
-    font-size: 28px;
-} */
-
-/* a{
-    color: white;
-} */
+.navbar-brand{
+    margin-top: 5px;
+}

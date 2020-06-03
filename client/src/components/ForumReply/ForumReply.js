@@ -1,10 +1,12 @@
 import React from "react";
 import "./ForumReply.css";
 import { Link } from "react-router-dom";
-import Column from "../Column/Column";
+import { useProjectContext } from "../../utils/Store";
+import API from "../../utils/API";
 
 const ForumReply = props => {
-    const { userID, userName, body, date, postNumber, name, id } = props;
+    const { userID, userName, body, date, postNumber, name, id, _id, postID, displayTopic, updateEditPost, handleEditPost, editReply } = props;
+    const [state, dispatch] = useProjectContext();
 
     const formatDate = time => {
         if(time === undefined){
@@ -73,16 +75,43 @@ const ForumReply = props => {
         return(hour + ":" + minute + " " + meridian + ", " + newDate);
     }
 
+    const handleDelete = () => {
+        API.deleteReply(id, postID, { replyID: _id }).then(res => {
+            displayTopic();
+        });
+    }
+
     return (
+        <div>
         <div className="card">
             <div className="card-content">
                 <p className="forum-subtext">#{postNumber}</p>
                 <div className="content">
                     <p>{body}</p>
                     <br/>
-                    <p className="forum-subtext">Posted by {userName} in <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}</p>
+                    <p className="forum-subtext">
+                        Posted by {userName} in <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}
+                        {
+                            (state.isAuthenticated && userID === state.user.id) &&
+                            <span><span onClick={updateEditPost} className="forum-edit-button" data-value={_id}> Edit </span> | <span onClick={handleDelete} className="forum-delete-button"> Delete</span></span>
+                        }
+                    </p>
                 </div>
             </div>
+        </div>
+        <br/>
+        {
+            state.editPost && state.editPostNumber === _id &&
+            <div className="field">
+                <div className="control">
+                    <textarea onChange={handleEditPost} id="replyTextarea" className="textarea is-info" placeholder="Reply" value={state.forumReply}></textarea>
+                </div>
+                <br/>
+                <button onClick={() => editReply(_id)} className="button is-info is-rounded">Edit</button>
+                <br/>
+                <br/>
+            </div>
+        }
         </div>
     );
 }

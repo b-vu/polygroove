@@ -1,0 +1,15 @@
+.forum-delete-button{
+    color: red;
+}
+
+.forum-delete-button:hover{
+    cursor: pointer;
+}
+
+.forum-edit-button{
+    color: green;
+}
+
+.forum-edit-button:hover{
+    cursor: pointer;
+}

@@ -17,15 +17,50 @@ const Forums = () => {
 
             API.getAllPosts().then(response => {
                 const recentPosts = response.data;
-                dispatch({
-                    type: "UPDATE_FORUM_POSTS",
-                    forumPosts: forumPosts,
-                    recentPosts: recentPosts,
-                    startForumTopic: false
-                });
+                if(state.isAuthenticated){
+                    API.getUserInfo(state.user.id).then(userResponse => {
+                        let userReplies = [];
+                        for(const reply of userResponse.data.userReplies){
+                            let replyObj = {
+                                body: reply.body,
+                                date: reply.date,
+                                id: reply.id,
+                                name: reply.name,
+                                postID: reply.postID,
+                                title: reply.title,
+                                userID: reply.userID,
+                                userName: reply.userName,
+                                posts: []
+                            };
+                            for(const post of reply.posts){
+                                if(post.userID === state.user.id){
+                                    replyObj.posts.push(post);
+                                }
+                            }
+                            userReplies.push(replyObj);
+                        }
+
+                        dispatch({
+                            type: "UPDATE_FORUM_POSTS",
+                            forumPosts: forumPosts,
+                            recentPosts: recentPosts,
+                            userTopics: userResponse.data.userTopics,
+                            userReplies: userReplies,
+                            startForumTopic: false
+                        });
+                    });
+                }
+                else{
+                    dispatch({
+                        type: "UPDATE_FORUM_POSTS",
+                        forumPosts: forumPosts,
+                        recentPosts: recentPosts,
+                        startForumTopic: false
+                    });
+                }
             });
         });
-    }, []);
+    }, [state.isAuthenticated]);
 
     return(
         <Box>
@@ -33,21 +68,28 @@ const Forums = () => {
             <Column>
                 <div className="column is-2">
                     <Box>
-                        <aside className="menu has-text-centered">
+                        <aside className="menu">
                             <p className="menu-label">
                                 Genre Discussions
                             </p>
                             <ul className="menu-list">
-                                
+                                <Link to={"/forums/Hip Hop"}>Hip Hop</Link>
+                                <Link to={"/forums/Pop"}>Pop</Link>
+                                <Link to={"/forums/Indie"}>Indie</Link>
+                                <Link to={"/forums/Country"}>Country</Link>
+                                <Link to={"/forums/Rock"}>Rock</Link>
+                                <Link to={"/forums/Kpop"}>Kpop</Link>
+                                <Link to={"/forums/EDM"}>EDM</Link>
+                                <Link to={"/forums/Jazz"}>Jazz</Link>
+                                <Link to={"/forums/Latin"}>Latin</Link>
+                                <Link to={"/forums/Metal"}>Metal</Link>
                             </ul>
-
-                            <br/>
 
                             <p className="menu-label">
                                 Miscellaneous
                             </p>
                             <ul className="menu-list">
-                                
+                            <Link to={"/forums/General"}>General</Link>
                             </ul>
                         </aside>
                     </Box>            
@@ -103,31 +145,48 @@ const Forums = () => {
 
                 <div className="column is-2">
                     <Box>
-                        <aside className="menu has-text-centered">
-                            <p className="menu-label">
+                        <aside className="menu">
+                            <p className="menu-label has-text-centered">
                                 Your Account Stats
                             </p>
-                            <ul className="menu-list">
-                                
+                            <ul className="menu-list has-text-centered">
+                                {
+                                    state.isAuthenticated &&
+                                    <div>
+                                        {state.userInfo.userTopics.length} Topics
+                                        <br/>
+                                        <br/>
+                                        {state.userInfo.userReplies.length} Replies
+                                    </div>
+                                }
                             </ul>
 
                             <br/>
 
-                            <p className="menu-label">
+                            <p className="menu-label has-text-centered">
                                 Your Recent Forum Topics
                             </p>
-                            <ul className="menu-list">
-                                
-                            </ul>
-
+                                {
+                                    (state.isAuthenticated && state.userInfo.userTopics.length !== 0) &&
+                                        state.userInfo.userTopics.map((topic, index) =>
+                                            <div key={index}>
+                                                <Link to={`/topic/${topic.id}/${topic.postID}`}>{topic.title}</Link>
+                                            </div>
+                                        )
+                                }
                             <br/>
 
-                            <p className="menu-label">
+                            <p className="menu-label has-text-centered">
                                 Your Recent Forum Posts
                             </p>
-                            <ul className="menu-list">
-                                
-                            </ul>
+                                {
+                                    (state.isAuthenticated && state.userInfo.userReplies.length !== 0) &&
+                                        state.userInfo.userReplies.map((reply, index) =>
+                                            <div key={index}>
+                                                <Link to={`/topic/${reply.id}/${reply.postID}`}>{reply.posts[reply.posts.length - 1].body}</Link>
+                                            </div>
+                                        )
+                                }
                         </aside>
                     </Box>            
                 </div>
