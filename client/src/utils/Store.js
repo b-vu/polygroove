@@ -253,6 +253,25 @@ const reducer = (state, action) => {
                 editPostNumber: action.editPostNumber || state.editPostNumber,
                 forumReply: action.forumReply || state.forumReply
             }
+        case "UPDATE_EDITS":
+            return {
+                ...state,
+                editTopic: action.editTopic,
+                editPost: action.editPost || state.editPost
+            }
+        case "UPDATE_CURRENT_PROFILE":
+            return {
+                ...state,
+                currentProfile: action.currentProfile
+            }
+        case "UPDATE_PROFILE_DISPLAY":
+            return {
+                ...state,
+                profileDisplay: {
+                    ...state.profileDisplay,
+                    [action.name]: action.value
+                }
+            }
         default:
             return state;
     }
@@ -328,7 +347,19 @@ const ProjectProvider = ({ value = [], ...props}) => {
         },
         editTopic: false,
         editPost: false,
-        editPostNumber: ""
+        editPostNumber: "",
+        currentProfile: {
+            favoriteArtists: [],
+            favoriteAlbums: [],
+            favoriteTracks: [],
+            albumRatings: [],
+            trackRatings: []
+        },
+        profileDisplay: {
+            favDisplay: "fav-artists",
+            ratedDisplay: "rated-albums"
+        },
+        ratingDisplay: true
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

@@ -141,6 +141,17 @@ const Nav = () => {
                             </Link>
                         </p>
 
+                        {
+                            state.isAuthenticated &&
+                            <p className="navbar-item">
+                                <Link to={"/user/" + state.user.id}
+                                    className="navlink"
+                                >
+                                    Profile
+                                </Link>
+                            </p>
+                        }
+
                         <form className="field navbar-item nav-search control">
                             <input name="navbarSearch" onChange={handleNavbarSearchChange} className="input is-rounded is-success" type="text" placeholder="Search for artists, albums, or tracks"/>
                             &nbsp;
@@ -182,7 +193,7 @@ const Nav = () => {
                             state.isAuthenticated
                             ?
                             <p className="navbar-item">
-                                Welcome, {state.user.name}! &nbsp; | &nbsp;
+                                <Link className="navlink" to={"/user/" + state.user.id}>Welcome, {state.user.name}!</Link> &nbsp; | &nbsp;
                                 <Link to={"/"}
                                     onClick={logoutUser}
                                     className="navlink"

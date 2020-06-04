@@ -15,6 +15,7 @@ import Track from "./pages/Track/Track";
 import Search from "./pages/Search/Search";
 import ForumTopic from "./pages/ForumTopic/ForumTopic";
 import ForumTopicsAndPosts from "./pages/ForumTopicsAndPosts/ForumTopicsAndPosts";
+import User from "./pages/User/User";
 import PrivateRoute from "./components/Private-Route/PrivateRoute";
 import { ProjectProvider } from "./utils/Store";
 
@@ -36,6 +37,7 @@ const App = () => {
           <Route exact path="/search/:search" component={Search}/>
           <Route exact path="/forums/:id" component={ForumTopic}/>
           <Route exact path="/topic/:id/:postID" component={ForumTopicsAndPosts}/>
+          <Route exact path="/user/:id" component={User}/>
           <Route component={Home}/>
         </Switch>
         <Footer/>

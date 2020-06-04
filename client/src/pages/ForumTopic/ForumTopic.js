@@ -54,6 +54,12 @@ const ForumTopic = () => {
             });
         }
 
+        dispatch({
+            type: "UPDATE_EDITS",
+            editTopic: false,
+            editPost: false
+        });
+
         API.getForumTopics(id).then(res => {
             console.log(res.data);
             const currentForumPosts = res.data.recentTopics;

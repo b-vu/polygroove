@@ -12,6 +12,21 @@ const Forums = () => {
     const [state, dispatch] = useProjectContext();
 
     useEffect(() => {
+        if(!state.token.length){
+            API.getToken().then(res => {
+                dispatch({
+                    type: "UPDATE_TOKEN",
+                    token: res.data.access_token
+                });
+            });
+        }
+
+        dispatch({
+            type: "UPDATE_EDITS",
+            editTopic: false,
+            editPost: false
+        });
+
         API.getAllForums().then(res => {
             const forumPosts = res.data;
 

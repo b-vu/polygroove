@@ -29,13 +29,4 @@ router.route("/reply/edit/:id/:replyID")
 router.route("/user/:userID")
     .get(forumsController.getUserInfo);
 
-    // .put(forumsController.editTopic);
-//     .post(forumsController.addTopic)
-//     .post(forumsController.addPost)
-//     .put(forumsController.editPost)
-//     .delete(forumsController.deleteTopic)
-//     .delete(forumsController.deletePost);
-
-// router.route("/topic/")
-
 module.exports = router;

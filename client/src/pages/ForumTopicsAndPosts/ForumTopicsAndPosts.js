@@ -12,6 +12,15 @@ const ForumTopicsAndPosts = () => {
     const { id, postID } = useParams();
 
     useEffect(() => {
+        if(!state.token.length){
+            API.getToken().then(res => {
+                dispatch({
+                    type: "UPDATE_TOKEN",
+                    token: res.data.access_token
+                });
+            });
+        }
+
         if(state.isAuthenticated){
             API.getUserInfo(state.user.id).then(userResponse => {
                 let userReplies = [];
@@ -42,6 +51,16 @@ const ForumTopicsAndPosts = () => {
                 });
             });
         }
+
+        dispatch({
+            type: "UPDATE_EDITS",
+            editTopic: false
+        });
+
+        dispatch({
+            type: "UPDATE_FORUM_REPLY",
+            forumReply: ""
+        });
 
         if(state.forumPosts.length){
             checkIfForumCollectionIsEmpty();

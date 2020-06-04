@@ -324,5 +324,8 @@ export default {
     },
     editReply: function(id, replyID, reply){
         return axios.put(`/api/forums/reply/edit/${id}/${replyID}`, reply);
+    },
+    getUserProfile: function(id){
+        return axios.get(`/api/profile/${id}`);
     }
 }
