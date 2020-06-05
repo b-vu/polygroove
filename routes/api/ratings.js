@@ -6,6 +6,12 @@ router.route("/album/:id")
     .post(ratingsController.addAlbumRating)
     .put(ratingsController.editAlbumRating);
 
+router.route("/album/existing/:id")
+    .put(ratingsController.addToExistingDBAlbum);
+
+router.route("/track/existing/:id")
+    .put(ratingsController.addToExistingDBTrack);
+
 router.route("/track/:id")
     .get(ratingsController.getRatings)
     .post(ratingsController.addTrackRating)

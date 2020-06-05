@@ -103,8 +103,13 @@ const Track = () => {
                     getUserRatings(state.user.id);
                 });
             }
+            else if(state.communityRatings.length){
+                API.addToExistingDBTrack(id, { userID: state.user.id, userName: state.user.name, rating: value, name: state.currentTrack[1].name, id: state.currentTrack[1].id, artist: state.currentTrack[1].artists[0].name, artistID: state.currentTrack[1].artists[0].id, image: state.currentTrack[1].album.images[0].url }).then(res => {
+                    getUserRatings(state.user.id);
+                });
+            }
             else{
-                API.addTrackRating(state.user.id, { name: state.currentTrack[1].name, id: state.currentTrack[1].id, artist: state.currentTrack[1].artists[0].name, artistID: state.currentTrack[1].artists[0].id, rating: value, image: state.currentTrack[1].album.images[0].url }).then(res => {
+                API.addTrackRating(state.user.id, { userName: state.user.name, name: state.currentTrack[1].name, id: state.currentTrack[1].id, artist: state.currentTrack[1].artists[0].name, artistID: state.currentTrack[1].artists[0].id, rating: value, image: state.currentTrack[1].album.images[0].url }).then(res => {
                     getUserRatings(state.user.id);
                 });
             }

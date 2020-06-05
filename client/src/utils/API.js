@@ -289,6 +289,12 @@ export default {
     editTrackRating: function(userID, trackRating){
         return axios.put(`/api/ratings/track/${userID}`, trackRating);
     },
+    addToExistingDBAlbum: function(id, rating){
+        return axios.put(`/api/ratings/album/existing/${id}`, rating);
+    },
+    addToExistingDBTrack: function(id, rating){
+        return axios.put(`/api/ratings/track/existing/${id}`, rating);
+    },
     getCommunityRatings: function(id){
         return axios.get(`/api/communityratings/${id}`);
     },
@@ -327,5 +333,11 @@ export default {
     },
     getUserProfile: function(id){
         return axios.get(`/api/profile/${id}`);
+    },
+    getUserForum: function(id){
+        return axios.get(`/api/profile/forum/${id}`);
+    },
+    editBio: function(id, bio){
+        return axios.post(`/api/profile/${id}`, bio);
     }
 }

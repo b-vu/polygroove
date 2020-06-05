@@ -138,6 +138,11 @@ const Album = () => {
                     getUserRatings(state.user.id);
                 });
             }
+            else if(state.communityRatings.length){
+                API.addToExistingDBAlbum(id, { userID: state.user.id, userName: state.user.name, rating: value, name: state.currentAlbum.name, id: state.currentAlbum.id, artist: state.currentAlbum.artists[0].name, artistID: state.currentAlbum.artists[0].id, image: state.currentAlbum.images[0].url }).then(res => {
+                    getUserRatings(state.user.id);
+                });
+            }
             else{
                 API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, id: state.currentAlbum.id, artist: state.currentAlbum.artists[0].name, artistID: state.currentAlbum.artists[0].id, rating: value, image: state.currentAlbum.images[0].url, userName: state.user.name }).then(res => {
                    getUserRatings(state.user.id);
@@ -260,6 +265,8 @@ const Album = () => {
         }
 
         average = parseInt(average.toFixed(2)) / communityRatingsArray.length;
+
+        console.log(average);
 
         for(let i = 0; i < 5; i++){
             if(average < parseInt(stars[i].getAttribute("data-value")) && average >= parseInt(stars[i].getAttribute("data-decimal")) + 0.50){

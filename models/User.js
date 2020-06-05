@@ -18,6 +18,10 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  bio: {
+    type: String,
+    default: "No bio"
+  },
   favoriteArtists: [{ artist: String, artistID: String, image: String, date: {type: Date, default: Date.now } }],
   favoriteAlbums: [{ name: String, id: String, artist: String, artistID: String, image: String, date: {type: Date, default: Date.now } }],
   favoriteTracks: [{ name: String, id: String, artist: String, artistID: String, image: String, date: {type: Date, default: Date.now } }],

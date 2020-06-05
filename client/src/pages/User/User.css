@@ -1,3 +1,11 @@
 .profile-tabs:hover{
     cursor: pointer;
 }
+
+.profile-arrow:hover{
+    cursor: pointer;
+}
+
+.profile-arrow{
+    font-size: 20px;
+}

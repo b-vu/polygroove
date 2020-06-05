@@ -262,7 +262,8 @@ const reducer = (state, action) => {
         case "UPDATE_CURRENT_PROFILE":
             return {
                 ...state,
-                currentProfile: action.currentProfile
+                currentProfile: action.currentProfile || state.currentProfile,
+                currentProfileForums: action.currentProfileForums || state.currentProfileForums
             }
         case "UPDATE_PROFILE_DISPLAY":
             return {
@@ -271,6 +272,20 @@ const reducer = (state, action) => {
                     ...state.profileDisplay,
                     [action.name]: action.value
                 }
+            }
+        case "UPDATE_BIO_EDIT":
+            return {
+                ...state,
+                bioEdit: action.bioEdit
+            }
+        case "UPDATE_USER_BIO":
+            return {
+                ...state,
+                currentProfile: {
+                    ...state.currentProfile,
+                    bio: action.bio
+                }
+
             }
         default:
             return state;
@@ -349,17 +364,30 @@ const ProjectProvider = ({ value = [], ...props}) => {
         editPost: false,
         editPostNumber: "",
         currentProfile: {
-            favoriteArtists: [],
-            favoriteAlbums: [],
-            favoriteTracks: [],
+            favoriteArtists: [[]],
+            favoriteAlbums: [[]],
+            favoriteTracks: [[]],
             albumRatings: [],
-            trackRatings: []
+            trackRatings: [],
+            favoriteArtistsLength: 0,
+            favoriteAlbumsLength: 0,
+            favoriteTracksLength: 0,
+            ratedAlbumsLength: 0,
+            ratedTracksLength: 0
         },
         profileDisplay: {
             favDisplay: "fav-artists",
-            ratedDisplay: "rated-albums"
+            ratedDisplay: "rated-albums",
+            favArtistsPage: 0,
+            favAlbumsPage: 0,
+            favTracksPage: 0,
+            ratedAlbumsPage: 0,
+            ratedTracksPage: 0,
+            forumsPage: 0
         },
-        ratingDisplay: true
+        ratingDisplay: true,
+        currentProfileForums: [],
+        bioEdit: false
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

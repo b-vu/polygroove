@@ -34,6 +34,16 @@ module.exports = {
         })
         .catch(err => res.status(422).json(err));
     },
+    addToExistingDBAlbum: function(req, res){
+        db.User
+        .update({ _id: req.body.userID }, { $push: { albumRatings: { name: req.body.name, id: req.body.id, artist: req.body.artist, artistID: req.body.artistID, image: req.body.image, rating: req.body.rating } } })
+        .then(
+            db.Rating
+            .updateOne({ id: req.params.id }, { $push: { ratings: { userID: req.body.userID, userName: req.body.userName, rating: req.body.rating } } })
+            .then(dbResponse => res.json(dbResponse))
+            .catch(err => res.status(422).json(err))
+        );
+    },
     editAlbumRating: function(req, res){
         let userRating;
         let communityRating;
@@ -77,6 +87,16 @@ module.exports = {
             res.json(response);
         })
         .catch(err => res.status(422).json(err));
+    },
+    addToExistingDBTrack: function(req, res){
+        db.User
+        .update({ _id: req.body.userID }, { $push: { trackRatings: { name: req.body.name, id: req.body.id, artist: req.body.artist, artistID: req.body.artistID, image: req.body.image, rating: req.body.rating } } })
+        .then(
+            db.Rating
+            .updateOne({ id: req.params.id }, { $push: { ratings: { userID: req.body.userID, userName: req.body.userName, rating: req.body.rating } } })
+            .then(dbResponse => res.json(dbResponse))
+            .catch(err => res.status(422).json(err))
+        );
     },
     editTrackRating: function(req, res){
         let userRating;
