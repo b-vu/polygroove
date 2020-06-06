@@ -20,6 +20,12 @@ const User = () => {
             profileInfo.ratedAlbumsLength = res.data.albumRatings.length;
             profileInfo.ratedTracksLength = res.data.trackRatings.length;
 
+            res.data.favoriteArtists.reverse();
+            res.data.favoriteAlbums.reverse();
+            res.data.favoriteTracks.reverse();
+            res.data.albumRatings.reverse();
+            res.data.trackRatings.reverse();
+
             if(res.data !== null && res.data.favoriteArtists.length <= 14 && res.data.favoriteAlbums.length <= 14 && res.data.favoriteTracks.length <= 14){
                 profileInfo.favoriteArtists = [res.data.favoriteArtists];
                 profileInfo.favoriteAlbums = [res.data.favoriteAlbums];
