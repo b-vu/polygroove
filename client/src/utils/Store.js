@@ -367,13 +367,14 @@ const ProjectProvider = ({ value = [], ...props}) => {
             favoriteArtists: [[]],
             favoriteAlbums: [[]],
             favoriteTracks: [[]],
-            albumRatings: [],
-            trackRatings: [],
+            albumRatings: [[]],
+            trackRatings: [[]],
             favoriteArtistsLength: 0,
             favoriteAlbumsLength: 0,
             favoriteTracksLength: 0,
             ratedAlbumsLength: 0,
-            ratedTracksLength: 0
+            ratedTracksLength: 0,
+            forumsLength: 0
         },
         profileDisplay: {
             favDisplay: "fav-artists",
@@ -386,7 +387,7 @@ const ProjectProvider = ({ value = [], ...props}) => {
             forumsPage: 0
         },
         ratingDisplay: true,
-        currentProfileForums: [],
+        currentProfileForums: [[]],
         bioEdit: false
     });
 

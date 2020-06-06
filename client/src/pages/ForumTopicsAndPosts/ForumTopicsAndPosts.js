@@ -401,7 +401,7 @@ const ForumTopicsAndPosts = () => {
                         <p className="">{state.currentForumTopic.body}</p>
                         <br/>
                         <p className="forum-subtext">
-                            Posted by {state.currentForumTopic.userName} in <Link to={`/forums/${id}`}>{state.currentForumTopic.name}</Link> at {state.currentForumTopic.date.length !== 0 && formatDate(state.currentForumTopic.date)}
+                            Posted by <Link to={`/user/${state.currentForumTopic.userID}`}>{state.currentForumTopic.userName}</Link> in <Link to={`/forums/${id}`}>{state.currentForumTopic.name}</Link> at {state.currentForumTopic.date.length !== 0 && formatDate(state.currentForumTopic.date)}
                             {
                                 (state.isAuthenticated && state.currentForumTopic.userID === state.user.id) &&
                                     <span><span onClick={updateEditTopic} className="forum-edit-button"> Edit </span> | <span onClick={deleteTopic} className="forum-delete-button"> Delete</span></span>

@@ -3,7 +3,7 @@ import "./ReplyCard.css";
 import { Link } from "react-router-dom";
 
 const ReplyCard = props => {
-    const { name, body, id, title, date, postID, userName } = props;
+    const { name, body, id, title, date, postID, userName, userID } = props;
 
     const formatDate = time => {
         if(time === undefined){
@@ -77,7 +77,7 @@ const ReplyCard = props => {
             <div className="card-content">
                 <div className="content">
                     <p>{body}</p>
-                    <p className="forum-subtext">Posted by {userName} in <Link to={`/topic/${id}/${postID}`}>{title}</Link> - <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}</p>
+                    <p className="forum-subtext">Posted by <Link to={`/user/${userID}`}>{userName}</Link> in <Link to={`/topic/${id}/${postID}`}>{title}</Link> - <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}</p>
                 </div>
             </div>
         </div>

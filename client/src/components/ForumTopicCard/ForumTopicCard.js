@@ -3,7 +3,7 @@ import "./ForumTopicCard.css";
 import { Link } from "react-router-dom";
 
 const ForumTopicCard = props => {
-    const { name, id, title, date, postID, userName } = props;
+    const { name, id, title, date, postID, userName, userID } = props;
 
     const formatDate = time => {
         if(time === undefined){
@@ -78,7 +78,7 @@ const ForumTopicCard = props => {
                 <div className="content">
                     <Link to={`/topic/${id}/${postID}`}><p>{title}</p></Link>
                     <br/>
-                    <p className="forum-subtext">Posted by {userName} in <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}</p>
+                    <p className="forum-subtext">Posted by <Link to={`/user/${userID}`}>{userName}</Link> in <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}</p>
                 </div>
             </div>
         </div>

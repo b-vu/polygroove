@@ -61,7 +61,6 @@ const ForumTopic = () => {
         });
 
         API.getForumTopics(id).then(res => {
-            console.log(res.data);
             const currentForumPosts = res.data.recentTopics;
             const recentReplies = res.data.recentReplies;
 
@@ -211,6 +210,7 @@ const ForumTopic = () => {
                                             date={topic.date}
                                             postID={topic.postID}
                                             userName={topic.userName}
+                                            userID={topic.userID}
                                         />
                                     )
                                 }
@@ -231,6 +231,7 @@ const ForumTopic = () => {
                                                 date={reply.posts.length && reply.posts[reply.posts.length - 1].date}
                                                 postID={reply.postID}
                                                 userName={reply.posts.length && reply.posts[reply.posts.length - 1].userName}
+                                                userID={reply.posts.length && reply.posts[reply.posts.length - 1].userID}
                                             />
                                     )
                                 }

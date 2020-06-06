@@ -13,11 +13,12 @@ const User = () => {
 
     useEffect(() => {
         API.getUserProfile(id).then(res => {
-            console.log(res.data)
             let profileInfo = res.data;
             profileInfo.favoriteArtistsLength = res.data.favoriteArtists.length;
             profileInfo.favoriteAlbumsLength = res.data.favoriteAlbums.length;
             profileInfo.favoriteTracksLength = res.data.favoriteTracks.length;
+            profileInfo.ratedAlbumsLength = res.data.albumRatings.length;
+            profileInfo.ratedTracksLength = res.data.trackRatings.length;
 
             if(res.data !== null && res.data.favoriteArtists.length <= 14 && res.data.favoriteAlbums.length <= 14 && res.data.favoriteTracks.length <= 14){
                 profileInfo.favoriteArtists = [res.data.favoriteArtists];
@@ -66,8 +67,55 @@ const User = () => {
                 }
             }
 
+            if(res.data !== null && res.data.albumRatings.length <= 9 && res.data.trackRatings.length <= 9){
+                profileInfo.albumRatings = [res.data.albumRatings];
+                profileInfo.trackRatings = [res.data.trackRatings];
+            }
+            else{
+                let ratedAlbumsArr = [];
+                let ratedTracksArr = [];
+
+                if(res.data.albumRatings.length > 9){
+                    for(let i = 0; i < res.data.albumRatings.length; i++){
+                        if(!(i % 9)){
+                            ratedAlbumsArr.push(res.data.albumRatings.slice(i, i + 9));
+                        }
+                    }
+                    profileInfo.albumRatings = ratedAlbumsArr;
+                }
+                else{
+                    profileInfo.albumRatings = [res.data.albumRatings];
+                }
+
+                if(res.data.trackRatings.length > 9){
+                    for(let i = 0; i < res.data.trackRatings.length; i++){
+                        if(!(i % 9)){
+                            ratedTracksArr.push(res.data.trackRatings.slice(i, i + 9));
+                        }
+                    }
+                    profileInfo.trackRatings = ratedTracksArr;
+                }
+                else{
+                    profileInfo.trackRatings = [res.data.trackRatings];
+                }
+            }
+
             API.getUserForum(id).then(response => {
-                const profileForum = response.data;
+                let profileForum = response.data;
+                let profileForumArr = [];
+                profileInfo.forumsLength = response.data.length;
+
+                if(profileForum.length > 11){
+                    for(let i = 0; i < response.data.length; i++){
+                        if(!(i % 11)){
+                            profileForumArr.push(response.data.slice(i, i + 11));
+                        }
+                    }
+                    profileForum = profileForumArr;
+                }
+                else{
+                    profileForum = [response.data];
+                }
 
                 if(profileInfo !== null){
                     dispatch({
@@ -197,19 +245,27 @@ const User = () => {
                         }
                         </article>
                         <article className="tile is-child notification is-warning">
-                        <p className="title">Forum Posts({state.currentProfileForums.length})</p>
+                        <p className="title">Forum Posts({state.currentProfile.forumsLength})</p>
                         {
                             state.currentProfileForums.length !== 0 &&
-                            state.currentProfileForums.map((post, index) =>
+                            state.currentProfileForums[state.profileDisplay.forumsPage].map((post, index) =>
                                 <div key={index}>
                                     <Link to={`/topic/${post.id}/${post.postID}`}>{post.title}</Link> in <Link to={`/forums/${post.id}`}>{post.name}</Link>
                                 </div>
                             )
                         }
                         {
-                            (state.currentProfileForums.length > 11) &&
+                            (state.currentProfileForums.length > 1) &&
                             <div className="has-text-centered">
-                                <span className="profile-arrow">&larr;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="profile-arrow">&rarr;</span>
+                                {
+                                    state.profileDisplay.forumsPage !== 0 &&
+                                    <span onClick={handlePrevious} data-value="forumsPage" className="profile-arrow">&larr;</span>
+                                }
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {
+                                    state.profileDisplay.forumsPage !== state.currentProfileForums.length - 1 &&
+                                    <span onClick={handleNext} data-value="forumsPage" className="profile-arrow">&rarr;</span>
+                                }
                             </div>
                         }
                         </article>
@@ -292,11 +348,11 @@ const User = () => {
                 <div className="tile is-parent">
                     <article className="tile is-child notification is-primary">
                         <p className="title">Ratings</p>
-                        <p className="subtitle"><span onClick={handleRatedDisplay} className="profile-tabs" data-value="rated-albums">Albums({state.currentProfile.albumRatings.length})</span> | <span onClick={handleRatedDisplay} className="profile-tabs" data-value="rated-tracks">Tracks({state.currentProfile.trackRatings.length})</span></p>
+                        <p className="subtitle"><span onClick={handleRatedDisplay} className="profile-tabs" data-value="rated-albums">Albums({state.currentProfile.ratedAlbumsLength})</span> | <span onClick={handleRatedDisplay} className="profile-tabs" data-value="rated-tracks">Tracks({state.currentProfile.ratedTracksLength})</span></p>
                             {
                                 (state.profileDisplay.ratedDisplay === "rated-albums" && state.currentProfile.albumRatings.length !== 0) &&
 
-                                state.currentProfile.albumRatings.map((album, index) =>
+                                state.currentProfile.albumRatings[state.profileDisplay.ratedAlbumsPage].map((album, index) =>
                                     <div key={index} className="column">
                                         <Link to={`/album/${album.id}`}>{album.name}</Link> by <Link to={`/artist/${album.artist}/${album.artistID}`}>{album.artist}</Link>
                                         <ProfileStars rating={album.rating} index={index}/>
@@ -306,7 +362,7 @@ const User = () => {
                             {
                                 (state.profileDisplay.ratedDisplay === "rated-tracks" && state.currentProfile.trackRatings.length !== 0) &&
 
-                                state.currentProfile.trackRatings.map((track, index) =>
+                                state.currentProfile.trackRatings[state.profileDisplay.ratedTracksPage].map((track, index) =>
                                     <div key={index} className="column">
                                         <Link to={`/track/${track.name}/${track.id}`}>{track.name}</Link> by <Link to={`/artist/${track.artist}/${track.artistID}`}>{track.artist}</Link>
                                         <ProfileStars rating={track.rating} index={index}/>
@@ -314,15 +370,31 @@ const User = () => {
                                 )
                             }
                             {
-                                (state.profileDisplay.ratedDisplay === "rated-albums" && state.currentProfile.albumRatings.length > 9) &&
+                                (state.profileDisplay.ratedDisplay === "rated-albums" && state.currentProfile.albumRatings.length > 1) &&
                                 <div className="has-text-centered">
-                                    <span className="profile-arrow">&larr;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="profile-arrow">&rarr;</span>
+                                    {
+                                        state.profileDisplay.ratedAlbumsPage !== 0 &&
+                                        <span onClick={handlePrevious} data-value="ratedAlbumsPage" className="profile-arrow">&larr;</span>
+                                    }
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {
+                                        state.profileDisplay.ratedAlbumsPage !== state.currentProfile.albumRatings.length - 1 &&
+                                        <span onClick={handleNext} data-value="ratedAlbumsPage" className="profile-arrow">&rarr;</span>
+                                    }
                                 </div>
                             }
                             {
-                                (state.profileDisplay.ratedDisplay === "rated-tracks" && state.currentProfile.trackRatings.length > 9) &&
+                                (state.profileDisplay.ratedDisplay === "rated-tracks" && state.currentProfile.trackRatings.length > 1) &&
                                 <div className="has-text-centered">
-                                    <span className="profile-arrow">&larr;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="profile-arrow">&rarr;</span>
+                                    {
+                                        state.profileDisplay.ratedTracksPage !== 0 &&
+                                        <span onClick={handlePrevious} data-value="ratedTracksPage" className="profile-arrow">&larr;</span>
+                                    }
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {
+                                        state.profileDisplay.ratedTracksPage !== state.currentProfile.trackRatings.length - 1 &&
+                                        <span onClick={handleNext} data-value="ratedTracksPage" className="profile-arrow">&rarr;</span>
+                                    }
                                 </div>
                             }
                     </article>

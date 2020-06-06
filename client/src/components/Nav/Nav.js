@@ -96,7 +96,7 @@ const Nav = () => {
                 <div className="navbar-brand">
                     <Link to={"/"}>
                         <div className="navbar-item" >
-                            <p id="name"><strong>Best Live Music</strong></p>
+                            <p id="name"><strong>Boards, Lists & Music</strong></p>
                         </div>
                     </Link>
                 

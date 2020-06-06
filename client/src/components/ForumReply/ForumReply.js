@@ -90,7 +90,7 @@ const ForumReply = props => {
                     <p>{body}</p>
                     <br/>
                     <p className="forum-subtext">
-                        Posted by {userName} in <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}
+                        Posted by <Link to={`/user/${userID}`}>{userName}</Link> in <Link to={`/forums/${id}`}>{name}</Link> at {formatDate(date)}
                         {
                             (state.isAuthenticated && userID === state.user.id) &&
                             <span><span onClick={updateEditPost} className="forum-edit-button" data-value={_id}> Edit </span> | <span onClick={handleDelete} className="forum-delete-button"> Delete</span></span>

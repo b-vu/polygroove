@@ -46,6 +46,9 @@ const Charts = () => {
                 return (
                     API.getGlobalTop50(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -75,6 +78,9 @@ const Charts = () => {
                 return (
                     API.getHipHop(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -104,6 +110,9 @@ const Charts = () => {
                 return (
                     API.getPop(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -133,6 +142,9 @@ const Charts = () => {
                 return (
                     API.getIndie(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -162,6 +174,9 @@ const Charts = () => {
                 return (
                     API.getCountry(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -191,6 +206,9 @@ const Charts = () => {
                 return (
                     API.getRock(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -220,6 +238,9 @@ const Charts = () => {
                 return (
                     API.getKpop(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -249,6 +270,9 @@ const Charts = () => {
                 return (
                     API.getEDM(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -278,6 +302,9 @@ const Charts = () => {
                 return (
                     API.getJazz(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -307,6 +334,9 @@ const Charts = () => {
                 return (
                     API.getLatin(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -336,6 +366,9 @@ const Charts = () => {
                 return (
                     API.getMetal(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,
@@ -364,6 +397,9 @@ const Charts = () => {
 
                     API.getUSATop50(state.token).then(res => {
                         for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
                             let songObj = {
                                 image: song.track.album.images[1].url,
                                 artist: song.track.artists[0].name,

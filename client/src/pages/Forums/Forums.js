@@ -128,6 +128,7 @@ const Forums = () => {
                                             date={post.date}
                                             postID={post.postID}
                                             userName={post.userName}
+                                            userID={post.userID}
                                         />
                                     )
                                 }
@@ -148,6 +149,7 @@ const Forums = () => {
                                             date={post.posts.length && post.posts[post.posts.length - 1].date}
                                             postID={post.postID}
                                             userName={post.posts.length && post.posts[post.posts.length - 1].userName}
+                                            userID={post.posts.length && post.posts[post.posts.length - 1].userID}
                                         />
                                     )
                                     :
