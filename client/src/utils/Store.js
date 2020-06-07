@@ -285,7 +285,14 @@ const reducer = (state, action) => {
                     ...state.currentProfile,
                     bio: action.bio
                 }
-
+            }
+        case "UPDATE_HOME_PAGE":
+            return {
+                ...state,
+                home: {
+                    ...state.home,
+                    [action.name]: action.value
+                }
             }
         default:
             return state;
@@ -388,7 +395,12 @@ const ProjectProvider = ({ value = [], ...props}) => {
         },
         ratingDisplay: true,
         currentProfileForums: [[]],
-        bioEdit: false
+        bioEdit: false,
+        home: {
+            homeForums: [],
+            homeCharts: [],
+            homeRatings: []
+        }
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

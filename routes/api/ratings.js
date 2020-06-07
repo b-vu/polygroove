@@ -17,4 +17,7 @@ router.route("/track/:id")
     .post(ratingsController.addTrackRating)
     .put(ratingsController.editTrackRating);
 
+router.route("/")
+    .get(ratingsController.getAllRatings);
+
 module.exports = router;

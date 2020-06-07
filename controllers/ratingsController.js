@@ -1,6 +1,13 @@
 const db = require("../models");
 
 module.exports = {
+    getAllRatings: function(req, res){
+        db.Rating
+        .find({})
+        .sort({ date: -1 })
+        .then(dbResponse => res.json(dbResponse))
+        .catch(err => res.status(422).json(err));
+    },
     getRatings: function(req, res){
         db.User
         .findById(req.params.id)

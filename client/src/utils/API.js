@@ -274,6 +274,9 @@ export default {
     removeFavoriteTrack: function(userID, trackData){
         return axios.put(`/api/favorites/track/${userID}`, trackData);
     },
+    getAllRatings: function(){
+        return axios.get(`/api/ratings/`);
+    },
     getRatings: function(userID){
         return axios.get(`/api/ratings/album/${userID}`);
     },
