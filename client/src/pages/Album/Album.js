@@ -11,6 +11,11 @@ const Album = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-info"
+        });
+
         if(!state.token.length){
             API.getToken().then(res => {
                 API.getAlbumInfo(id, res.data.access_token).then(res => {
@@ -18,6 +23,24 @@ const Album = () => {
                         type: "UPDATE_CURRENT_ALBUM",
                         currentAlbum: res.data
                     });
+
+                    API.getItunesAlbum(res.data.artists[0].name + " " + res.data.name).then(res => {
+                        if(res.data.results.length){
+                            dispatch({
+                                type: "UPDATE_APPLE",
+                                name: "albumLink",
+                                value: res.data.results[0].collectionViewUrl
+                            });
+                        }
+                        else{
+                            dispatch({
+                                type: "UPDATE_APPLE",
+                                name: "albumLink",
+                                value: ""
+                            });
+                        }
+                    });
+
                     API.getAlbums(res.data.artists[0].id, state.token).then(res => {
                         const albumNames = [];
                         const albums = [];
@@ -43,6 +66,24 @@ const Album = () => {
                     type: "UPDATE_CURRENT_ALBUM",
                     currentAlbum: res.data
                 });
+
+                API.getItunesAlbum(res.data.artists[0].name + " " + res.data.name).then(res => {
+                    if(res.data.results.length){
+                        dispatch({
+                            type: "UPDATE_APPLE",
+                            name: "albumLink",
+                            value: res.data.results[0].collectionViewUrl
+                        });
+                    }
+                    else{
+                        dispatch({
+                            type: "UPDATE_APPLE",
+                            name: "albumLink",
+                            value: ""
+                        });
+                    }
+                });
+
                 API.getAlbums(res.data.artists[0].id, state.token).then(res => {
                     const albumNames = [];
                     const albums = [];
@@ -389,6 +430,16 @@ const Album = () => {
                                 <span className="icon has-text-warning">
                                     <i className="far fa-star community-rating" data-value="5" data-decimal="4" data-fill="fas fa-star community-rating" data-empty="far fa-star community-rating" data-half="fas fa-star-half-alt community-rating" data-state="empty"></i>
                                 </span>
+                                <br/>
+                                <br/>
+                                {
+                                    state.currentAlbum.external_urls &&
+                                    <a href={state.currentAlbum.external_urls.spotify}>Spotify&nbsp;<i className="fab fa-spotify"></i></a>
+                                }
+                                {
+                                    state.appleMusic.albumLink.length !== 0 &&
+                                    <a href={state.appleMusic.albumLink}>Apple Music&nbsp;<i className="fab fa-itunes-note"></i></a>
+                                }
                             </ul>
                         </aside>
                     </Box>            

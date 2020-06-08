@@ -1,3 +1,7 @@
 .user-rating:hover{
     cursor: pointer;
 }
+
+.track-links{
+    font-size: 44px;
+}

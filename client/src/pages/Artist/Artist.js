@@ -17,6 +17,11 @@ const Artist = () => {
     const { name, id } = useParams();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-info"
+        });
+
         const artistInfo = {};
         const geniusInfo = {};
 
@@ -156,6 +161,23 @@ const Artist = () => {
             checkFavorites(state.favoriteArtists);
 
         }
+
+        API.getItunesArtist(name).then(res => {
+            if(res.data.results.length){
+                dispatch({
+                    type: "UPDATE_APPLE",
+                    name: "artistLink",
+                    value: res.data.results[0].artistLinkUrl
+                });
+            }
+            else{
+                dispatch({
+                    type: "UPDATE_APPLE",
+                    name: "artistLink",
+                    value: ""
+                });
+            }
+        })
     }, [id]);
 
     const handleFavorite = event => {
@@ -269,6 +291,10 @@ const Artist = () => {
                                     <a href={state.currentArtist.spotifyLink} id="spotify">Spotify&nbsp;<i className="fab fa-spotify"></i></a>
                                     :
                                     null
+                                }
+                                {
+                                    state.appleMusic.artistLink.length !== 0 &&
+                                    <a href={state.appleMusic.artistLink}>Apple Music&nbsp;<i className="fab fa-itunes-note"></i></a>
                                 }
                                 {
                                     state.currentArtistInfo.tw

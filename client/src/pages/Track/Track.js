@@ -11,6 +11,11 @@ const Track = () => {
     const { name, id } = useParams();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-info"
+        });
+
         if(!state.token.length){
             API.getToken().then(res => {
                 API.getTrackInfo(name, id, res.data.access_token).then(res => {
@@ -58,6 +63,23 @@ const Track = () => {
         else{
             checkRatings(state.ratedTracks);
         }
+
+        API.getItunesTrack(name).then(res => {
+            if(res.data.results.length){
+                dispatch({
+                    type: "UPDATE_APPLE",
+                    name: "trackLink",
+                    value: res.data.results[0].collectionViewUrl
+                });
+            }
+            else{
+                dispatch({
+                    type: "UPDATE_APPLE",
+                    name: "trackLink",
+                    value: ""
+                });
+            }
+        });
     }, [name]);
 
     const msToMinutes = ms => {
@@ -379,8 +401,12 @@ const Track = () => {
                                     :
                                     null
                                 }
-                                <a href={state.currentTrack[1].external_urls.spotify}>Spotify</a>
-                                <a href={state.currentTrack[0][0].result.url}> Lyrics</a>
+                                <br/>
+                                <a href={state.currentTrack[1].external_urls.spotify} className="track-links"><i className="fab fa-spotify"></i></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href={state.appleMusic.trackLink} className="track-links"><i className="fab fa-itunes-note"></i></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href={state.currentTrack[0][0].result.url} className="track-links"><i className="fas fa-comment-dots"></i></a>
                             </div>
                         </Column>
                     </Box>

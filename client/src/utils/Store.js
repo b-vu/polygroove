@@ -315,9 +315,17 @@ const reducer = (state, action) => {
                 }
             }
         case "UPDATE_NAV":
-            return{
+            return {
                 ...state,
                 navState: action.navState
+            }
+        case "UPDATE_APPLE":
+            return {
+                ...state,
+                appleMusic: {
+                    ...state.appleMusic,
+                    [action.name]: action.value
+                }
             }
         default:
             return state;
@@ -432,7 +440,12 @@ const ProjectProvider = ({ value = [], ...props}) => {
             message: "",
             submitted: false
         },
-        navState: "is-success"
+        navState: "is-success",
+        appleMusic: {
+            artistLink: "",
+            albumLink: "",
+            trackLink: ""
+        }
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

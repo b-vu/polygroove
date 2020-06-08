@@ -26,7 +26,7 @@ const Card = props => {
 
                     <div className="column">
                         <p className="title is-3">
-                            <Link to={"track/" + song + "/" + trackID}>{song}</Link>
+                            <Link to={"track/" + artist + " " + song + "/" + trackID}>{song}</Link>
                         </p>
 
                         <p className="title is-4">
