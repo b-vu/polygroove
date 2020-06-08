@@ -344,6 +344,6 @@ export default {
         return axios.post(`/api/profile/${id}`, bio);
     },
     sendMessage: function(message){
-        return axios.post(`/api/message/`, message);
+        return axios.post(`/api/message/`, message)
     }
 }
