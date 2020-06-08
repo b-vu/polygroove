@@ -294,6 +294,31 @@ const reducer = (state, action) => {
                     [action.name]: action.value
                 }
             }
+        case "UPDATE_CONTACT":
+            return {
+                ...state,
+                contact: {
+                    ...state.contact,
+                    [action.name]: action.value,
+                    submitted: false
+                }
+            }
+        case "UPDATE_SUBMITTED":
+            return {
+                ...state,
+                contact: {
+                    ...state.contact,
+                    name: action.name,
+                    email: action.email,
+                    message: action.message,
+                    submitted: true
+                }
+            }
+        case "UPDATE_NAV":
+            return{
+                ...state,
+                navState: action.navState
+            }
         default:
             return state;
     }
@@ -400,7 +425,14 @@ const ProjectProvider = ({ value = [], ...props}) => {
             homeForums: [],
             homeCharts: [],
             homeRatings: []
-        }
+        },
+        contact: {
+            name: "",
+            email: "",
+            message: "",
+            submitted: false
+        },
+        navState: "is-success"
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

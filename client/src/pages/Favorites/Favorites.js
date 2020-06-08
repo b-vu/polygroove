@@ -11,6 +11,11 @@ const Favorites = () => {
     const [state, dispatch] = useProjectContext();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-danger"
+        });
+
         API.checkFavorites(state.user.id).then(res => {
             let favArtists;
             let favAlbums;
@@ -641,7 +646,7 @@ const Favorites = () => {
                             <br/><br/>
                             <div className="field">
                                 <div className="control">
-                                    <input name="feedSearch" onChange={handleSearchChange} className="input is-success" type="text" placeholder="Search"/>
+                                    <input name="feedSearch" onChange={handleSearchChange} className="input is-danger" type="text" placeholder="Search"/>
                                 </div>
                             </div>
                         </aside>

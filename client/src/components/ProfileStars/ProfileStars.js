@@ -1,8 +1,9 @@
 import React from "react";
 import "./ProfileStars.css";
+import { Link } from "react-router-dom";
 
 const ProfileStars = props => {
-    const { rating } = props;
+    const { rating, userName, userID } = props;
 
     return(
         <div>
@@ -45,6 +46,10 @@ const ProfileStars = props => {
                     <i className={"far fa-star"}></i>
                 }
             </span>
+            {
+                userName &&
+                <span>- <Link to={`/user/${userID}`}>{userName}</Link></span>
+            }
         </div>
     );
 }

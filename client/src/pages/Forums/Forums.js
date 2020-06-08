@@ -12,6 +12,11 @@ const Forums = () => {
     const [state, dispatch] = useProjectContext();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-warning"
+        });
+
         if(!state.token.length){
             API.getToken().then(res => {
                 dispatch({

@@ -425,6 +425,11 @@ const Charts = () => {
     }
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-info"
+        });
+
         API.getToken().then(res => {
             if(state.chartSongs.length){
                 return

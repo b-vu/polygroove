@@ -12,6 +12,11 @@ const User = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-primary"
+        });
+
         API.getUserProfile(id).then(res => {
             let profileInfo = res.data;
             profileInfo.favoriteArtistsLength = res.data.favoriteArtists.length;
@@ -227,7 +232,7 @@ const User = () => {
                 <div className="tile is-vertical is-8">
                     <div className="tile">
                     <div className="tile is-parent is-vertical">
-                        <article className="tile is-child notification is-danger">
+                        <article className="tile is-child notification is-primary">
                         <br/>
                         <br/>
                         <p className="title">{state.currentProfile.name}</p>
@@ -277,7 +282,7 @@ const User = () => {
                         </article>
                     </div>
                     <div className="tile is-parent">
-                        <article className="tile is-child notification is-info">
+                        <article className="tile is-child notification is-danger">
                         <p className="title">Favorites</p>
                         <p className="subtitle"><span onClick={handleFavDisplay} className="profile-tabs" data-value="fav-artists">Artists({state.currentProfile.favoriteArtistsLength})</span> | <span onClick={handleFavDisplay} className="profile-tabs" data-value="fav-albums">Albums({state.currentProfile.favoriteAlbumsLength})</span> | <span onClick={handleFavDisplay} className="profile-tabs" data-value="fav-tracks">Tracks({state.currentProfile.favoriteTracksLength})</span></p>
                         {
@@ -352,7 +357,7 @@ const User = () => {
                     </div>
                 </div>
                 <div className="tile is-parent">
-                    <article className="tile is-child notification is-primary">
+                    <article className="tile is-child notification is-info">
                         <p className="title">Ratings</p>
                         <p className="subtitle"><span onClick={handleRatedDisplay} className="profile-tabs" data-value="rated-albums">Albums({state.currentProfile.ratedAlbumsLength})</span> | <span onClick={handleRatedDisplay} className="profile-tabs" data-value="rated-tracks">Tracks({state.currentProfile.ratedTracksLength})</span></p>
                             {

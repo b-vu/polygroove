@@ -342,5 +342,8 @@ export default {
     },
     editBio: function(id, bio){
         return axios.post(`/api/profile/${id}`, bio);
+    },
+    sendMessage: function(message){
+        return axios.post(`/api/message/`, message);
     }
 }

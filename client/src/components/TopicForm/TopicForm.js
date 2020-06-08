@@ -25,19 +25,19 @@ const TopicForm = () => {
                 <label className="label">Title</label>
                 <div className="field">
                     <div className="control">
-                        <input onChange={handleCurrentForumTopic} name="title" className="input is-info" type="text" placeholder="Title"/>
+                        <input onChange={handleCurrentForumTopic} name="title" className="input is-warning" type="text" placeholder="Title"/>
                     </div>
                 </div>
 
                 <label className="label">Body</label>
                 <div className="field">
                     <div className="control">
-                    <textarea onChange={handleCurrentForumTopic} name="body" className="textarea is-info" placeholder="Discuss here!"></textarea>
+                    <textarea onChange={handleCurrentForumTopic} name="body" className="textarea is-warning" placeholder="Discuss here!"></textarea>
                     </div>
                 </div>
 
                 <Link to={`/topic/${id}/${state.currentForumPosts.postID}`}>
-                    <button className="button is-info is-rounded">Post</button>
+                    <button className="button is-warning is-rounded">Post</button>
                 </Link>
             </div>
             <div className="column is-2"/>

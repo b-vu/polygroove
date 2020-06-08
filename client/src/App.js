@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
-import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
@@ -16,31 +15,35 @@ import Search from "./pages/Search/Search";
 import ForumTopic from "./pages/ForumTopic/ForumTopic";
 import ForumTopicsAndPosts from "./pages/ForumTopicsAndPosts/ForumTopicsAndPosts";
 import User from "./pages/User/User";
+import Contact from "./pages/Contact/Contact";
 import PrivateRoute from "./components/Private-Route/PrivateRoute";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { ProjectProvider } from "./utils/Store";
 
 const App = () => {
   return (
     <ProjectProvider>
       <Router>
-        <Nav/>
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/charts" component={Charts}/>
-          <Route exact path="/forums" component={Forums}/>
-          <Route exact path="/register" component={Register}/>
-          <Route exact path="/login" component={Login}/>
-          <PrivateRoute exact path="/favorites" component={Favorites}/>
-          <Route exact path="/artist/:name/:id" component={Artist}/>
-          <Route exact path="/album/:id" component={Album}/>
-          <Route exact path="/track/:name/:id" component={Track}/>
-          <Route exact path="/search/:search" component={Search}/>
-          <Route exact path="/forums/:id" component={ForumTopic}/>
-          <Route exact path="/topic/:id/:postID" component={ForumTopicsAndPosts}/>
-          <Route exact path="/user/:id" component={User}/>
-          <Route component={Home}/>
-        </Switch>
-        <Footer/>
+        <ScrollToTop>
+          <Nav/>
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/charts" component={Charts}/>
+            <Route exact path="/forums" component={Forums}/>
+            <Route exact path="/register" component={Register}/>
+            <Route exact path="/login" component={Login}/>
+            <PrivateRoute exact path="/favorites" component={Favorites}/>
+            <Route exact path="/artist/:name/:id" component={Artist}/>
+            <Route exact path="/album/:id" component={Album}/>
+            <Route exact path="/track/:name/:id" component={Track}/>
+            <Route exact path="/search/:search" component={Search}/>
+            <Route exact path="/forums/:id" component={ForumTopic}/>
+            <Route exact path="/topic/:id/:postID" component={ForumTopicsAndPosts}/>
+            <Route exact path="/user/:id" component={User}/>
+            <Route exact path="/contact" component={Contact}/>
+            <Route component={Home}/>
+          </Switch>
+        </ScrollToTop>
       </Router>
     </ProjectProvider>
   );

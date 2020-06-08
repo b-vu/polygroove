@@ -12,6 +12,11 @@ const ForumTopicsAndPosts = () => {
     const { id, postID } = useParams();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-warning"
+        });
+
         if(!state.token.length){
             API.getToken().then(res => {
                 dispatch({
@@ -415,18 +420,18 @@ const ForumTopicsAndPosts = () => {
                                 <label className="label">Title</label>
                                 <div className="field">
                                     <div className="control">
-                                        <input onChange={handleEditTopic} name="title" className="input is-info" type="text" placeholder="Title" value={state.currentForumTopic.title}/>
+                                        <input onChange={handleEditTopic} name="title" className="input is-warning" type="text" placeholder="Title" value={state.currentForumTopic.title}/>
                                     </div>
                                 </div>
                 
                                 <label className="label">Body</label>
                                 <div className="field">
                                     <div className="control">
-                                    <textarea onChange={handleEditTopic} name="body" className="textarea is-info" placeholder="Discuss here!" value={state.currentForumTopic.body}/>
+                                    <textarea onChange={handleEditTopic} name="body" className="textarea is-warning" placeholder="Discuss here!" value={state.currentForumTopic.body}/>
                                     </div>
                                 </div>
 
-                                <button onClick={editTopic} className="button is-info is-rounded">Edit</button>
+                                <button onClick={editTopic} className="button is-warning is-rounded">Edit</button>
                                 <br/>
                                 <br/>
                             </div>
@@ -440,10 +445,10 @@ const ForumTopicsAndPosts = () => {
                                     <h1 className="title has-text-centered">No replies yet. Be the first!</h1>
                                     <div className="field">
                                         <div className="control">
-                                            <textarea onChange={handleReplyChange} id="replyTextarea" className="textarea is-info" placeholder="Reply"></textarea>
+                                            <textarea onChange={handleReplyChange} id="replyTextarea" className="textarea is-warning" placeholder="Reply"></textarea>
                                         </div>
                                     </div>
-                                    <button onClick={addReply} className="button is-info is-rounded">Post</button>
+                                    <button onClick={addReply} className="button is-warning is-rounded">Post</button>
                                 </div>
                                 <div className="column is-2"/>
                             </Column>
@@ -479,10 +484,10 @@ const ForumTopicsAndPosts = () => {
                                     <div className="column is-8">
                                         <div className="field">
                                             <div className="control">
-                                                <textarea onChange={handleReplyChange} id="replyTextarea" className="textarea is-info" placeholder="Reply"></textarea>
+                                                <textarea onChange={handleReplyChange} id="replyTextarea" className="textarea is-warning" placeholder="Reply"></textarea>
                                             </div>
                                         </div>
-                                        <button onClick={addReply} className="button is-info is-rounded">Post</button>
+                                        <button onClick={addReply} className="button is-warning is-rounded">Post</button>
                                     </div>
                                     <div className="column is-2"/>
                                 </Column>

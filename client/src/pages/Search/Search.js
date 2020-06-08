@@ -11,6 +11,11 @@ const Search = () => {
     const { search } = useParams();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-success"
+        });
+
         if(!state.token.length){
             API.getToken().then(res => {
                 API.search(search, res.data.access_token).then(res => {

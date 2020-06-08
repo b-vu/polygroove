@@ -104,10 +104,10 @@ const ForumReply = props => {
             state.editPost && state.editPostNumber === _id &&
             <div className="field">
                 <div className="control">
-                    <textarea onChange={handleEditPost} id="replyTextarea" className="textarea is-info" placeholder="Reply" value={state.forumReply}></textarea>
+                    <textarea onChange={handleEditPost} id="replyTextarea" className="textarea is-warning" placeholder="Reply" value={state.forumReply}></textarea>
                 </div>
                 <br/>
-                <button onClick={() => editReply(_id)} className="button is-info is-rounded">Edit</button>
+                <button onClick={() => editReply(_id)} className="button is-warning is-rounded">Edit</button>
                 <br/>
                 <br/>
             </div>

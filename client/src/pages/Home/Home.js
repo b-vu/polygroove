@@ -10,6 +10,11 @@ const Home = () => {
     const [state, dispatch] = useProjectContext();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-success"
+        });
+
         API.getToken().then(res => {
             API.getUSATop50(res.data.access_token).then(res => {
                 const homeCharts = [];
@@ -90,8 +95,7 @@ const Home = () => {
                     <div className="tile">
                     <div className="tile is-parent is-vertical">
                         <article className="tile is-child notification is-success">
-                        <br/>
-                        <p className="title">Welcome!</p>
+                        <p className="title">Welcome to Boards, Lists & Music!</p>
                         <p className="subtitle">The only website you need for all things Music</p>
                         </article>
                         <article className="tile is-child notification is-warning">
@@ -105,11 +109,28 @@ const Home = () => {
                             )
                         }
                         </article>
-                        <article className="tile is-child notification is-danger">
-                            <p className="title">Contact Me</p>
-                            <p className="subtitle">Aligned with the right tile</p>
-                            <div className="content">
 
+                        <article className="tile is-child notification is-danger">
+                            <p className="subtitle">
+                                Hey, my name is Brian Vu, and this my final project for UT's coding bootcamp. 
+                                Hope you enjoy your time here and if you dig the webstie, feel free to contact me!
+                            </p>
+
+                            <div className="has-text-centered level-item home-contact">
+                                <a className="link level-item" href="https://github.com/b-vu">
+                                    <i className="fab fa-github"></i>
+                                </a>
+                                &nbsp;
+                                &nbsp;
+                                <a className="link level-item" href="/">
+                                    <i className="fab fa-linkedin"></i>
+                                </a>
+                                &nbsp;
+                                &nbsp;
+                                <a className="link level-item" href="mailto:brianvu7@gmail.com">
+                                    <i className="fas fa-envelope level-item"></i>
+                                    <p className="small-text level-item">&nbsp;brianvu7@gmail.com</p>
+                                </a>
                             </div>
                         </article>
                     </div>
@@ -140,7 +161,7 @@ const Home = () => {
                             state.home.homeRatings.map((rating, index) =>
                                 <div key={index} className="column">
                                     {rating.name} by {rating.artist}
-                                    <span><ProfileStars rating={rating.ratings[0].rating}/> - <Link to={`/user/${rating.ratings[0].userID}`}>{rating.ratings[0].userName}</Link></span>
+                                    <ProfileStars rating={rating.ratings[0].rating} userName={rating.ratings[0].userName} userID={rating.ratings[0].userID}/>
                                 </div>
                             )
                         }

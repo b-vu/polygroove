@@ -92,11 +92,11 @@ const Nav = () => {
 
     return(
         <div>
-            <nav className="navbar is-success" role="navigation" aria-label="main navigation">
+            <nav className={`navbar ${state.navState}`} role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
                     <Link to={"/"}>
                         <div className="navbar-item" >
-                            <p id="name"><strong>Boards, Lists & Music</strong></p>
+                            <p className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}><strong>Boards, Lists & Music</strong></p>
                         </div>
                     </Link>
                 
@@ -111,7 +111,7 @@ const Nav = () => {
                     <div className="navbar-start">
                         <p className="navbar-item">
                             <Link to={"/"}
-                                className="navlink"
+                                className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}
                             >
                                 Home
                             </Link>
@@ -119,7 +119,7 @@ const Nav = () => {
                     
                         <p className="navbar-item">
                             <Link to={"/charts"}
-                                className="navlink"
+                                className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}
                             >
                                 Charts
                             </Link>
@@ -127,7 +127,7 @@ const Nav = () => {
 
                         <p className="navbar-item">
                             <Link to={"/favorites"}
-                                className="navlink"
+                                className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}
                             >
                                 Favorites
                             </Link>
@@ -135,7 +135,7 @@ const Nav = () => {
 
                         <p className="navbar-item">
                             <Link to={"/forums"}
-                                className="navlink"
+                                className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}
                             >
                                 Forums
                             </Link>
@@ -145,20 +145,28 @@ const Nav = () => {
                             state.isAuthenticated &&
                             <p className="navbar-item">
                                 <Link to={"/user/" + state.user.id}
-                                    className="navlink"
+                                    className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}
                                 >
                                     Profile
                                 </Link>
                             </p>
                         }
 
+                        <p className="navbar-item">
+                            <Link to={"/contact"}
+                                className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}
+                            >
+                                Contact
+                            </Link>
+                        </p>
+
                         <form className="field navbar-item nav-search control">
-                            <input name="navbarSearch" onChange={handleNavbarSearchChange} className="input is-rounded is-success" type="text" placeholder="Search for artists, albums, or tracks"/>
+                            <input name="navbarSearch" onChange={handleNavbarSearchChange} className={`input is-rounded ${state.navState}`} type="text" placeholder="Search for artists, albums, or tracks"/>
                             &nbsp;
 
                             <div className="dropdown is-hoverable">
                                 <div className="dropdown-trigger">
-                                    <a className="button is-rounded is-normal is-success" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                    <a className={`button is-rounded is-normal ${state.navState}`} aria-haspopup="true" aria-controls="dropdown-menu4">
                                     <span>{state.searchDisplay}</span>
                                     <span className="icon is-small">
                                         <i className="fas fa-angle-down" aria-hidden="true"></i>
@@ -181,7 +189,7 @@ const Nav = () => {
                             </div>
 
                             <Link to={"/search/" + state.navbarSearch}>
-                                <button className="button is-success">
+                                <button className={`button ${state.navState}`}>
                                     <i className="fas fa-search"></i>
                                 </button>
                             </Link>
@@ -193,10 +201,10 @@ const Nav = () => {
                             state.isAuthenticated
                             ?
                             <p className="navbar-item">
-                                <Link className="navlink" to={"/user/" + state.user.id}>Welcome, {state.user.name}!</Link> &nbsp; | &nbsp;
+                                <Link className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"} to={"/user/" + state.user.id}>Welcome, {state.user.name}!</Link> &nbsp; | &nbsp;
                                 <Link to={"/"}
                                     onClick={logoutUser}
-                                    className="navlink"
+                                    className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}
                                 >
                                     Logout
                                 </Link>
@@ -204,7 +212,7 @@ const Nav = () => {
                             :
                             <p className="navbar-item">
                             <Link to={"/register"}
-                                className="navlink"
+                                className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}
                             >
                                 Register/Login
                             </Link>

@@ -14,6 +14,11 @@ const ForumTopic = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-warning"
+        });
+
         if(!state.token.length){
             API.getToken().then(res => {
                 dispatch({
@@ -143,7 +148,7 @@ const ForumTopic = () => {
                             {
                                 state.currentForumPosts.topics.length !== 0 &&
                                 <div className="has-text-centered">
-                                    <button onClick={handleStartForumTopic} className="button is-info is-rounded">Start new topic</button>
+                                    <button onClick={handleStartForumTopic} className="button is-warning is-rounded">Start new topic</button>
                                 </div>
                             }
 
@@ -253,7 +258,7 @@ const ForumTopic = () => {
                                         <h1 className="title">There are currently no forum discussions. Be the first to start one!</h1>
                                         <br/>
                                         <br/>
-                                        <button onClick={handleStartForumTopic} className="button is-info is-rounded">Start new topic</button>
+                                        <button onClick={handleStartForumTopic} className="button is-warning is-rounded">Start new topic</button>
                                     </div>
                                 </Column>
                             </div>
