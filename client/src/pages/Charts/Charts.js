@@ -392,6 +392,38 @@ const Charts = () => {
                     })
                 );
 
+            case "New Releases":
+                const newReleases = [];
+
+                return (
+                    API.getNewReleases(state.token).then(res => {
+                        for(const song of res.data.items){
+                            if(song.track === null){
+                                continue;
+                            }
+                            let songObj = {
+                                image: song.track.album.images[1].url,
+                                artist: song.track.artists[0].name,
+                                song: song.track.name,
+                                album: song.track.album.name,
+                                spotifyArtist: song.track.artists[0].external_urls.spotify,
+                                spotifySong: song.track.external_urls.spotify,
+                                spotifyAlbum: song.track.album.external_urls.spotify,
+                                artistID: song.track.artists[0].id,
+                                albumID: song.track.album.id,
+                                trackID: song.track.id
+                            }
+                            newReleases.push(songObj);
+                        }
+                
+                        dispatch({
+                            type: "UPDATE_CHARTS",
+                            chartSongs: newReleases,
+                            currentChart: name
+                        });
+                    })
+                );
+
             default:
                     const top50USA = []
 
@@ -457,6 +489,7 @@ const Charts = () => {
                                 <ul className="menu-list">
                                     <li onClick={displayCharts}><a name="US Top 50" href="#">US Top 50</a></li>
                                     <li onClick={displayCharts}><a name="Global Top 50" href="#">Global Top 50</a></li>
+                                    <li onClick={displayCharts}><a name="New Releases" href="#">New Releases</a></li>
                                 </ul>
                                 <p className="menu-label">
                                     By Genre

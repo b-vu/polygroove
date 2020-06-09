@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useProjectContext } from "../../utils/Store";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
@@ -11,6 +11,13 @@ import { registerUser } from "../../utils/authActions";
 
 const Register = () => {
     const [state, dispatch] = useProjectContext();
+
+    useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-success"
+        });
+    }, []);
 
     let history = useHistory();
 

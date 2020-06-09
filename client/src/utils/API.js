@@ -138,6 +138,16 @@ export default {
             }
         );
     },
+    getNewReleases: function(token) {
+        return axios.get(
+            "https://api.spotify.com/v1/playlists/37i9dQZF1DX4JAvHpjipBk/tracks",
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+            }
+        );
+    },
     getArtistInfo: async function(id, token, name){
         return Promise.all([
             axios.get(

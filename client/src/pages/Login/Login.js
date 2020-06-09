@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useProjectContext } from "../../utils/Store";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
@@ -13,6 +13,13 @@ import { useHistory } from 'react-router-dom';
 
 const Login = () => {
     const [state, dispatch] = useProjectContext();
+
+    useEffect(() => {
+        dispatch({
+            type: "UPDATE_NAV",
+            navState: "is-success"
+        });
+    }, []);
 
     let history = useHistory();
 
