@@ -1,6 +1,5 @@
 import React from "react";
 import "./RatedStars.css";
-import { Link } from "react-router-dom";
 
 const RatedStars = props => {
     const { avgRating, numRatings } = props;

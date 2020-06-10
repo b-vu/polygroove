@@ -95,7 +95,7 @@ const Home = () => {
                     <div className="tile">
                     <div className="tile is-parent is-vertical">
                         <article className="tile is-child notification is-success">
-                        <p className="title">Welcome to Boards, Lists & Music!</p>
+                        <p className="title">Welcome to PolyGroove!</p>
                         <p className="subtitle">The only website you need for all things Music</p>
                         </article>
                         <article className="tile is-child notification is-warning">
