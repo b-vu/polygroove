@@ -20,4 +20,10 @@ router.route("/track/:id")
 router.route("/")
     .get(ratingsController.getAllRatings);
 
+router.route("/album")
+    .get(ratingsController.getAllAlbumRatings);
+
+router.route("/track")
+    .get(ratingsController.getAllTrackRatings);
+
 module.exports = router;

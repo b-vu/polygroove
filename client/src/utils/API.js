@@ -287,6 +287,12 @@ export default {
     getAllRatings: function(){
         return axios.get(`/api/ratings/`);
     },
+    getAllAlbumRatings: function(){
+        return axios.get(`/api/ratings/album`);
+    },
+    getAllTrackRatings: function(){
+        return axios.get(`/api/ratings/track`);
+    },
     getRatings: function(userID){
         return axios.get(`/api/ratings/album/${userID}`);
     },

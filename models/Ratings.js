@@ -6,11 +6,29 @@ const RatingSchema = new Schema({
         type: String,
         requried: true
     },
+    id: {
+        type: String,
+        requried: true
+    },
     artist: {
         type: String,
         requried: true
     },
-    id: {
+    artistID: {
+        type: String,
+        requried: true
+    },
+    album: {
+        type: String
+    },
+    albumID: {
+        type: String
+    },
+    image: {
+        type: String,
+        requried: true
+    },
+    type: {
         type: String,
         requried: true
     },

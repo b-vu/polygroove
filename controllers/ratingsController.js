@@ -8,6 +8,18 @@ module.exports = {
         .then(dbResponse => res.json(dbResponse))
         .catch(err => res.status(422).json(err));
     },
+    getAllAlbumRatings: function(req, res){
+        db.Rating
+        .find({ type: "album" })
+        .then(dbResponse => res.json(dbResponse))
+        .catch(err => res.status(422).json(err));
+    },
+    getAllTrackRatings: function(req, res){
+        db.Rating
+        .find({ type: "track" })
+        .then(dbResponse => res.json(dbResponse))
+        .catch(err => res.status(422).json(err));
+    },
     getRatings: function(req, res){
         db.User
         .findById(req.params.id)
@@ -24,8 +36,11 @@ module.exports = {
             userRating = dbResponse;
             const rating = new db.Rating({
                 name: req.body.name,
-                artist: req.body.artist,
                 id: req.body.id,
+                artist: req.body.artist,
+                artistID: req.body.artistID,
+                image: req.body.image,
+                type: req.body.type,
                 ratings: [{
                     userID: req.params.id,
                     userName: req.body.userName,
@@ -78,8 +93,13 @@ module.exports = {
             userRating = dbResponse;
             const rating = new db.Rating({
                 name: req.body.name,
-                artist: req.body.artist,
                 id: req.body.id,
+                artist: req.body.artist,
+                artistID: req.body.artistID,
+                album: req.body.album,
+                albumID: req.body.albumID,
+                image: req.body.image,
+                type: req.body.type,
                 ratings: [{
                     userID: req.params.id,
                     userName: req.body.userName,

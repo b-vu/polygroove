@@ -131,7 +131,7 @@ const Track = () => {
                 });
             }
             else{
-                API.addTrackRating(state.user.id, { userName: state.user.name, name: state.currentTrack[1].name, id: state.currentTrack[1].id, artist: state.currentTrack[1].artists[0].name, artistID: state.currentTrack[1].artists[0].id, rating: value, image: state.currentTrack[1].album.images[0].url }).then(res => {
+                API.addTrackRating(state.user.id, { userName: state.user.name, name: state.currentTrack[1].name, id: state.currentTrack[1].id, artist: state.currentTrack[1].artists[0].name, artistID: state.currentTrack[1].artists[0].id, album: state.currentTrack[1].album.name, albumID: state.currentTrack[1].album.id, rating: value, image: state.currentTrack[1].album.images[0].url, type: "track" }).then(res => {
                     getUserRatings(state.user.id);
                 });
             }
@@ -314,6 +314,7 @@ const Track = () => {
 
     return(
         <Box>
+            {console.log(state)}
             <Column>
                 <div className="column is-2">
                     <Box>

@@ -4,7 +4,7 @@ import Column from "../Column/Column";
 import { Link } from "react-router-dom";
 
 const Card = props => {
-    const { image, song, artist, album, spotifySong, spotifyArtist, spotifyAlbum, rank, artistID, albumID, trackID } = props;
+    const { image, song, artist, album, rank, artistID, albumID, trackID } = props;
 
     return(
         <div className="card">

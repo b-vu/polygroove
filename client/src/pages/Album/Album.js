@@ -185,7 +185,7 @@ const Album = () => {
                 });
             }
             else{
-                API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, id: state.currentAlbum.id, artist: state.currentAlbum.artists[0].name, artistID: state.currentAlbum.artists[0].id, rating: value, image: state.currentAlbum.images[0].url, userName: state.user.name }).then(res => {
+                API.addAlbumRating(state.user.id, { name: state.currentAlbum.name, id: state.currentAlbum.id, artist: state.currentAlbum.artists[0].name, artistID: state.currentAlbum.artists[0].id, rating: value, image: state.currentAlbum.images[0].url, userName: state.user.name, type: "album" }).then(res => {
                    getUserRatings(state.user.id);
                 });
             }
