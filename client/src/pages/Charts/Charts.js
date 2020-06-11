@@ -490,7 +490,8 @@ const Charts = () => {
 
                             topTracks.push(trackObj);
                         }
-                        topTracks.sort((a, b) => (a.avgRating < b.avgRating) ? 1 : ((b.avgRating < a.avgRating) ? -1 : 0));
+
+                        topTracks.sort((a, b) => (a.avgRating < b.avgRating) ? 1 : ((b.avgRating < a.avgRating) ? -1 : (a.numRatings < b.numRatings ? 1 : (b.numRatings < a.numRatings ? -1 : 0))));
                 
                         dispatch({
                             type: "UPDATE_CHARTS",
