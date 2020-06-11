@@ -252,7 +252,6 @@ const Track = () => {
 
         average = parseInt(average.toFixed(2)) / communityRatingsArray.length;
 
-        console.log(average)
         for(let i = 0; i < 5; i++){
             if(average < parseInt(stars[i].getAttribute("data-value")) && average >= parseInt(stars[i].getAttribute("data-decimal")) + 0.50){
                 stars[i].setAttribute("class", "fas fa-star-half-alt community-rating");
@@ -314,7 +313,6 @@ const Track = () => {
 
     return(
         <Box>
-            {console.log(state)}
             <Column>
                 <div className="column is-2">
                     <Box>

@@ -4,8 +4,6 @@ import "./RatedStars.css";
 const RatedStars = props => {
     const { avgRating, numRatings } = props;
 
-    console.log(avgRating);
-
     return(
         <div>
             <span className="icon has-text-warning">

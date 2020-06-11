@@ -19,8 +19,6 @@ const Footer = () => {
                     <i className="fas fa-envelope level-item"></i>
                     <p className="small-text level-item">&nbsp;brianvu7@gmail.com</p>
                 </a>
-                    {/* &nbsp; */}
-                {/* <span className="small-text level-item">&copy; Brian Vu &nbsp;</span> */}
             </div>
         </footer>
     );

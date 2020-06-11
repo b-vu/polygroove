@@ -90,7 +90,6 @@ const Home = () => {
     return( 
         <Box>
             <div className="tile is-ancestor">
-                {console.log(state)}
                 <div className="tile is-vertical is-8">
                     <div className="tile">
                     <div className="tile is-parent is-vertical">

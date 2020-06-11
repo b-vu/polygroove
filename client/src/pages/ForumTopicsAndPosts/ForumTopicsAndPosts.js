@@ -369,7 +369,6 @@ const ForumTopicsAndPosts = () => {
 
     return(
         <Box>
-            {console.log(state)}
             <Column>
                 <div className="column is-2">
                     <Box>

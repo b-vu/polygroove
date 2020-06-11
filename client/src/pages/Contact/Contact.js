@@ -46,7 +46,6 @@ const Contact = () => {
 
     return(
         <Container>
-            {console.log(state)}
             <Banner 
                 title={"Get in touch!"}
                 subtitle={"Thanks for taking the time to browse my project, and I look forward to hearing from you!"}

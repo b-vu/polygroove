@@ -451,8 +451,9 @@ const Charts = () => {
 
                             topAlbums.push(albumObj);
                         }
-                        topAlbums.sort((a, b) => (a.avgRating < b.avgRating) ? 1 : ((b.avgRating < a.avgRating) ? -1 : 0));
-                
+
+                        topAlbums.sort((a, b) => (a.avgRating < b.avgRating) ? 1 : ((b.avgRating < a.avgRating) ? -1 : (a.numRatings < b.numRatings ? 1 : (b.numRatings < a.numRatings ? -1 : 0))));
+
                         dispatch({
                             type: "UPDATE_CHARTS",
                             chartSongs: topAlbums,
@@ -554,7 +555,6 @@ const Charts = () => {
     return(
             <Box>
                 <Column>
-                {console.log(state)}
                     <div className="column is-2">
                         <Box>
                             <aside className="menu">

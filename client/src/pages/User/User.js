@@ -227,7 +227,6 @@ const User = () => {
 
     return(
         <Box>
-            {console.log(state)}
             <div className="tile is-ancestor">
                 <div className="tile is-vertical is-8">
                     <div className="tile">
