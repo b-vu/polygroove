@@ -289,7 +289,7 @@ const User = () => {
                             (state.profileDisplay.favDisplay === "fav-artists" && state.currentProfile.favoriteArtists.length !== 0) && 
 
                             state.currentProfile.favoriteArtists[state.profileDisplay.favArtistsPage].map((artist, index) =>
-                                <Link to={`/artist/${artist.artist}/${artist.artistID}`} className="column" key={index}>{artist.artist}</Link>
+                                <Link to={`/artist/${artist.artist}/${artist.artistID}`} className="column" key={index} style={{ textDecoration: 'none' }}>{artist.artist}</Link>
                             )
                         }
                         {
@@ -297,7 +297,7 @@ const User = () => {
 
                             state.currentProfile.favoriteAlbums[state.profileDisplay.favAlbumsPage].map((album, index) =>
                                 <p key={index} className="column">
-                                    <Link to={`/album/${album.id}`}>{album.name}</Link> by <Link to={`/artist/${album.artist}/${album.artistID}`}>{album.artist}</Link>
+                                    <Link to={`/album/${album.id}`} style={{ textDecoration: 'none' }}>{album.name}</Link> by <Link to={`/artist/${album.artist}/${album.artistID}`} style={{ textDecoration: 'none' }}>{album.artist}</Link>
                                 </p>
                             )
                         }
@@ -306,7 +306,7 @@ const User = () => {
 
                             state.currentProfile.favoriteTracks[state.profileDisplay.favTracksPage].map((track, index) =>
                                 <p key={index} className="column">
-                                    <Link to={`/track/${track.name}/${track.id}`}>{track.name}</Link> by <Link to={`/artist/${track.artist}/${track.artistID}`}>{track.artist}</Link>
+                                    <Link to={`/track/${track.name}/${track.id}`} style={{ textDecoration: 'none' }}>{track.name}</Link> by <Link to={`/artist/${track.artist}/${track.artistID}`} style={{ textDecoration: 'none' }}>{track.artist}</Link>
                                 </p>
                             )
                         }
@@ -365,7 +365,7 @@ const User = () => {
 
                                 state.currentProfile.albumRatings[state.profileDisplay.ratedAlbumsPage].map((album, index) =>
                                     <div key={index} className="column">
-                                        <Link to={`/album/${album.id}`}>{album.name}</Link> by <Link to={`/artist/${album.artist}/${album.artistID}`}>{album.artist}</Link>
+                                        <Link to={`/album/${album.id}`} style={{ textDecoration: 'none' }}>{album.name}</Link> by <Link to={`/artist/${album.artist}/${album.artistID}`} style={{ textDecoration: 'none' }}>{album.artist}</Link>
                                         <ProfileStars rating={album.rating} index={index}/>
                                     </div>
                                 )
@@ -375,7 +375,7 @@ const User = () => {
 
                                 state.currentProfile.trackRatings[state.profileDisplay.ratedTracksPage].map((track, index) =>
                                     <div key={index} className="column">
-                                        <Link to={`/track/${track.name}/${track.id}`}>{track.name}</Link> by <Link to={`/artist/${track.artist}/${track.artistID}`}>{track.artist}</Link>
+                                        <Link to={`/track/${track.name}/${track.id}`} style={{ textDecoration: 'none' }}>{track.name}</Link> by <Link to={`/artist/${track.artist}/${track.artistID}`} style={{ textDecoration: 'none' }}>{track.artist}</Link>
                                         <ProfileStars rating={track.rating} index={index}/>
                                     </div>
                                 )

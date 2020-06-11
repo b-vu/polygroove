@@ -48,7 +48,7 @@ const ProfileStars = props => {
             </span>
             {
                 userName &&
-                <span>- <Link to={`/user/${userID}`}>{userName}</Link></span>
+                <span>- <Link to={`/user/${userID}`} style={{ textDecoration: 'none' }}>{userName}</Link></span>
             }
         </div>
     );

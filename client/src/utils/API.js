@@ -363,12 +363,12 @@ export default {
         return axios.post(`/api/message/`, message);
     },
     getItunesArtist: function(artist){
-        return axios.get(`https://itunes.apple.com/search?term=${artist}&media=music&entity=musicArtist`);
+        return axios.get(`https://serene-atoll-63730.herokuapp.com/https://itunes.apple.com/search?term=${artist}&media=music&entity=musicArtist`);
     },
     getItunesAlbum: function(album){
-        return axios.get(`https://itunes.apple.com/search?term=${album}&media=music&entity=album`);
+        return axios.get(`https://serene-atoll-63730.herokuapp.com/https://itunes.apple.com/search?term=${album}&media=music&entity=album`);
     },
     getItunesTrack: function(track){
-        return axios.get(`https://itunes.apple.com/search?term=${track}&media=music&entity=musicTrack`);
+        return axios.get(`https://serene-atoll-63730.herokuapp.com/https://itunes.apple.com/search?term=${track}&media=music&entity=musicTrack`);
     }
 }

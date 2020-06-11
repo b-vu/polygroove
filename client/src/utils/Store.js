@@ -24,7 +24,12 @@ const reducer = (state, action) => {
                     ...state.register,
                     [action.name]: action.value
                 },
-                error: ""
+                error: {
+                    name: "",
+                    email: "",
+                    password1: "",
+                    password2: ""
+                }
             }
         case "REGISTER_SUCCESS":
             return {
@@ -32,6 +37,12 @@ const reducer = (state, action) => {
                 register: {
                     name: "",
                     email:"",
+                    password1: "",
+                    password2: ""
+                },
+                error: {
+                    name: "",
+                    email: "",
                     password1: "",
                     password2: ""
                 }
@@ -42,12 +53,39 @@ const reducer = (state, action) => {
                 login: {
                     ...state.login,
                     [action.name]: action.value
+                },
+                loginError: {
+                    email: "",
+                    password: ""
+                }
+            }
+        case "LOGIN_SUCCESS":
+            return {
+                ...state,
+                login: {
+                    email: "",
+                    password: ""
+                },
+                loginError: {
+                    email: "",
+                    password: ""
                 }
             }
         case "UPDATE_ERROR":
             return {
                 ...state,
-                error: action.error
+                error: {
+                    ...state.error,
+                    ...action.error
+                }
+            }
+        case "UPDATE_LOGIN_ERROR":
+            return {
+                ...state,
+                loginError: {
+                    ...state.loginError,
+                    ...action.error
+                }
             }
         case "UPDATE_TOKEN":
             return {
@@ -462,7 +500,16 @@ const ProjectProvider = ({ value = [], ...props}) => {
             albumLink: "",
             trackLink: ""
         },
-        error: ""
+        error: {
+            name: "",
+            email: "",
+            password1: "",
+            password2: ""
+        },
+        loginError: {
+            email: "",
+            password: ""
+        }
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

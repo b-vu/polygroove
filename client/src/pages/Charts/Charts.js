@@ -595,7 +595,7 @@ const Charts = () => {
                         <Box>
                             <h1 className="title has-text-centered">{state.currentChart}</h1>
                             {
-                                state.chartSongs.length && (state.currentChart !== "Top Rated Albums" && state.currentChart !== "Top Rated Tracks") &&
+                                state.chartSongs.length !== 0 && (state.currentChart !== "Top Rated Albums" && state.currentChart !== "Top Rated Tracks") &&
                                 (state.chartSongs.map((song, index) => 
                                     <Card
                                         image={song.image}
@@ -614,7 +614,7 @@ const Charts = () => {
                                 )
                             }
                             {
-                                state.chartSongs.length && state.currentChart === "Top Rated Albums" &&
+                                state.chartSongs.length !== 0 && state.currentChart === "Top Rated Albums" &&
                                 (state.chartSongs.map((item, index) => 
                                     <RatedCards
                                         track={item.track && item.track}
@@ -632,7 +632,7 @@ const Charts = () => {
                                 )
                             }
                             {
-                                state.chartSongs.length && state.currentChart === "Top Rated Tracks" &&
+                                state.chartSongs.length !== 0 && state.currentChart === "Top Rated Tracks" &&
                                 (state.chartSongs.map((item, index) => 
                                     <RatedCards
                                         track={item.track && item.track}

@@ -19,6 +19,10 @@ const Login = () => {
             type: "UPDATE_NAV",
             navState: "is-success"
         });
+
+        dispatch({
+            type: "LOGIN_SUCCESS"
+        });
     }, []);
 
     let history = useHistory();
@@ -42,26 +46,30 @@ const Login = () => {
     }
 
     const loginUser = userData => {
-        console.log(userData)
         axios
           .post("/api/users/login", userData)
           .then(res => {
             // Save to localStorage
             // Set token to localStorage
             const { token } = res.data;
-            console.log(token)
             localStorage.setItem("jwtToken", token);
             // Set token to Auth header
             setAuthToken(token);
             // Decode token to get user data
             const decoded = jwt_decode(token);
             // Set current user
-            console.log(decoded);
             dispatch(setCurrentUser(decoded));
+
+            dispatch({
+                type: "LOGIN_SUCCESS"
+            });
           })
-          .catch(err =>
-            console.log(err.response.data)
-          );
+          .catch(err => {
+            dispatch({
+                type: "UPDATE_LOGIN_ERROR",
+                error: err.response.data
+            });
+          });
       };
       
       // Set logged in user
@@ -78,7 +86,6 @@ const Login = () => {
 
     return(
         <div>
-            {console.log(state)}
             <Container>
                 <Box>
                     <h1 className="title has-text-centered">Login</h1>
@@ -93,6 +100,12 @@ const Login = () => {
                             fa="has-icons-left"
                             icon="envelope"
                         />
+
+                        {
+                            state.loginError.email.length !== 0 &&
+                            <p className="has-text-centered error-text">{state.loginError.email}</p>
+                        }
+
                         <Input
                             onChange={handleInputChange}
                             name="password"
@@ -103,6 +116,12 @@ const Login = () => {
                             fa="has-icons-left"
                             icon="lock"
                         />
+
+                        {
+                            state.loginError.password.length !== 0 &&
+                            <p className="has-text-centered error-text">{state.loginError.password}</p>
+                        }
+
                         <Button
                             onClick={handleSubmit}
                         />

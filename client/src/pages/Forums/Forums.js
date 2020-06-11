@@ -122,7 +122,7 @@ const Forums = () => {
                             <div className="column is-6">
                                 <h1 className="title has-text-centered">Recent Topics</h1>
                                 {
-                                    state.forumPosts.length &&
+                                    state.forumPosts.length !== 0 &&
 
                                     state.forumPosts.map((post, index) =>
                                         <ForumTopicCard

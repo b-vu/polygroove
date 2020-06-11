@@ -104,7 +104,7 @@ const Home = () => {
                             state.home.homeForums.length !== 0 &&
                             state.home.homeForums.map((post, index) =>
                                 <div key={index} className="column">
-                                    <Link to={`/topic/${post.id}/${post.postID}`}>{post.title}</Link> in <Link to={`/forums/${post.id}`}>{post.name}</Link>
+                                    <Link to={`/topic/${post.id}/${post.postID}`}>{post.title}</Link> by <Link to={`/user/${post.userID}`}>{post.userName}</Link> in <Link to={`/forums/${post.id}`}>{post.name}</Link>
                                 </div>
                             )
                         }
@@ -127,7 +127,7 @@ const Home = () => {
                                 </a>
                                 &nbsp;
                                 &nbsp;
-                                <a className="link level-item" href="mailto:brianvu7@gmail.com">
+                                <a className="link level-item" href="mailto:brianvu7@gmail.com" style={{ textDecoration: 'none' }}>
                                     <i className="fas fa-envelope level-item"></i>
                                     <p className="small-text level-item">&nbsp;brianvu7@gmail.com</p>
                                 </a>
@@ -142,7 +142,7 @@ const Home = () => {
                             state.home.homeCharts.length !== 0 &&
                             state.home.homeCharts.map((song, index) =>
                                 <div key={index} className="column">
-                                    #{index + 1} <Link to={`/track/${song.song}/${song.trackID}`}>{song.song}</Link> by <Link to={`/artist/${song.artist}/${song.artistID}`}>{song.artist}</Link>
+                                    #{index + 1} <Link to={`/track/${song.song}/${song.trackID}`} style={{ textDecoration: 'none' }}>{song.song}</Link> by <Link to={`/artist/${song.artist}/${song.artistID}`} style={{ textDecoration: 'none' }}>{song.artist}</Link>
                                 </div>
                             )
                         }
@@ -162,12 +162,12 @@ const Home = () => {
                                     rating.type === "album"
                                     ?
                                     <div key={index} className="column">
-                                        <Link to={`/album/${rating.id}`}>{rating.name}</Link> by <Link to={`/artist/${rating.artist}/${rating.artistID}`}>{rating.artist}</Link>
+                                        <Link to={`/album/${rating.id}`} style={{ textDecoration: 'none' }}>{rating.name}</Link> by <Link to={`/artist/${rating.artist}/${rating.artistID}`} style={{ textDecoration: 'none' }}>{rating.artist}</Link>
                                         <ProfileStars rating={rating.ratings[0].rating} userName={rating.ratings[0].userName} userID={rating.ratings[0].userID}/>
                                     </div>
                                     :
                                     <div key={index} className="column">
-                                        <Link to={`/track/${rating.name}/${rating.id}`}>{rating.name}</Link> by <Link to={`/artist/${rating.artist}/${rating.artistID}`}>{rating.artist}</Link>
+                                        <Link to={`/track/${rating.name}/${rating.id}`} style={{ textDecoration: 'none' }}>{rating.name}</Link> by <Link to={`/artist/${rating.artist}/${rating.artistID}`} style={{ textDecoration: 'none' }}>{rating.artist}</Link>
                                         <ProfileStars rating={rating.ratings[0].rating} userName={rating.ratings[0].userName} userID={rating.ratings[0].userID}/>
                                     </div>
                                 )

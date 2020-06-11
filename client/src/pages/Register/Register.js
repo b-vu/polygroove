@@ -18,6 +18,10 @@ const Register = () => {
             type: "UPDATE_NAV",
             navState: "is-success"
         });
+
+        dispatch({
+            type: "REGISTER_SUCCESS"
+        });
     }, []);
 
     let history = useHistory();
@@ -45,7 +49,6 @@ const Register = () => {
             history.push("/login");
         })
         .catch(err => {
-            console.log(err.response.data);
             dispatch({
                 type: "UPDATE_ERROR",
                 error: err.response.data
@@ -59,7 +62,6 @@ const Register = () => {
 
     return(
         <div>
-            {console.log(state)}
             <Container>
                 <Box>
                     <h1 className="title has-text-centered">Register</h1>
@@ -76,8 +78,8 @@ const Register = () => {
                         />
 
                         {
-                            state.error === "Name is taken" &&
-                            <p className="has-text-centered error-text">{state.register.name} is already taken.</p>
+                            state.error.name.length !== 0 &&
+                            <p className="has-text-centered error-text">{state.error.name}</p>
                         }
 
                         <Input
@@ -92,8 +94,8 @@ const Register = () => {
                         />
 
                         {
-                            state.error === "Email already exists" &&
-                            <p className="has-text-centered error-text">{state.register.email} is already registered.</p>
+                            state.error.email.length !== 0 &&
+                            <p className="has-text-centered error-text">{state.error.email}</p>
                         }
 
                         <Input
@@ -106,6 +108,12 @@ const Register = () => {
                             fa="has-icons-left"
                             icon="lock"
                         />
+
+                        {
+                            state.error.password1.length !== 0 &&
+                            <p className="has-text-centered error-text">{state.error.password1}</p>
+                        }
+
                         <Input
                             onChange={handleInputChange}
                             name="password2"
@@ -116,6 +124,12 @@ const Register = () => {
                             fa="has-icons-left"
                             icon="lock"
                         />
+
+                        {
+                            state.error.password2.length !== 0 &&
+                            <p className="has-text-centered error-text">{state.error.password2}</p>
+                        }
+
                         <Button
                             onClick={handleSubmit}
                         />

@@ -25,12 +25,12 @@ router.post("/register", (req, res) => {
 
   User.findOne({ email: req.body.email }).then(user => {
       if(user){
-        return res.status(400).json("Email already exists");
+        return res.status(400).json({ email: `${req.body.email} is already registered.` });
       }
       else{
         User.findOne({ name: req.body.name }).then(user => {
           if(user){
-            return res.status(400).json("Name is taken");
+            return res.status(400).json({ name: `${req.body.name} is already taken.` });
           }
           else{
             const newUser = new User({
@@ -75,7 +75,7 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then(user => {
     // Check if user exists
     if (!user) {
-        return res.status(404).json({ emailnotfound: "Email not found" });
+        return res.status(404).json({ email: `${email} is not registered.` });
     }
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -103,7 +103,7 @@ router.post("/login", (req, res) => {
         } else {
           return res
             .status(400)
-            .json({ passwordincorrect: "Password incorrect" });
+            .json({ password: "Incorrect password." });
         }
       });
     });
