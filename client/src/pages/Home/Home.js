@@ -163,12 +163,12 @@ const Home = () => {
                                     ?
                                     <div key={index} className="column">
                                         <Link to={`/album/${rating.id}`} style={{ textDecoration: 'none' }}>{rating.name}</Link> by <Link to={`/artist/${rating.artist}/${rating.artistID}`} style={{ textDecoration: 'none' }}>{rating.artist}</Link>
-                                        <ProfileStars rating={rating.ratings[0].rating} userName={rating.ratings[0].userName} userID={rating.ratings[0].userID}/>
+                                        <ProfileStars rating={rating.ratings[rating.ratings.length - 1].rating} userName={rating.ratings[rating.ratings.length - 1].userName} userID={rating.ratings[rating.ratings.length - 1].userID}/>
                                     </div>
                                     :
                                     <div key={index} className="column">
                                         <Link to={`/track/${rating.name}/${rating.id}`} style={{ textDecoration: 'none' }}>{rating.name}</Link> by <Link to={`/artist/${rating.artist}/${rating.artistID}`} style={{ textDecoration: 'none' }}>{rating.artist}</Link>
-                                        <ProfileStars rating={rating.ratings[0].rating} userName={rating.ratings[0].userName} userID={rating.ratings[0].userID}/>
+                                        <ProfileStars rating={rating.ratings[rating.ratings.length - 1].rating} userName={rating.ratings[rating.ratings.length - 1].userName} userID={rating.ratings[rating.ratings.length - 1].userID}/>
                                     </div>
                                 )
                             }

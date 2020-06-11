@@ -18,3 +18,18 @@
 .navbar-brand{
     margin-top: 5px;
 }
+
+@media screen and (max-width: 1023px){
+    .navlink {
+        color: black;
+    }
+    .button {
+        margin-top: 10px;
+    }
+    #brand-mobile {
+        color: white;
+    }
+    #brand-mobile-forums {
+        color: black;
+    }
+}

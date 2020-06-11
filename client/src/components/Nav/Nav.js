@@ -96,7 +96,7 @@ const Nav = () => {
                 <div className="navbar-brand">
                     <Link to={"/"}>
                         <div className="navbar-item" >
-                            <p className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}><strong>PolyGroove</strong></p>
+                            <p className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"} id={state.navState !== "is-warning" ? "brand-mobile" : "brand-mobile-forums"}><strong>PolyGroove</strong></p>
                         </div>
                     </Link>
                 
