@@ -23,16 +23,32 @@ const reducer = (state, action) => {
                 register: {
                     ...state.register,
                     [action.name]: action.value
+                },
+                error: ""
             }
-        }
+        case "REGISTER_SUCCESS":
+            return {
+                ...state,
+                register: {
+                    name: "",
+                    email:"",
+                    password1: "",
+                    password2: ""
+                }
+            }
         case "LOGIN_UPDATE":
             return {
                 ...state,
                 login: {
                     ...state.login,
                     [action.name]: action.value
+                }
             }
-        }
+        case "UPDATE_ERROR":
+            return {
+                ...state,
+                error: action.error
+            }
         case "UPDATE_TOKEN":
             return {
                 ...state,
@@ -445,7 +461,8 @@ const ProjectProvider = ({ value = [], ...props}) => {
             artistLink: "",
             albumLink: "",
             trackLink: ""
-        }
+        },
+        error: ""
     });
 
     return <Provider value={[state, dispatch]} {...props} />;

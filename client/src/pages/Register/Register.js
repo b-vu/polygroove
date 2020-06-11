@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./Register.css";
 import { useProjectContext } from "../../utils/Store";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
@@ -36,7 +37,20 @@ const Register = () => {
 
         const newUser = state.register;
 
-        registerUser(newUser, history);
+        registerUser(newUser)
+        .then(res => {
+            dispatch({
+                type: "REGISTER_SUCCESS"
+            });
+            history.push("/login");
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            dispatch({
+                type: "UPDATE_ERROR",
+                error: err.response.data
+            });
+        });
     }
 
     if(state.isAuthenticated){
@@ -60,6 +74,12 @@ const Register = () => {
                             fa="has-icons-left"
                             icon="user"
                         />
+
+                        {
+                            state.error === "Name is taken" &&
+                            <p className="has-text-centered error-text">{state.register.name} is already taken.</p>
+                        }
+
                         <Input
                             onChange={handleInputChange}
                             name="email"
@@ -70,6 +90,12 @@ const Register = () => {
                             fa="has-icons-left"
                             icon="envelope"
                         />
+
+                        {
+                            state.error === "Email already exists" &&
+                            <p className="has-text-centered error-text">{state.register.email} is already registered.</p>
+                        }
+
                         <Input
                             onChange={handleInputChange}
                             name="password1"

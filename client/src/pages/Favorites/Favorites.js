@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "./Favorites.css";
 import { useProjectContext } from "../../utils/Store";
-import { Link, useParams } from "react-router-dom";
 import API from "../../utils/API";
 import Box from "../../components/Box/Box";
 import Column from "../../components/Column/Column";

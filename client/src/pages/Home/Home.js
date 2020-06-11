@@ -44,8 +44,8 @@ const Home = () => {
             API.getAllForums().then(res => {
                 const forumsArr = [];
 
-                if(res.data.length > 8){
-                    for(let i = 0; i < 8; i++){
+                if(res.data.length > 10){
+                    for(let i = 0; i < 10; i++){
                         forumsArr.push(res.data[i]);
                     }
                     dispatch({
@@ -66,8 +66,8 @@ const Home = () => {
             API.getAllRatings().then(res => {
                 const ratingsArr = [];
 
-                if(res.data.length > 7){
-                    for(let i = 0; i < 7; i++){
+                if(res.data.length > 10){
+                    for(let i = 0; i < 10; i++){
                         ratingsArr.push(res.data[i]);
                     }
                     dispatch({
@@ -142,7 +142,7 @@ const Home = () => {
                             state.home.homeCharts.length !== 0 &&
                             state.home.homeCharts.map((song, index) =>
                                 <div key={index} className="column">
-                                    <Link to={`/track/${song.song}/${song.trackID}`}>{song.song}</Link> by <Link to={`/artist/${song.artist}/${song.artistID}`}>{song.artist}</Link>
+                                    #{index + 1} <Link to={`/track/${song.song}/${song.trackID}`}>{song.song}</Link> by <Link to={`/artist/${song.artist}/${song.artistID}`}>{song.artist}</Link>
                                 </div>
                             )
                         }
@@ -156,15 +156,22 @@ const Home = () => {
                         <p className="title">Recent Ratings</p>
                         <p className="subtitle">From the community</p>
                         <div className="content">
-                        {
-                            state.home.homeRatings.length !== 0 &&
-                            state.home.homeRatings.map((rating, index) =>
-                                <div key={index} className="column">
-                                    {rating.name} by {rating.artist}
-                                    <ProfileStars rating={rating.ratings[0].rating} userName={rating.ratings[0].userName} userID={rating.ratings[0].userID}/>
-                                </div>
-                            )
-                        }
+                            {
+                                state.home.homeRatings.length !== 0 &&
+                                state.home.homeRatings.map((rating, index) =>
+                                    rating.type === "album"
+                                    ?
+                                    <div key={index} className="column">
+                                        <Link to={`/album/${rating.id}`}>{rating.name}</Link> by <Link to={`/artist/${rating.artist}/${rating.artistID}`}>{rating.artist}</Link>
+                                        <ProfileStars rating={rating.ratings[0].rating} userName={rating.ratings[0].userName} userID={rating.ratings[0].userID}/>
+                                    </div>
+                                    :
+                                    <div key={index} className="column">
+                                        <Link to={`/track/${rating.name}/${rating.id}`}>{rating.name}</Link> by <Link to={`/artist/${rating.artist}/${rating.artistID}`}>{rating.artist}</Link>
+                                        <ProfileStars rating={rating.ratings[0].rating} userName={rating.ratings[0].userName} userID={rating.ratings[0].userID}/>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                     </article>

@@ -2,22 +2,9 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./setAuthToken";
 
-// import {
-//   GET_ERRORS,
-//   SET_CURRENT_USER,
-//   USER_LOADING
-// } from "./types";
-
 // Register User
-export const registerUser = (userData, history) => {
-  console.log(userData, history)
-  axios
-    .post("/api/users/register", userData)
-    .then(res => history.push("/login")) // re-direct to login on successful register
-    .catch(err => {
-      console.log(err.response.data)
-    }
-    );
+export const registerUser = (userData) => {
+  return axios.post("/api/users/register", userData);
 };
 
 // Login - get user token
