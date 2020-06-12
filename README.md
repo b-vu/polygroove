@@ -12,11 +12,9 @@ at you can find other like-minded individuals to chat with. PolyGroove is the on
 
 Check out the deployed project on [Heroku](https://polygroove.herokuapp.com/)!
 
-## Badges
+## Contact
 
-![Dependencies Check](https://img.shields.io/david/b-vu/polygroove?style=flat-square)
-![Repository Size](https://img.shields.io/github/repo-size/b-vu/polygroove?style=flat-square)
-![Top Repository Language](https://img.shields.io/github/languages/top/b-vu/polygroove?style=flat-square)
+For any inquiries, please contact me at brianvu7@gmail.com.
         
 ## Contributing
     
@@ -26,22 +24,17 @@ Please refer to the [Contributor Covenant](https://www.contributor-covenant.org/
 
 [React](https://reactjs.org/)
 
+[Node.js](https://nodejs.org/en/)
+
 [MongoDB](https://www.mongodb.com/)
 
 [Mongoose](https://mongoosejs.com/)
-
-[Node.js](https://nodejs.org/en/)
 
 [Spotify Web API](https://developer.spotify.com/documentation/web-api/)
 
 [Genius API](https://docs.genius.com/)
 
-[iTunes API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html#//apple_ref/doc/uid/TP40017632-CH3-SW1)
-
-    
-## Questions
-
-For additional questions, please contact me at brianvu7@gmail.com.
+[iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html#//apple_ref/doc/uid/TP40017632-CH3-SW1)
 
 ## License
     
