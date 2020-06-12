@@ -37,7 +37,5 @@ Please refer to the [Contributor Covenant](https://www.contributor-covenant.org/
 [iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html#//apple_ref/doc/uid/TP40017632-CH3-SW1)
 
 ## License
-    
-MIT License
 
 Copyright © 2020 Brian Vu. All rights reserved. Licensed under the [MIT License](https://github.com/b-vu/polygroove/blob/master/LICENSE).
