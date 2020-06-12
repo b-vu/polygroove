@@ -32,6 +32,8 @@ Please refer to the [Contributor Covenant](https://www.contributor-covenant.org/
 
 [Mongoose](https://mongoosejs.com/)
 
+[Bulma](https://bulma.io/)
+
 [Spotify Web API](https://developer.spotify.com/documentation/web-api/)
 
 [Genius API](https://docs.genius.com/)
