@@ -121,7 +121,7 @@ const Home = () => {
                                 </a>
                                 &nbsp;
                                 &nbsp;
-                                <a className="link level-item" href="/">
+                                <a className="link level-item" href="https://www.linkedin.com/in/brian-vu-9538671b0/">
                                     <i className="fab fa-linkedin"></i>
                                 </a>
                                 &nbsp;
