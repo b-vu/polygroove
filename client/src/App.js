@@ -15,6 +15,7 @@ import Search from "./pages/Search/Search";
 import ForumTopic from "./pages/ForumTopic/ForumTopic";
 import ForumTopicsAndPosts from "./pages/ForumTopicsAndPosts/ForumTopicsAndPosts";
 import User from "./pages/User/User";
+import Messages from "./pages/Messages/Messages";
 import Contact from "./pages/Contact/Contact";
 import PrivateRoute from "./components/Private-Route/PrivateRoute";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
@@ -40,6 +41,7 @@ const App = () => {
             <Route exact path="/forums/:id" component={ForumTopic}/>
             <Route exact path="/topic/:id/:postID" component={ForumTopicsAndPosts}/>
             <Route exact path="/user/:id" component={User}/>
+            <Route exact path="/user/:id/messages" component={Messages}/>
             <Route exact path="/contact" component={Contact}/>
             <Route component={Home}/>
           </Switch>

@@ -202,6 +202,7 @@ const Nav = () => {
                             ?
                             <p className="navbar-item">
                                 <Link className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"} to={"/user/" + state.user.id}>Welcome, {state.user.name}!</Link> &nbsp; | &nbsp;
+                                <Link className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"} to={"/user/" + state.user.id + "/messages"}>Messages</Link> &nbsp; | &nbsp;
                                 <Link to={"/"}
                                     onClick={logoutUser}
                                     className={state.navState !== "is-warning" ? "navlink" : "navlink-forums"}

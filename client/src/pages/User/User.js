@@ -235,6 +235,19 @@ const User = () => {
                         <br/>
                         <br/>
                         <p className="title">{state.currentProfile.name}</p>
+                        <p>
+                            {
+                                state.isAuthenticated && state.user.id !== id
+                                ?
+                                <Link to={state.user.id + "/messages"}>
+                                    Message <i className="fas fa-envelope"></i>
+                                </Link>
+                                :
+                                <Link to={"/register"}>
+                                    Message <i className="fas fa-envelope"></i>
+                                </Link>
+                            }
+                        </p>
                         <br/>
                         <p className="subtitle">Account created: {formatDate(state.currentProfile.date)}</p>
                         <br/>

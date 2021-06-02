@@ -26,7 +26,8 @@ const UserSchema = new Schema({
   favoriteAlbums: [{ name: String, id: String, artist: String, artistID: String, image: String, date: {type: Date, default: Date.now } }],
   favoriteTracks: [{ name: String, id: String, artist: String, artistID: String, image: String, date: {type: Date, default: Date.now } }],
   albumRatings: [{ name: String, id: String, artist: String, artistID: String, rating: Number, image: String, date: {type: Date, default: Date.now } }],
-  trackRatings: [{ name: String, id: String, artist: String, artistID: String, rating: Number, image: String, date: {type: Date, default: Date.now } }]
+  trackRatings: [{ name: String, id: String, artist: String, artistID: String, rating: Number, image: String, date: {type: Date, default: Date.now } }],
+  messages: [{ userName: String, userID: String, message: String, date: {type: Date, default: Date.now } }]
 });
 
 const User = mongoose.model("users", UserSchema);
